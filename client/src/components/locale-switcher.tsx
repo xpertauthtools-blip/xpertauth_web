@@ -2,12 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useI18n, LOCALES, type Locale } from "@/i18n/context";
+import { FlagES, FlagCA, FlagEN, FlagFR } from "./flag-icons";
 
-const localeLabels: Record<Locale, { flag: string; code: string }> = {
-  es: { flag: "\uD83C\uDDEA\uD83C\uDDF8", code: "ES" },
-  ca: { flag: "\uD83C\uDFF3\uFE0F", code: "CA" },
-  en: { flag: "\uD83C\uDDEC\uD83C\uDDE7", code: "EN" },
-  fr: { flag: "\uD83C\uDDEB\uD83C\uDDF7", code: "FR" },
+const flagComponents: Record<Locale, React.ComponentType<{ className?: string }>> = {
+  es: FlagES,
+  ca: FlagCA,
+  en: FlagEN,
+  fr: FlagFR,
+};
+
+const localeLabels: Record<Locale, string> = {
+  es: "ES",
+  ca: "CA",
+  en: "EN",
+  fr: "FR",
 };
 
 export default function LocaleSwitcher() {
@@ -25,7 +33,7 @@ export default function LocaleSwitcher() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const current = localeLabels[locale];
+  const CurrentFlag = flagComponents[locale];
 
   return (
     <div ref={ref} className="relative" data-testid="locale-switcher">
@@ -35,8 +43,8 @@ export default function LocaleSwitcher() {
         data-testid="button-locale-toggle"
         aria-label="Cambiar idioma"
       >
-        <span className="text-base leading-none">{current.flag}</span>
-        <span className="font-medium text-xs">{current.code}</span>
+        <CurrentFlag className="w-5 h-3.5 rounded-[2px] overflow-hidden" />
+        <span className="font-medium text-xs">{localeLabels[locale]}</span>
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 
@@ -50,7 +58,7 @@ export default function LocaleSwitcher() {
             className="absolute right-0 top-full mt-1 w-32 rounded-md border border-white/10 bg-obsidian shadow-xl shadow-black/30 py-1 z-50"
           >
             {LOCALES.map((loc) => {
-              const info = localeLabels[loc];
+              const Flag = flagComponents[loc];
               const isActive = loc === locale;
               return (
                 <button
@@ -64,8 +72,8 @@ export default function LocaleSwitcher() {
                   }`}
                   data-testid={`button-locale-${loc}`}
                 >
-                  <span className="text-base leading-none">{info.flag}</span>
-                  <span className="font-medium text-xs">{info.code}</span>
+                  <Flag className="w-5 h-3.5 rounded-[2px] overflow-hidden" />
+                  <span className="font-medium text-xs">{localeLabels[loc]}</span>
                 </button>
               );
             })}
