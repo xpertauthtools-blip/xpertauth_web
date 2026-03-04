@@ -4,18 +4,28 @@ import { useState } from "react";
 import { useTranslations } from "@/i18n/context";
 import WaitlistModal from "./waitlist-modal";
 
-const planTypes = ["free", "individual", "corporate"];
+const planTypes = ["free", "individual", "corporate"] as const;
 
 export default function Pricing() {
   const { messages } = useTranslations("pricing");
   const m = messages as any;
   const plans = m.plans || [];
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState("individual");
+  const [modalTipo, setModalTipo] = useState<"gratuito" | "individual">("gratuito");
 
-  const openWaitlist = (type: string) => {
-    setSelectedType(type);
-    setModalOpen(true);
+  const handlePlanClick = (type: string) => {
+    if (type === "free") {
+      setModalTipo("gratuito");
+      setModalOpen(true);
+    } else if (type === "individual") {
+      setModalTipo("individual");
+      setModalOpen(true);
+    } else if (type === "corporate") {
+      const contactSection = document.getElementById("contacto");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   return (
@@ -60,8 +70,8 @@ export default function Pricing() {
                     </div>
                   ))}
                 </div>
-                <button onClick={() => openWaitlist(type)}
-                  className={`w-full py-3 rounded-md font-semibold text-sm transition-all duration-200 ${isPopular ? "bg-xpertblue text-pure" : "border border-white/20 text-pure/80"}`}
+                <button onClick={() => handlePlanClick(type)}
+                  className={`w-full py-3 rounded-md font-semibold text-sm transition-all duration-200 ${isPopular ? "bg-xpertblue hover:bg-xpertblue/90 text-pure" : "border border-white/20 text-pure/80 hover:border-white/40 hover:text-pure"}`}
                   data-testid={`button-plan-${type}`}
                 >{plan.cta}</button>
               </motion.div>
@@ -84,7 +94,7 @@ export default function Pricing() {
           </div>
         </motion.div>
       </div>
-      <WaitlistModal open={modalOpen} onClose={() => setModalOpen(false)} defaultType={selectedType} />
+      <WaitlistModal open={modalOpen} onClose={() => setModalOpen(false)} tipo={modalTipo} />
     </section>
   );
 }

@@ -32,7 +32,7 @@ export default function CtaFinal() {
           </div>
         </motion.div>
       </div>
-      <WaitlistModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <WaitlistModal open={modalOpen} onClose={() => setModalOpen(false)} tipo="individual" />
     </section>
   );
 }

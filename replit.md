@@ -50,8 +50,14 @@ Single-page landing site with 11 sections:
 - JetBrains Mono: code/data (`font-mono`)
 
 ## API Endpoints
-- `POST /api/waitlist` - Join waitlist (name, email, type)
-- `POST /api/newsletter` - Newsletter signup (email)
+- `POST /api/waitlist` - Join waitlist (name, email, type) — legacy, uses MemStorage
+- `POST /api/newsletter` - Newsletter signup (email) — uses MemStorage
+- `POST /api/socios` - Register as member (nombre, email, tipo_socio, acepta_privacidad) — writes to Supabase `socios` table
+
+## Pricing Registration Flows
+- **Free plan** → Opens modal (name + email), saves to Supabase with `tipo_socio='gratuito'`
+- **Individual plan** → Opens modal (name + email + fee acceptance checkbox), saves with `tipo_socio='individual'`
+- **Corporate plan** → Scrolls to footer contact section (`id="contacto"`)
 
 ## Key Components
 - `client/src/components/navbar.tsx` - Fixed navigation with locale switcher
@@ -60,8 +66,8 @@ Single-page landing site with 11 sections:
 - `client/src/components/problem-solution.tsx` - Problem/Solution cards
 - `client/src/components/services.tsx` - Stacked card scroll effect (cards accumulate from below)
 - `client/src/components/how-it-works.tsx` - Horizontal image slider (scroll-driven, Supabase images)
-- `client/src/components/pricing.tsx` - Membership plans
-- `client/src/components/waitlist-modal.tsx` - Waitlist form modal
+- `client/src/components/pricing.tsx` - Membership plans with 3 registration flows
+- `client/src/components/waitlist-modal.tsx` - Socio registration modal (free/individual)
 - `client/src/components/social-proof.tsx` - Stats + testimonials
 - `client/src/components/senior-training.tsx` - Senior program section
 - `client/src/components/blog-newsletter.tsx` - Blog + newsletter
@@ -76,7 +82,9 @@ Single-page landing site with 11 sections:
 - **Service Key**: stored as `SUPABASE_SERVICE_KEY` secret
 
 ## Storage
-Currently using in-memory storage (MemStorage). Future plan: Supabase integration.
+- **MemStorage**: In-memory storage for waitlist and newsletter (legacy)
+- **Supabase**: `socios` table for member registrations (via `server/supabase.ts`)
+- **Supabase Storage**: Public bucket `web-images` for images
 
 ## Contact Info
 - Web: www.xpertauth.com
