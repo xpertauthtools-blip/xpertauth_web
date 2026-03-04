@@ -147,7 +147,6 @@ const ca = {
     subtitle: "Dècades de coneixement especialitzat al servei de qui més ho necessita.",
     stats: [
       { value: "30+", label: "Anys d'experiència" },
-      { value: "1000+", label: "Consultes resoltes" },
       { value: "100%", label: "Compromís social" },
     ],
     testimonials: [

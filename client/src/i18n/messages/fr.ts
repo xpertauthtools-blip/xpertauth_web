@@ -147,7 +147,6 @@ const fr = {
     subtitle: "Des décennies de connaissances spécialisées au service de ceux qui en ont le plus besoin.",
     stats: [
       { value: "30+", label: "Années d'expérience" },
-      { value: "1000+", label: "Consultations résolues" },
       { value: "100%", label: "Engagement social" },
     ],
     testimonials: [

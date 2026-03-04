@@ -147,7 +147,6 @@ const en = {
     subtitle: "Decades of specialised knowledge at the service of those who need it most.",
     stats: [
       { value: "30+", label: "Years of experience" },
-      { value: "1000+", label: "Queries resolved" },
       { value: "100%", label: "Social commitment" },
     ],
     testimonials: [
