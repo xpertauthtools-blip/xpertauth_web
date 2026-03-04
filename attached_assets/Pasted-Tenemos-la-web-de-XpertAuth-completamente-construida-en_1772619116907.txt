@@ -1,0 +1,58 @@
+Tenemos la web de XpertAuth completamente construida en Next.js con App Router y Tailwind CSS, y ahora necesitamos añadir internacionalización completa (i18n) para 4 idiomas: español (es, por defecto), català (ca), inglés (en) y francés (fr).
+
+Sigue estos pasos en orden:
+
+1. INSTALACIÓN
+   Instala next-intl:
+   npm install next-intl
+
+2. CONFIGURACIÓN DE next.config.js
+   Añade el plugin de next-intl y define los 4 locales con 'es' como defaultLocale.
+
+3. ESTRUCTURA DE ARCHIVOS
+   Crea la carpeta /messages con subcarpetas /es, /ca, /en, /fr.
+   Dentro de cada una, crea estos archivos JSON:
+   - common.json  → navbar, footer, botones globales, mensajes de error
+   - home.json    → todos los textos de la home sección por sección
+   - servicios.json, blog.json, contacto.json  → textos de cada página
+
+   Rellena primero el español completo. Luego traduce al inglés y francés.
+   El catalán lo dejaremos en blanco con las claves vacías para que José Luis lo revise manualmente.
+
+4. MIDDLEWARE
+   Crea el archivo middleware.ts en la raíz del proyecto para gestionar la redirección automática por idioma y persistir el idioma elegido en la cookie NEXT_LOCALE.
+
+5. RUTAS LOCALIZADAS
+   Adapta la estructura de /app para usar el parámetro [locale] en todas las rutas:
+   /app/[locale]/page.tsx (home)
+   /app/[locale]/servicios/page.tsx → /app/[locale]/services/page.tsx (en) / serveis (ca) / services (fr)
+   Crea un archivo routing.ts con los slugs localizados para cada página.
+
+6. COMPONENTES
+   Sustituye todos los textos hardcodeados de los componentes existentes por llamadas a useTranslations() de next-intl.
+   Ejemplo:
+   Antes: <h1>Conocimiento experto al alcance de todos</h1>
+   Después: const t = useTranslations('home'); → <h1>{t('hero.titulo')}</h1>
+
+7. SELECTOR DE IDIOMA EN EL NAVBAR
+   Añade un componente LocaleSwitcher en el navbar, en el extremo derecho antes del CTA principal.
+   - Muestra bandera + código de idioma: 🇪🇸 ES / 🏳️ CA / 🇬🇧 EN / 🇫🇷 FR
+   - Al cambiar idioma, redirige a la misma ruta en el nuevo locale
+   - Estilos: dropdown minimalista, coherente con la paleta corporativa (fondo Obsidian #0A0E1A, texto blanco, hover Arctic #4D9FEC)
+
+8. SEO MULTILINGÜE
+   En cada page.tsx, exporta generateMetadata() con título, descripción y etiquetas hreflang para los 4 idiomas.
+
+9. SUPABASE — tabla contenidos_web
+   Añade la columna 'locale' (text, not null) a la tabla contenidos_web.
+   Actualiza todas las queries que lean de esta tabla para filtrar por locale activo.
+
+10. VERIFICACIÓN FINAL
+    Comprueba que:
+    - La URL / redirige automáticamente a /es/
+    - El selector de idioma aparece en todas las páginas y subpáginas
+    - Al cambiar de idioma se mantiene la página actual (no vuelve a la home)
+    - Los metadatos SEO cambian correctamente según el idioma
+    - El catalán muestra las claves vacías sin errores (next-intl tiene fallback a 'es' por defecto)
+
+Idioma de trabajo: responde en español. Genera el código completo de cada archivo, no solo fragmentos.

@@ -10,11 +10,21 @@ XpertAuth is a non-profit association landing page that combines human expertise
 - **State Management**: TanStack React Query
 - **Animations**: Framer Motion
 - **Language**: TypeScript
-- **All text**: Spanish (es-ES)
+- **i18n**: Custom React context-based system with fallback to Spanish
+
+## i18n (Internationalization)
+- **Supported Locales**: es (Spanish, default), ca (Catalan), en (English), fr (French)
+- **URL Structure**: `/:locale` (e.g., `/es`, `/en`, `/fr`, `/ca`)
+- **Translation Files**: `client/src/i18n/messages/{es,en,fr,ca}.ts`
+- **Context Provider**: `client/src/i18n/context.tsx` - Provides `useI18n()` and `useTranslations(section)` hooks
+- **Locale Switcher**: `client/src/components/locale-switcher.tsx` - Dropdown with flags in navbar
+- **Fallback**: Empty Catalan keys fall back to Spanish (default locale)
+- **Persistence**: Locale stored in localStorage (`xpertauth-locale`)
+- **HTML lang**: Automatically updates `document.documentElement.lang`
 
 ## Architecture
 Single-page landing site with 11 sections:
-1. Navbar (fixed, Obsidian background)
+1. Navbar (fixed, Obsidian background, locale switcher)
 2. Hero (particle effect background)
 3. Problem/Solution (3 cards)
 4. Services (bento grid with glow effect)
@@ -44,7 +54,8 @@ Single-page landing site with 11 sections:
 - `POST /api/newsletter` - Newsletter signup (email)
 
 ## Key Components
-- `client/src/components/navbar.tsx` - Fixed navigation
+- `client/src/components/navbar.tsx` - Fixed navigation with locale switcher
+- `client/src/components/locale-switcher.tsx` - Language dropdown
 - `client/src/components/hero.tsx` - Hero with particle canvas
 - `client/src/components/problem-solution.tsx` - Problem/Solution cards
 - `client/src/components/services.tsx` - Bento grid with glow
