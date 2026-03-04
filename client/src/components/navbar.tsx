@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "@/i18n/context";
 import LocaleSwitcher from "./locale-switcher";
 
+const LOGO_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo_xpertauth_icon_v1.png";
+
 export default function Navbar() {
   const { t } = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   const navLinks = [
     { label: t("servicios"), href: "#servicios" },
@@ -46,12 +49,19 @@ export default function Navbar() {
             data-testid="link-logo"
             aria-label="XpertAuth - Inicio"
           >
-            <div className="w-8 h-8 rounded-md bg-xpertblue flex items-center justify-center">
-              <span className="font-heading font-bold text-pure text-sm">X</span>
-            </div>
-            <span className="font-heading font-semibold text-pure text-lg tracking-tight">
-              Xpert<span className="text-arctic">Auth</span>
-            </span>
+            <img
+              src={LOGO_URL}
+              alt="XpertAuth"
+              className="h-9 w-auto object-contain"
+              style={{ maxHeight: "36px" }}
+              onLoad={() => setLogoLoaded(true)}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; setLogoLoaded(false); }}
+            />
+            {!logoLoaded && (
+              <div className="w-8 h-8 rounded-md bg-xpertblue flex items-center justify-center">
+                <span className="font-heading font-bold text-pure text-sm">X</span>
+              </div>
+            )}
           </button>
 
           <div className="hidden md:flex items-center gap-1">
