@@ -1,0 +1,163 @@
+Construye una web completa para XpertAuth usando Next.js + Tailwind CSS.
+
+---
+
+## IDENTIDAD DEL PROYECTO
+
+XpertAuth es una asociación sin ánimo de lucro que combina experiencia humana 
+con IA. Fundada por José Luis Echezarreta (30 años en transporte especial).
+Tres pilares: Consultoría en Transporte Especial, Implementación de IA en PYMEs, 
+y Alfabetización Digital para mayores (gratuita).
+
+Web: www.xpertauth.com
+Email: info@xpertauth.com
+Teléfono: +34 625 897 546
+
+---
+
+## STACK TÉCNICO
+
+- Framework: Next.js 14 (App Router)
+- Estilos: Tailwind CSS
+- Base de datos: Supabase
+  - Proyecto: xpertauth-db
+  - ID: dcuvptwwtdhlepvcttvx
+- Pagos: Stripe (pendiente, solo preparar estructura)
+- Deploy: Vercel
+- Control de versiones: GitHub
+
+---
+
+## PALETA DE COLORES (usar exactamente estos valores)
+
+- Obsidian #0A0E1A → fondos hero, navbar, footer
+- XpertBlue #1B4FD8 → CTAs, links, botones de acción
+- Arctic #4D9FEC → hover, iconos, acentos
+- Mist #F4F6FA → fondos de secciones claras
+- Ember #E8620A → sección senior, badges
+- Pure #FFFFFF → texto sobre fondos oscuros
+
+---
+
+## TIPOGRAFÍAS (importar desde Google Fonts)
+
+- Sora → títulos y headings
+- Inter → cuerpo de texto
+- JetBrains Mono → código y datos
+
+---
+
+## CURSOR PERSONALIZADO (aplica en toda la web)
+
+- Forma: círculo con punto central
+- Sobre fondos oscuros (#0A0E1A, #0F1628, #070A12) → color blanco #FFFFFF
+- Sobre fondos claros (#F4F6FA, #FFFFFF) → color oscuro #0A0E1A
+- Efecto magnetic leve en hover sobre botones
+
+---
+
+## ESTRUCTURA DE SECCIONES (en este orden exacto)
+
+### 1. NAVBAR
+- Fondo Obsidian, fijo en scroll
+- Logo XpertAuth (texto estilizado con Sora hasta tener logo definitivo)
+- Links: Servicios | Cómo funciona | Formación Senior | Blog | Hazte Socio
+- CTA derecha: "Hazte Socio" (botón XpertBlue)
+
+### 2. HERO
+- Fondo Obsidian (#0A0E1A)
+- Frase principal: "Conocimiento experto. Potenciado por IA."
+- Subfrase: "Transporte especial, formación en IA y alfabetización digital para 
+  mayores. Todo en una sola asociación."
+- Dos CTAs: "Hazte Socio" (XpertBlue) + "Conoce los servicios" (outline blanco)
+- Partículas o efecto visual sutil en fondo (no video por ahora)
+
+### 3. PROBLEMA → SOLUCIÓN
+- Tres cards apiladas, una por público:
+  Card 1 (Transporte): "¿Pierdes tiempo interpretando normativa de la DGT?"
+  Card 2 (IA/PYME): "¿Tu empresa todavía trabaja sin IA?"
+  Card 3 (Senior): "¿La tecnología te genera más estrés que ayuda?"
+- Cada card muestra el problema y la solución de XpertAuth
+
+### 4. SERVICIOS
+- Bento grid (3 columnas en desktop, 1 en móvil)
+- Glow effect en cursor al pasar por encima
+- Fondo #0F1628
+- Tres bloques principales:
+  A. Transporte Especial → Icono camión, descripción breve, link "Saber más"
+  B. IA para PYMEs → Icono chip/robot, descripción breve, link "Saber más"
+  C. Formación Senior → Icono persona mayor + smartphone, badge Ember "Gratuito"
+
+### 5. CÓMO FUNCIONA
+- Horizontal scroll en desktop, vertical en móvil
+- 4 pasos:
+  Paso 1: "Te registras como socio (desde 5€/mes)"
+  Paso 2: "La IA responde tus consultas al instante"
+  Paso 3: "Si necesitas más, un experto humano interviene"
+  Paso 4: "Aprendes, creces y contribuyes a la comunidad"
+
+### 6. MODELO DE SOCIOS
+- Tres columnas: Usuario Gratuito | Socio Individual (5€/mes) | Socio Corporativo
+- Destacar visualmente Socio Individual (borde XpertBlue, badge "Más popular")
+- CTA en cada columna
+- Nota al pie: distribución de la cuota (40% seniors, 35% tech, 15% admin, 10% reserva)
+
+### 7. AUTORIDAD / PRUEBA SOCIAL
+- Fondo Mist (#F4F6FA)
+- Dato clave: "30 años de experiencia en transporte especial"
+- Placeholder para testimonios (3 cards vacías con estructura lista)
+- Placeholder para logos de partners/medios
+- Tono sobrio, sin exagerar
+
+### 8. FORMACIÓN SENIOR
+- Fondo blanco (#FFFFFF)
+- Acento Ember (#E8620A), sin azul en esta sección
+- Tipografía grande (mínimo 18px en cuerpo)
+- Título: "La tecnología no es cosa de jóvenes."
+- Descripción del programa: grupos máx. 6 personas, presencial, gratuito
+- Botón flotante de WhatsApp (+34 625 897 546) visible en esta sección
+- Badge: "100% Gratuito"
+
+### 9. BLOG + NEWSLETTER
+- Fondo Mist
+- Dos columnas: últimos posts del blog (izquierda) + últimas entregas newsletter (derecha)
+- Datos desde Supabase en tiempo real:
+  - Blog: tabla `posts` (campos: title, slug, excerpt, image_url, created_at, is_published)
+  - Newsletter: tabla `post_newsletter` (campos: volume, title, content, published_at)
+- Mostrar solo registros con is_published = true
+- Placeholder elegante si no hay contenido todavía
+
+### 10. CTA FINAL
+- Fondo Obsidian
+- Texto con reveal animation al hacer scroll
+- Frase: "Únete a XpertAuth. El conocimiento que necesitas, cuando lo necesitas."
+- Dos botones: "Hazte Socio" (XpertBlue) + "Contacta con nosotros" (outline blanco)
+
+### 11. FOOTER
+- Fondo #070A12
+- Columnas: Logo + descripción breve | Links rápidos | Contacto | Newsletter signup
+- Legal: Política de Privacidad | Aviso Legal | Cookies
+- Redes sociales (LinkedIn, Instagram — placeholders)
+- Mención obligatoria: "Contenido creado y desarrollado con ayuda de 
+  Inteligencia Artificial."
+
+---
+
+## VARIABLES DE ENTORNO NECESARIAS
+
+Crear archivo .env.local con estas variables:
+NEXT_PUBLIC_SUPABASE_URL=https://dcuvptwwtdhlepvcttvx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[pendiente de configurar]
+
+---
+
+## NOTAS IMPORTANTES
+
+- La web está en construcción. Ningún servicio de pago está activo todavía.
+- Los CTAs de "Hazte Socio" deben llevar a un formulario de lista de espera 
+  (no a pasarela de pago) hasta que Stripe esté integrado.
+- Diseño "tech austero con alma humana": inspiración visual en Stripe + Vercel, 
+  calidez de comunicación cercana.
+- Todos los textos en español (es-ES).
+- Web responsive: mobile-first.
+- Accesibilidad básica: contraste correcto, alt en imágenes, semántica HTML.
