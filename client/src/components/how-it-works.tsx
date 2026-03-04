@@ -1,234 +1,199 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { UserPlus, Bot, Users, Rocket } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
 
-import stepRegisterImg from "@assets/stock_images/step_register.jpg";
-import stepAiChatImg from "@assets/stock_images/step_ai_chat.jpg";
-import stepExpertImg from "@assets/stock_images/step_expert_phone.jpg";
-import stepCommunityImg from "@assets/stock_images/step_community.jpg";
+const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
 
 const stepIcons = [UserPlus, Bot, Users, Rocket];
-const stepNumbers = [1, 2, 3, 4];
-const stepImages = [stepRegisterImg, stepAiChatImg, stepExpertImg, stepCommunityImg];
+const stepImages = [
+  `${SUPABASE_BASE}/como-funciona/paso1_registro_v1.webp`,
+  `${SUPABASE_BASE}/como-funciona/paso2_ia-chat_v1.webp`,
+  `${SUPABASE_BASE}/como-funciona/paso3_experto_v1.webp`,
+  `${SUPABASE_BASE}/como-funciona/paso4_comunidad_v1.webp`,
+];
 
-function AnimatedNumber({ target, inView }: { target: number; inView: boolean }) {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    let frame: number;
-    const duration = 600;
-    const start = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(1, elapsed / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(eased * target));
-      if (progress < 1) frame = requestAnimationFrame(animate);
-    };
-
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [inView, target]);
-
-  return <>{String(value).padStart(2, "0")}</>;
-}
-
-function ConnectorLine({ inView }: { inView: boolean }) {
-  return (
-    <div className="absolute top-[72px] left-8 right-8 h-px overflow-hidden z-0">
-      <div className="w-full h-full bg-arctic/10" />
-      <motion.div
-        className="absolute inset-y-0 left-0 bg-gradient-to-r from-arctic/40 via-arctic/60 to-arctic/40"
-        initial={{ width: "0%" }}
-        animate={inView ? { width: "100%" } : { width: "0%" }}
-        transition={{ duration: 1.8, ease: "easeOut", delay: 0.3 }}
-      />
-    </div>
-  );
-}
-
-function StepCard({ step, index, inView }: { step: any; index: number; inView: boolean }) {
-  const Icon = stepIcons[index];
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.5, delay: 0.2 + index * 0.2, ease: "easeOut" }}
-      className="relative z-10 group"
-      data-testid={`step-${index}`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="text-center">
-        <motion.div
-          className="relative mx-auto w-[120px] h-[120px] rounded-2xl overflow-hidden mb-6 border-2 border-arctic/20"
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 + index * 0.2, ease: "easeOut" }}
-        >
-          <img
-            src={stepImages[index]}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: hovered ? "grayscale(0)" : "grayscale(1)", transition: "filter 0.4s ease-out" }}
-          />
-          <div
-            className="absolute inset-0 bg-obsidian/50"
-            style={{ opacity: hovered ? 0 : 0.4, transition: "opacity 0.4s ease-out" }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              className="w-12 h-12 rounded-full bg-obsidian/70 backdrop-blur-sm border border-arctic/30 flex items-center justify-center"
-              animate={inView ? {
-                boxShadow: [
-                  "0 0 0 0px rgba(77, 159, 236, 0)",
-                  "0 0 0 6px rgba(77, 159, 236, 0.2)",
-                  "0 0 0 12px rgba(77, 159, 236, 0)",
-                ],
-              } : {}}
-              transition={{ duration: 2, repeat: 2, ease: "easeOut", delay: 0.4 + index * 0.2 }}
-            >
-              <Icon className="w-5 h-5 text-arctic" />
-            </motion.div>
-          </div>
-          <span className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-xpertblue text-pure text-xs font-bold flex items-center justify-center font-mono z-10">
-            <AnimatedNumber target={stepNumbers[index]} inView={inView} />
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.4, delay: 0.5 + index * 0.2, ease: "easeOut" }}
-        >
-          <h3 className="font-heading font-semibold text-pure text-base mb-1">{step.title}</h3>
-          <span className="text-arctic text-xs font-medium">{step.subtitle}</span>
-          <p className="mt-3 text-white/40 text-sm leading-relaxed">{step.description}</p>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
-function MobileStep({ step, index, totalSteps, inView }: { step: any; index: number; totalSteps: number; inView: boolean }) {
-  const Icon = stepIcons[index];
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-      transition={{ duration: 0.4, delay: index * 0.15, ease: "easeOut" }}
-      className="flex gap-5"
-      data-testid={`step-mobile-${index}`}
-      onTouchStart={() => setHovered(true)}
-      onTouchEnd={() => setHovered(false)}
-    >
-      <div className="flex-shrink-0 relative">
-        <motion.div
-          className="w-16 h-16 rounded-xl overflow-hidden border-2 border-arctic/20 relative"
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 + index * 0.15, ease: "easeOut" }}
-        >
-          <img
-            src={stepImages[index]}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: hovered ? "grayscale(0)" : "grayscale(1)", transition: "filter 0.4s ease-out" }}
-          />
-          <div
-            className="absolute inset-0 bg-obsidian/50"
-            style={{ opacity: hovered ? 0 : 0.4, transition: "opacity 0.4s ease-out" }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              className="w-9 h-9 rounded-full bg-obsidian/70 backdrop-blur-sm border border-arctic/30 flex items-center justify-center"
-              animate={inView ? {
-                boxShadow: [
-                  "0 0 0 0px rgba(77, 159, 236, 0)",
-                  "0 0 0 4px rgba(77, 159, 236, 0.2)",
-                  "0 0 0 8px rgba(77, 159, 236, 0)",
-                ],
-              } : {}}
-              transition={{ duration: 2, repeat: 2, ease: "easeOut" }}
-            >
-              <Icon className="w-4 h-4 text-arctic" />
-            </motion.div>
-          </div>
-        </motion.div>
-        <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-xpertblue text-pure text-[10px] font-bold flex items-center justify-center font-mono z-10">
-          <AnimatedNumber target={stepNumbers[index]} inView={inView} />
-        </span>
-        {index < totalSteps - 1 && (
-          <div className="absolute top-[72px] left-1/2 w-px h-6 overflow-hidden -translate-x-1/2">
-            <motion.div
-              className="w-full bg-arctic/30"
-              initial={{ height: "0%" }}
-              animate={inView ? { height: "100%" } : { height: "0%" }}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            />
-          </div>
-        )}
-      </div>
-      <motion.div
-        className="pt-1"
-        initial={{ opacity: 0, y: 10 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-        transition={{ duration: 0.4, delay: 0.3 + index * 0.15, ease: "easeOut" }}
-      >
-        <h3 className="font-heading font-semibold text-pure text-base mb-1">{step.title}</h3>
-        <span className="text-arctic text-xs font-medium">{step.subtitle}</span>
-        <p className="mt-2 text-white/40 text-sm leading-relaxed">{step.description}</p>
-      </motion.div>
-    </motion.div>
-  );
-}
+const IMAGE_HEIGHT = 500;
+const SCROLL_PER_STEP = 600;
+const HEADER_SPACE = 220;
+const STICKY_TOP = 0;
 
 export default function HowItWorks() {
   const { messages } = useTranslations("howItWorks");
   const m = messages as any;
   const steps = m.steps || [];
-  const desktopRef = useRef<HTMLDivElement>(null);
-  const mobileRef = useRef<HTMLDivElement>(null);
-  const desktopInView = useInView(desktopRef, { once: true, margin: "-100px" });
-  const mobileInView = useInView(mobileRef, { once: true, margin: "-80px" });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [slideProgress, setSlideProgress] = useState(0);
+  const [hovered, setHovered] = useState(false);
+
+  const handleScroll = useCallback(() => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const scrolled = Math.max(0, -rect.top - HEADER_SPACE);
+
+    const totalSteps = 4;
+    const rawStep = scrolled / SCROLL_PER_STEP;
+    const currentStep = Math.min(totalSteps - 1, Math.floor(rawStep));
+    const progress = rawStep - currentStep;
+
+    setActiveStep(Math.max(0, Math.min(totalSteps - 1, currentStep)));
+    setSlideProgress(Math.max(0, Math.min(1, progress)));
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  const [viewportH, setViewportH] = useState(800);
+  useEffect(() => {
+    const update = () => setViewportH(window.innerHeight);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const totalScrollHeight = HEADER_SPACE + SCROLL_PER_STEP * 3 + viewportH;
+
+  const getCurrentTranslateX = () => {
+    if (activeStep >= 3) return 0;
+    return slideProgress * 100;
+  };
+
+  const currentX = getCurrentTranslateX();
 
   return (
-    <section id="como-funciona" className="py-20 sm:py-28 bg-obsidian relative" data-testid="section-como-funciona">
-      <div className="absolute inset-0 bg-gradient-to-b from-obsidian-light via-obsidian to-obsidian pointer-events-none" />
+    <section
+      ref={sectionRef}
+      id="como-funciona"
+      className="bg-obsidian relative"
+      style={{ height: totalScrollHeight }}
+      data-testid="section-como-funciona"
+    >
+      <div className="sticky" style={{ top: STICKY_TOP, height: "100vh", overflow: "hidden" }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-obsidian-light via-obsidian to-obsidian pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
-          <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
-        </motion.div>
-
-        <div ref={desktopRef} className="hidden md:block relative">
-          <ConnectorLine inView={desktopInView} />
-          <div className="grid grid-cols-4 gap-6">
-            {steps.map((step: any, i: number) => (
-              <StepCard key={i} step={step} index={i} inView={desktopInView} />
-            ))}
+        <div className="relative z-10 h-full flex flex-col">
+          <div className="pt-16 sm:pt-20 pb-6 text-center px-4 sm:px-6 lg:px-8">
+            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
+              {m.label}
+            </span>
+            <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-3">
+              {m.title}
+            </h2>
+            <p className="mt-3 text-white/50 text-sm sm:text-base max-w-xl mx-auto">
+              {m.subtitle}
+            </p>
           </div>
-        </div>
 
-        <div ref={mobileRef} className="md:hidden space-y-8">
-          {steps.map((step: any, i: number) => (
-            <MobileStep key={i} step={step} index={i} totalSteps={steps.length} inView={mobileInView} />
-          ))}
+          <div className="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 lg:px-8">
+            <div
+              className="relative w-[80%] max-w-5xl overflow-hidden rounded-2xl border border-white/10"
+              style={{ height: IMAGE_HEIGHT }}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              data-testid="step-image-container"
+            >
+              {stepImages.map((src, i) => {
+                let translateX = 0;
+
+                if (i < activeStep) {
+                  translateX = -100;
+                } else if (i === activeStep) {
+                  translateX = 0;
+                  if (activeStep < 3) {
+                    translateX = -(currentX);
+                  }
+                } else if (i === activeStep + 1) {
+                  translateX = 100 - currentX;
+                } else {
+                  translateX = 100;
+                }
+
+                return (
+                  <div
+                    key={i}
+                    className="absolute inset-0"
+                    style={{
+                      transform: `translateX(${translateX}%)`,
+                      transition: "transform 0.15s ease-out",
+                      willChange: "transform",
+                      zIndex: i === activeStep || (i === activeStep + 1 && currentX > 0) ? 2 : 1,
+                    }}
+                    data-testid={`step-image-${i}`}
+                  >
+                    <img
+                      src={src}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      style={{
+                        filter: hovered ? "grayscale(0)" : "grayscale(1)",
+                        transition: "filter 0.4s ease-out",
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0 bg-obsidian/30"
+                      style={{
+                        opacity: hovered ? 0 : 1,
+                        transition: "opacity 0.4s ease-out",
+                      }}
+                    />
+                    <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-obsidian/70 backdrop-blur-sm border border-arctic/30 flex items-center justify-center">
+                      {(() => {
+                        const Icon = stepIcons[i];
+                        return <Icon className="w-5 h-5 text-arctic" />;
+                      })()}
+                    </div>
+                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-xpertblue flex items-center justify-center">
+                      <span className="text-pure text-sm font-bold font-mono">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex gap-2 mt-5 mb-4">
+              {steps.map((_: any, i: number) => (
+                <div
+                  key={i}
+                  className="h-1 rounded-full transition-all duration-500 ease-in-out"
+                  style={{
+                    width: i === activeStep ? 32 : 8,
+                    backgroundColor: i === activeStep ? "rgb(77, 159, 236)" : "rgba(255,255,255,0.15)",
+                  }}
+                  data-testid={`step-dot-${i}`}
+                />
+              ))}
+            </div>
+
+            <div className="w-[80%] max-w-5xl" style={{ minHeight: 80 }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStep}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="text-center"
+                  data-testid={`step-info-${activeStep}`}
+                >
+                  <h3 className="font-heading font-semibold text-pure text-lg sm:text-xl">
+                    {steps[activeStep]?.title}
+                  </h3>
+                  <span className="text-arctic text-xs font-medium">
+                    {steps[activeStep]?.subtitle}
+                  </span>
+                  <p className="mt-2 text-white/40 text-sm leading-relaxed max-w-lg mx-auto">
+                    {steps[activeStep]?.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </div>
     </section>

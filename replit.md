@@ -27,8 +27,8 @@ Single-page landing site with 11 sections:
 1. Navbar (fixed, Obsidian background, locale switcher)
 2. Hero (particle effect background)
 3. Problem/Solution (3 cards)
-4. Services (bento grid with glow effect)
-5. How It Works (4 steps)
+4. Services (stacked card scroll effect with accumulation from below, 8px peek, 150px scroll pause per card)
+5. How It Works (scroll-driven horizontal image slider with grayscale-to-color hover)
 6. Pricing / Membership tiers (3 plans)
 7. Social Proof / Authority
 8. Senior Training (Ember accent)
@@ -58,8 +58,8 @@ Single-page landing site with 11 sections:
 - `client/src/components/locale-switcher.tsx` - Language dropdown
 - `client/src/components/hero.tsx` - Hero with particle canvas
 - `client/src/components/problem-solution.tsx` - Problem/Solution cards
-- `client/src/components/services.tsx` - Bento grid with glow
-- `client/src/components/how-it-works.tsx` - Process steps
+- `client/src/components/services.tsx` - Stacked card scroll effect (cards accumulate from below)
+- `client/src/components/how-it-works.tsx` - Horizontal image slider (scroll-driven, Supabase images)
 - `client/src/components/pricing.tsx` - Membership plans
 - `client/src/components/waitlist-modal.tsx` - Waitlist form modal
 - `client/src/components/social-proof.tsx` - Stats + testimonials
@@ -67,6 +67,13 @@ Single-page landing site with 11 sections:
 - `client/src/components/blog-newsletter.tsx` - Blog + newsletter
 - `client/src/components/cta-final.tsx` - Final CTA
 - `client/src/components/footer.tsx` - Footer
+
+## Supabase Storage
+- **Project URL**: `https://dcuvptwwtdhlepvcttvx.supabase.co`
+- **Bucket**: `web-images` (public)
+- **Logo**: `logo/logo_xpertauth_icon_v1.png`
+- **How It Works images**: `como-funciona/paso{1-4}_*_v1.webp`
+- **Service Key**: stored as `SUPABASE_SERVICE_KEY` secret
 
 ## Storage
 Currently using in-memory storage (MemStorage). Future plan: Supabase integration.
