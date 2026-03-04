@@ -151,7 +151,16 @@ export default function Services() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const totalScrollHeight = HEADER_SPACE + PAUSE * 3 + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
+  const [viewportH, setViewportH] = useState(800);
+  useEffect(() => {
+    const update = () => setViewportH(window.innerHeight);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const scrollNeeded = HEADER_SPACE + PAUSE * 3 + SCROLL_PER_CARD * 2;
+  const totalScrollHeight = scrollNeeded + viewportH;
 
   return (
     <section
