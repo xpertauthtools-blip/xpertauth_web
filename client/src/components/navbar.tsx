@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "@/i18n/context";
 import LocaleSwitcher from "./locale-switcher";
 
-const LOGO_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo_xpertauth_icon_v1.png";
+const LOGO_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo/logo_xpertauth_icon_v1.png";
 
 export default function Navbar() {
   const { t } = useTranslations("nav");
