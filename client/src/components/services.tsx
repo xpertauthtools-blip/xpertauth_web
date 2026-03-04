@@ -9,6 +9,7 @@ const STICKY_TOP = 100;
 const SCROLL_PER_CARD = 600;
 const OFFSCREEN = CARD_HEIGHT + 200;
 const HEADER_SPACE = 250;
+const PAUSE = 150;
 
 const serviceMeta = [
   {
@@ -131,10 +132,14 @@ export default function Services() {
 
     offsets[0] = 0;
 
-    const card2Progress = Math.max(0, Math.min(1, scrolled / SCROLL_PER_CARD));
+    const card2Start = PAUSE;
+    const card2End = card2Start + SCROLL_PER_CARD;
+    const card2Progress = Math.max(0, Math.min(1, (scrolled - card2Start) / SCROLL_PER_CARD));
     offsets[1] = OFFSCREEN * (1 - card2Progress);
 
-    const card3Progress = Math.max(0, Math.min(1, (scrolled - SCROLL_PER_CARD) / SCROLL_PER_CARD));
+    const card3Start = card2End + PAUSE;
+    const card3End = card3Start + SCROLL_PER_CARD;
+    const card3Progress = Math.max(0, Math.min(1, (scrolled - card3Start) / SCROLL_PER_CARD));
     offsets[2] = OFFSCREEN * (1 - card3Progress);
 
     setCardOffsets(offsets);
@@ -146,7 +151,7 @@ export default function Services() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const totalScrollHeight = HEADER_SPACE + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
+  const totalScrollHeight = HEADER_SPACE + PAUSE * 3 + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
 
   return (
     <section
