@@ -11,12 +11,12 @@ export default function SocialProof() {
   const testimonials = m.testimonials || [];
 
   return (
-    <section id="autoridad" className="py-20 sm:py-28 bg-mist" data-testid="section-social-proof">
+    <section id="autoridad" className="py-20 sm:py-28 bg-obsidian" data-testid="section-social-proof">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="text-center mb-16">
-          <span className="text-xpertblue text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2 className="font-heading font-bold text-obsidian text-3xl sm:text-4xl mt-4">{m.title}</h2>
-          <p className="mt-4 text-obsidian/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
+          <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
+          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
+          <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
@@ -24,10 +24,10 @@ export default function SocialProof() {
             const Icon = statIcons[i];
             const colors = ["text-xpertblue", "text-arctic", "text-ember"];
             return (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="text-center p-6 rounded-xl bg-white border border-obsidian/[0.06]" data-testid={`stat-${i}`}>
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="text-center p-6 rounded-xl bg-white/[0.03] border border-white/[0.08]" data-testid={`stat-${i}`}>
                 <Icon className={`w-8 h-8 ${colors[i]} mx-auto mb-3`} />
-                <div className="font-heading font-bold text-obsidian text-3xl sm:text-4xl">{stat.value}</div>
-                <div className="mt-1 text-obsidian/50 text-sm">{stat.label}</div>
+                <div className="font-heading font-bold text-pure text-3xl sm:text-4xl">{stat.value}</div>
+                <div className="mt-1 text-white/50 text-sm">{stat.label}</div>
               </motion.div>
             );
           })}
@@ -35,16 +35,16 @@ export default function SocialProof() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t: any, i: number) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.12 }} className="relative p-6 sm:p-8 rounded-xl bg-white border border-obsidian/[0.06]" data-testid={`testimonial-${i}`}>
-              <Quote className="w-8 h-8 text-xpertblue/20 mb-4" />
-              <p className="text-obsidian/70 text-sm leading-relaxed italic mb-6">"{t.quote}"</p>
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.12 }} className="relative p-6 sm:p-8 rounded-xl bg-white/[0.03] border border-white/[0.08]" data-testid={`testimonial-${i}`}>
+              <Quote className="w-8 h-8 text-arctic/20 mb-4" />
+              <p className="text-white/70 text-sm leading-relaxed italic mb-6">"{t.quote}"</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-xpertblue/20 to-arctic/20 flex items-center justify-center">
-                  <span className="text-xpertblue font-heading font-bold text-sm">{t.author?.charAt(0)}</span>
+                  <span className="text-arctic font-heading font-bold text-sm">{t.author?.charAt(0)}</span>
                 </div>
                 <div>
-                  <div className="font-heading font-semibold text-obsidian text-sm">{t.author}</div>
-                  <div className="text-obsidian/40 text-xs">{t.role}</div>
+                  <div className="font-heading font-semibold text-pure text-sm">{t.author}</div>
+                  <div className="text-white/40 text-xs">{t.role}</div>
                 </div>
               </div>
             </motion.div>
@@ -52,11 +52,11 @@ export default function SocialProof() {
         </div>
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="mt-16 text-center">
-          <p className="text-obsidian/30 text-xs uppercase tracking-widest mb-6">{m.partnersLabel}</p>
+          <p className="text-white/30 text-xs uppercase tracking-widest mb-6">{m.partnersLabel}</p>
           <div className="flex items-center justify-center gap-8 flex-wrap">
             {["Partner 1", "Partner 2", "Partner 3", "Partner 4"].map((p, i) => (
-              <div key={i} className="w-24 h-10 rounded-md bg-obsidian/[0.04] flex items-center justify-center">
-                <span className="text-obsidian/20 text-xs font-medium">{p}</span>
+              <div key={i} className="w-24 h-10 rounded-md bg-white/[0.04] flex items-center justify-center">
+                <span className="text-white/20 text-xs font-medium">{p}</span>
               </div>
             ))}
           </div>
