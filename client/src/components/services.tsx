@@ -7,6 +7,8 @@ const CARD_HEIGHT = 420;
 const PEEK = 8;
 const STICKY_TOP = 100;
 const SCROLL_PER_CARD = 600;
+const OFFSCREEN = CARD_HEIGHT + 200;
+const HEADER_SPACE = 250;
 
 const serviceMeta = [
   {
@@ -60,7 +62,7 @@ function ServiceCard({
 }) {
   return (
     <div
-      className={`w-[80%] mx-auto rounded-2xl border ${meta.borderColor} bg-obsidian-light overflow-hidden shadow-2xl shadow-black/50`}
+      className={`relative w-[80%] mx-auto rounded-2xl border ${meta.borderColor} bg-obsidian-light overflow-hidden shadow-2xl shadow-black/50`}
       style={{ height: CARD_HEIGHT }}
       data-testid={`card-service-${index}`}
     >
@@ -118,25 +120,22 @@ export default function Services() {
   const m = messages as any;
   const items = m.items || [];
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [cardOffsets, setCardOffsets] = useState([0, 0, 0]);
+  const [cardOffsets, setCardOffsets] = useState([0, OFFSCREEN, OFFSCREEN]);
 
   const handleScroll = useCallback(() => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
-    const headerSpace = 250;
-    const scrolled = Math.max(0, -(rect.top - STICKY_TOP) - headerSpace);
+    const scrolled = Math.max(0, -(rect.top - STICKY_TOP) - HEADER_SPACE);
 
     const offsets = [0, 0, 0];
 
-    const card3Start = 0;
-    const card3End = SCROLL_PER_CARD;
-    const card3Progress = Math.max(0, Math.min(1, (scrolled - card3Start) / (card3End - card3Start)));
-    offsets[2] = -(card3Progress * (CARD_HEIGHT + 40));
+    offsets[0] = 0;
 
-    const card2Start = SCROLL_PER_CARD;
-    const card2End = SCROLL_PER_CARD * 2;
-    const card2Progress = Math.max(0, Math.min(1, (scrolled - card2Start) / (card2End - card2Start)));
-    offsets[1] = -(card2Progress * (CARD_HEIGHT + 40));
+    const card2Progress = Math.max(0, Math.min(1, scrolled / SCROLL_PER_CARD));
+    offsets[1] = OFFSCREEN * (1 - card2Progress);
+
+    const card3Progress = Math.max(0, Math.min(1, (scrolled - SCROLL_PER_CARD) / SCROLL_PER_CARD));
+    offsets[2] = OFFSCREEN * (1 - card3Progress);
 
     setCardOffsets(offsets);
   }, []);
@@ -147,7 +146,7 @@ export default function Services() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const totalScrollHeight = 250 + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
+  const totalScrollHeight = HEADER_SPACE + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
 
   return (
     <section
@@ -157,7 +156,7 @@ export default function Services() {
       style={{ height: totalScrollHeight }}
       data-testid="section-servicios"
     >
-      <div className="sticky" style={{ top: 0 }}>
+      <div className="sticky" style={{ top: 0, overflow: "hidden", height: "100vh" }}>
         <div className="pt-20 sm:pt-28 pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
