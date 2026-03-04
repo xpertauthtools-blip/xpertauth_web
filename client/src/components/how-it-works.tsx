@@ -1,11 +1,9 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, Bot, Users, Rocket } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
 
 const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
 
-const stepIcons = [UserPlus, Bot, Users, Rocket];
 const stepImages = [
   `${SUPABASE_BASE}/como-funciona/paso1_registro_v1.webp`,
   `${SUPABASE_BASE}/como-funciona/paso2_ia-chat_v1.webp`,
@@ -140,17 +138,6 @@ export default function HowItWorks() {
                         transition: "opacity 0.4s ease-out",
                       }}
                     />
-                    <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-obsidian/70 backdrop-blur-sm border border-arctic/30 flex items-center justify-center">
-                      {(() => {
-                        const Icon = stepIcons[i];
-                        return <Icon className="w-5 h-5 text-arctic" />;
-                      })()}
-                    </div>
-                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-xpertblue flex items-center justify-center">
-                      <span className="text-pure text-sm font-bold font-mono">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </div>
                   </div>
                 );
               })}
@@ -181,13 +168,13 @@ export default function HowItWorks() {
                   className="text-center"
                   data-testid={`step-info-${activeStep}`}
                 >
-                  <h3 className="font-heading font-semibold text-pure text-lg sm:text-xl">
+                  <h3 className="font-heading text-[24px] font-bold" style={{ color: "#FFFFFF" }}>
                     {steps[activeStep]?.title}
                   </h3>
-                  <span className="text-arctic text-xs font-medium">
+                  <span className="text-[14px] font-medium" style={{ color: "#4D9FEC" }}>
                     {steps[activeStep]?.subtitle}
                   </span>
-                  <p className="mt-2 text-white/40 text-sm leading-relaxed max-w-lg mx-auto">
+                  <p className="mt-2 text-[16px] max-w-lg mx-auto" style={{ color: "#CBD5E1", lineHeight: 1.6 }}>
                     {steps[activeStep]?.description}
                   </p>
                 </motion.div>
