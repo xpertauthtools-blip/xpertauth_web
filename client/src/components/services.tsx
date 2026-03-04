@@ -1,50 +1,51 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Truck, Cpu, Heart, ArrowRight } from "lucide-react";
-import { useTranslations } from "@/i18n/context";
-import { useI18n } from "@/i18n/context";
+import { useTranslations, useI18n } from "@/i18n/context";
+
+const CARD_HEIGHT = 420;
+const PEEK = 8;
+const STICKY_TOP = 100;
+const SCROLL_PER_CARD = 600;
 
 const serviceMeta = [
   {
     icon: Truck,
     iconBg: "bg-arctic/10",
     iconColor: "text-arctic",
-    accentColor: "text-arctic",
     featureBorder: "border-arctic/20",
     featureText: "text-arctic",
     featureBg: "bg-arctic/5",
     ctaBg: "bg-arctic",
-    borderGlow: "border-arctic/30",
+    borderColor: "border-arctic/30",
     gradientFrom: "from-arctic/10",
   },
   {
     icon: Cpu,
     iconBg: "bg-xpertblue/10",
     iconColor: "text-xpertblue",
-    accentColor: "text-xpertblue",
     featureBorder: "border-xpertblue/20",
     featureText: "text-xpertblue",
     featureBg: "bg-xpertblue/5",
     ctaBg: "bg-xpertblue",
-    borderGlow: "border-xpertblue/30",
+    borderColor: "border-xpertblue/30",
     gradientFrom: "from-xpertblue/10",
   },
   {
     icon: Heart,
     iconBg: "bg-ember/10",
     iconColor: "text-ember",
-    accentColor: "text-ember",
     featureBorder: "border-ember/20",
     featureText: "text-ember",
     featureBg: "bg-ember/5",
     ctaBg: "bg-ember",
-    borderGlow: "border-ember/30",
+    borderColor: "border-ember/30",
     gradientFrom: "from-ember/10",
     hasBadge: true,
   },
 ];
 
-function StackedCard({
+function ServiceCard({
   service,
   meta,
   index,
@@ -57,104 +58,55 @@ function StackedCard({
   locale: string;
   badge: string;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const ratio = entry.intersectionRatio;
-            setProgress(Math.min(1, ratio * 1.5));
-          }
-        });
-      },
-      { threshold: Array.from({ length: 20 }, (_, i) => i / 19) }
-    );
-
-    observer.observe(card);
-    return () => observer.disconnect();
-  }, []);
-
-  const stickyTop = 100 + index * 48;
-  const stackedScale = 0.92 + index * 0.04;
-
   return (
     <div
-      ref={cardRef}
-      className="h-[70vh] sm:h-[60vh] md:h-[55vh]"
-      data-testid={`service-scroll-area-${index}`}
+      className={`w-[80%] mx-auto rounded-2xl border ${meta.borderColor} bg-obsidian-light overflow-hidden shadow-2xl shadow-black/50`}
+      style={{ height: CARD_HEIGHT }}
+      data-testid={`card-service-${index}`}
     >
-      <div
-        className="sticky"
-        style={{ top: `${stickyTop}px` }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{
-            opacity: progress > 0.1 ? 1 : 0,
-            y: progress > 0.1 ? 0 : 60,
-            scale: progress > 0.6 ? 1 : stackedScale,
-          }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className={`relative mx-auto max-w-4xl rounded-2xl border ${meta.borderGlow} bg-obsidian-light overflow-hidden shadow-2xl shadow-black/40`}
-          data-testid={`card-service-${index}`}
-        >
-          <div className={`absolute inset-0 bg-gradient-to-br ${meta.gradientFrom} to-transparent opacity-50 pointer-events-none`} />
+      <div className={`absolute inset-0 bg-gradient-to-br ${meta.gradientFrom} to-transparent opacity-50 pointer-events-none rounded-2xl`} />
 
-          <div className="relative z-10 p-8 sm:p-10 md:p-12">
-            <div className="flex flex-col md:flex-row md:items-start gap-8">
-              <div className="flex-grow">
-                <div className="flex items-start justify-between gap-3 mb-6">
-                  <div className={`w-14 h-14 rounded-xl ${meta.iconBg} flex items-center justify-center`}>
-                    <meta.icon className={`w-7 h-7 ${meta.iconColor}`} />
-                  </div>
-                  {meta.hasBadge && (
-                    <span className="px-4 py-1.5 text-xs font-bold rounded-full bg-ember text-pure uppercase tracking-wider">
-                      {badge}
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="font-heading font-bold text-pure text-2xl sm:text-3xl mb-4">
-                  {service.title}
-                </h3>
-
-                <p className="text-white/55 text-base leading-relaxed mb-8 max-w-xl">
-                  {service.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2.5 mb-8">
-                  {(service.features || []).map((feature: string, j: number) => (
-                    <span
-                      key={j}
-                      className={`px-4 py-1.5 text-xs font-semibold rounded-full border ${meta.featureBorder} ${meta.featureText} ${meta.featureBg}`}
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-
-                <a
-                  href={`/${locale}${service.href}`}
-                  className={`inline-flex items-center gap-2.5 px-7 py-3.5 ${meta.ctaBg} text-pure font-semibold rounded-lg text-sm transition-all duration-300 group`}
-                  data-testid={`button-service-cta-${index}`}
-                >
-                  {service.cta}
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              </div>
-
-              <div className="hidden md:flex flex-shrink-0 w-32 h-32 rounded-2xl bg-white/[0.03] border border-white/[0.06] items-center justify-center">
-                <meta.icon className={`w-16 h-16 ${meta.iconColor} opacity-20`} />
-              </div>
-            </div>
+      <div className="relative z-10 p-8 sm:p-10 md:p-12 h-full flex flex-col">
+        <div className="flex items-start justify-between gap-3 mb-5">
+          <div className={`w-14 h-14 rounded-xl ${meta.iconBg} flex items-center justify-center flex-shrink-0`}>
+            <meta.icon className={`w-7 h-7 ${meta.iconColor}`} />
           </div>
-        </motion.div>
+          {meta.hasBadge && (
+            <span className="px-4 py-1.5 text-xs font-bold rounded-full bg-ember text-pure uppercase tracking-wider">
+              {badge}
+            </span>
+          )}
+        </div>
+
+        <h3 className="font-heading font-bold text-pure text-2xl sm:text-3xl mb-3">
+          {service.title}
+        </h3>
+
+        <p className="text-white/55 text-sm sm:text-base leading-relaxed mb-6 max-w-xl flex-grow">
+          {service.description}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {(service.features || []).map((feature: string, j: number) => (
+            <span
+              key={j}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-full border ${meta.featureBorder} ${meta.featureText} ${meta.featureBg}`}
+            >
+              {feature}
+            </span>
+          ))}
+        </div>
+
+        <div>
+          <a
+            href={`/${locale}${service.href}`}
+            className={`inline-flex items-center gap-2.5 px-7 py-3 ${meta.ctaBg} text-pure font-semibold rounded-lg text-sm transition-all duration-300 group`}
+            data-testid={`button-service-cta-${index}`}
+          >
+            {service.cta}
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -165,40 +117,93 @@ export default function Services() {
   const { locale } = useI18n();
   const m = messages as any;
   const items = m.items || [];
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [cardOffsets, setCardOffsets] = useState([0, 0, 0]);
+
+  const handleScroll = useCallback(() => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const headerSpace = 250;
+    const scrolled = Math.max(0, -(rect.top - STICKY_TOP) - headerSpace);
+
+    const offsets = [0, 0, 0];
+
+    const card3Start = 0;
+    const card3End = SCROLL_PER_CARD;
+    const card3Progress = Math.max(0, Math.min(1, (scrolled - card3Start) / (card3End - card3Start)));
+    offsets[2] = -(card3Progress * (CARD_HEIGHT + 40));
+
+    const card2Start = SCROLL_PER_CARD;
+    const card2End = SCROLL_PER_CARD * 2;
+    const card2Progress = Math.max(0, Math.min(1, (scrolled - card2Start) / (card2End - card2Start)));
+    offsets[1] = -(card2Progress * (CARD_HEIGHT + 40));
+
+    setCardOffsets(offsets);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  const totalScrollHeight = 250 + SCROLL_PER_CARD * 2 + CARD_HEIGHT + PEEK * 2 + 200;
 
   return (
-    <section id="servicios" className="bg-obsidian-light" data-testid="section-servicios">
-      <div className="pt-20 sm:pt-28 pb-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8 px-4 sm:px-6 lg:px-8"
-        >
-          <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
-            {m.label}
-          </span>
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">
-            {m.title}
-          </h2>
-          <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">
-            {m.subtitle}
-          </p>
-        </motion.div>
-      </div>
+    <section
+      ref={sectionRef}
+      id="servicios"
+      className="bg-obsidian-light relative"
+      style={{ height: totalScrollHeight }}
+      data-testid="section-servicios"
+    >
+      <div className="sticky" style={{ top: 0 }}>
+        <div className="pt-20 sm:pt-28 pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center px-4 sm:px-6 lg:px-8"
+          >
+            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
+              {m.label}
+            </span>
+            <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">
+              {m.title}
+            </h2>
+            <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">
+              {m.subtitle}
+            </p>
+          </motion.div>
+        </div>
 
-      <div className="px-4 sm:px-6 lg:px-8 pb-20 sm:pb-28">
-        {items.map((service: any, i: number) => (
-          <StackedCard
-            key={i}
-            service={service}
-            meta={serviceMeta[i]}
-            index={i}
-            locale={locale}
-            badge={m.badge}
-          />
-        ))}
+        <div
+          className="relative mx-auto"
+          style={{ height: CARD_HEIGHT + PEEK * 2 }}
+        >
+          {items.map((service: any, i: number) => (
+            <div
+              key={i}
+              className="absolute inset-x-0"
+              style={{
+                top: i * PEEK,
+                zIndex: i + 1,
+                transform: `translateY(${cardOffsets[i]}px)`,
+                transition: "transform 0.15s ease-out",
+                willChange: "transform",
+              }}
+            >
+              <ServiceCard
+                service={service}
+                meta={serviceMeta[i]}
+                index={i}
+                locale={locale}
+                badge={m.badge}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
