@@ -2,6 +2,50 @@ import { motion } from "framer-motion";
 import { useI18n } from "@/i18n/context";
 
 const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
+const JOSE_LUIS_PHOTO = `${SUPABASE_BASE}/equipo/jose-luis_foto_v1.webp`;
+
+// Icono LEX — balanza de justicia / normativa
+function IconLex({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="24" cy="24" r="23" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
+      <line x1="24" y1="12" x2="24" y2="36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="14" y1="16" x2="34" y2="16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M14 16 L11 24 C11 26.2 12.3 28 14 28 C15.7 28 17 26.2 17 24 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M34 16 L31 24 C31 26.2 32.3 28 34 28 C35.7 28 37 26.2 37 24 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <line x1="20" y1="36" x2="28" y2="36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// Icono NOVA — circuito / automatización
+function IconNova({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="24" cy="24" r="23" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
+      <rect x="18" y="18" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+      <line x1="24" y1="12" x2="24" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="24" y1="30" x2="24" y2="36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="12" y1="24" x2="18" y2="24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="30" y1="24" x2="36" y2="24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="24" cy="12" r="2" fill="currentColor"/>
+      <circle cx="24" cy="36" r="2" fill="currentColor"/>
+      <circle cx="12" cy="24" r="2" fill="currentColor"/>
+      <circle cx="36" cy="24" r="2" fill="currentColor"/>
+    </svg>
+  );
+}
+
+// Icono ALMA — corazón con pulso / cuidado
+function IconAlma({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="24" cy="24" r="23" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
+      <path d="M24 34 C24 34 13 27 13 20 C13 16.7 15.7 14 19 14 C21 14 22.8 15 24 16.5 C25.2 15 27 14 29 14 C32.3 14 35 16.7 35 20 C35 27 24 34 24 34Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M16 24 L19 21 L22 26 L25 22 L28 24 L31 22" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
 
 const teamMembers = [
   {
@@ -30,8 +74,8 @@ const teamMembers = [
     accentColor: "border-arctic/30",
     numberColor: "text-arctic",
     numberBg: "bg-arctic/10",
-    badgeColor: "bg-arctic/10 text-arctic border-arctic/20",
     ctaStyle: "border border-arctic/40 text-arctic hover:bg-arctic/10",
+    Icon: null,
   },
   {
     id: "lex",
@@ -59,8 +103,8 @@ const teamMembers = [
     accentColor: "border-xpertblue/30",
     numberColor: "text-xpertblue",
     numberBg: "bg-xpertblue/10",
-    badgeColor: "bg-xpertblue/10 text-xpertblue border-xpertblue/20",
     ctaStyle: "bg-xpertblue text-pure hover:bg-xpertblue/90",
+    Icon: IconLex,
   },
   {
     id: "nova",
@@ -88,8 +132,8 @@ const teamMembers = [
     accentColor: "border-arctic/30",
     numberColor: "text-arctic",
     numberBg: "bg-arctic/10",
-    badgeColor: "bg-arctic/10 text-arctic border-arctic/20",
     ctaStyle: "bg-arctic text-obsidian hover:bg-arctic/90",
+    Icon: IconNova,
   },
   {
     id: "alma",
@@ -117,8 +161,8 @@ const teamMembers = [
     accentColor: "border-ember/30",
     numberColor: "text-ember",
     numberBg: "bg-ember/10",
-    badgeColor: "bg-ember/10 text-ember border-ember/20",
     ctaStyle: "bg-ember text-pure hover:bg-ember/90",
+    Icon: IconAlma,
   },
 ];
 
@@ -150,17 +194,40 @@ const sectionSubtitle = {
   fr: "Expertise humaine réelle combinée à des agents IA disponibles 24h/24.",
 };
 
+function JoseLuisAvatar() {
+  return (
+    <div className="relative w-16 h-16">
+      <img
+        src={JOSE_LUIS_PHOTO}
+        alt="José Luis Echezarreta"
+        className="w-16 h-16 rounded-full object-cover border-2 border-arctic/30"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = "none";
+          const fallback = target.nextElementSibling as HTMLElement;
+          if (fallback) fallback.style.display = "flex";
+        }}
+      />
+      <div
+        className="w-16 h-16 rounded-full bg-arctic/10 border border-arctic/30 items-center justify-center absolute inset-0"
+        style={{ display: "none" }}
+      >
+        <span className="font-heading font-bold text-arctic text-xl">JL</span>
+      </div>
+    </div>
+  );
+}
+
 export default function TeamSection() {
   const { locale } = useI18n();
   const lang = (locale as keyof typeof sectionTitle) || "es";
 
-  const scrollToAgent = (href: string) => {
-    if (href === "#agente") {
-      // Por ahora scroll al footer hasta que el agente esté implementado
+  const handleCta = (member: typeof teamMembers[0]) => {
+    if (member.ctaHref === "#agente") {
       const el = document.querySelector("#contacto");
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = `/${locale}${href}`;
+      window.location.href = `/${locale}${member.ctaHref}`;
     }
   };
 
@@ -186,61 +253,61 @@ export default function TeamSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {teamMembers.map((member, i) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className={`relative flex flex-col rounded-xl border ${member.accentColor} bg-white/[0.02] p-6 transition-all duration-300 hover:bg-white/[0.04]`}
-              data-testid={`card-team-${member.id}`}
-            >
-              {/* Avatar */}
-              <div className="mb-5">
-                {member.isHuman ? (
-                  <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                    <span className="font-heading font-bold text-pure text-xl">JL</span>
-                  </div>
-                ) : (
-                  <div className={`w-16 h-16 rounded-full ${member.numberBg} border ${member.accentColor} flex items-center justify-center`}>
-                    <span className={`font-heading font-bold text-lg ${member.numberColor}`}>
-                      {member.name[0]}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Badge IA */}
-              {!member.isHuman && (
-                <span className={`inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold border mb-3 ${member.badgeColor}`}>
-                  {aiBadge[lang]}
-                </span>
-              )}
-
-              {/* Nombre y rol */}
-              <h3 className="font-heading font-bold text-pure text-base leading-tight mb-1">
-                {member.name}
-              </h3>
-              <p className={`text-xs font-medium mb-3 ${member.numberColor}`}>
-                {member.role[lang]}
-              </p>
-
-              {/* Descripción */}
-              <p className="text-white/50 text-sm leading-relaxed flex-grow mb-6">
-                {member.description[lang]}
-              </p>
-
-              {/* CTA */}
-              <button
-                onClick={() => scrollToAgent(member.ctaHref)}
-                className={`w-full py-2.5 rounded-md text-sm font-semibold transition-all duration-200 ${member.ctaStyle}`}
-                data-testid={`button-team-${member.id}`}
+          {teamMembers.map((member, i) => {
+            const Icon = member.Icon;
+            return (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className={`relative flex flex-col rounded-xl border ${member.accentColor} bg-white/[0.02] p-6 transition-all duration-300 hover:bg-white/[0.04]`}
+                data-testid={`card-team-${member.id}`}
               >
-                {member.cta[lang]}
-              </button>
-            </motion.div>
-          ))}
+                {/* Avatar */}
+                <div className="mb-5">
+                  {member.isHuman ? (
+                    <JoseLuisAvatar />
+                  ) : (
+                    <div className={`w-16 h-16 rounded-full ${member.numberBg} border ${member.accentColor} flex items-center justify-center`}>
+                      {Icon && <Icon className={`w-8 h-8 ${member.numberColor}`} />}
+                    </div>
+                  )}
+                </div>
+
+                {/* Badge IA */}
+                {!member.isHuman && (
+                  <span className={`inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold border mb-3 ${member.numberBg} ${member.numberColor}`}
+                    style={{ borderColor: "currentColor", borderOpacity: 0.2 }}>
+                    {aiBadge[lang]}
+                  </span>
+                )}
+
+                {/* Nombre y rol */}
+                <h3 className="font-heading font-bold text-pure text-base leading-tight mb-1">
+                  {member.name}
+                </h3>
+                <p className={`text-xs font-medium mb-3 ${member.numberColor}`}>
+                  {member.role[lang]}
+                </p>
+
+                {/* Descripción */}
+                <p className="text-white/50 text-sm leading-relaxed flex-grow mb-6">
+                  {member.description[lang]}
+                </p>
+
+                {/* CTA */}
+                <button
+                  onClick={() => handleCta(member)}
+                  className={`w-full py-2.5 rounded-md text-sm font-semibold transition-all duration-200 ${member.ctaStyle}`}
+                  data-testid={`button-team-${member.id}`}
+                >
+                  {member.cta[lang]}
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
