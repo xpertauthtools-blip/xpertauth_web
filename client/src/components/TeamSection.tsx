@@ -102,7 +102,7 @@ const teamMembers = [
     isHuman: false,
     accentColor: "border-xpertblue/30",
     numberColor: "text-xpertblue",
-    numberBg: "bg-xpertblue/10",
+    numberBg: "bg-xpertblue/25",
     ctaStyle: "bg-xpertblue text-pure hover:bg-xpertblue/90",
     Icon: IconLex,
   },
@@ -131,7 +131,7 @@ const teamMembers = [
     isHuman: false,
     accentColor: "border-arctic/30",
     numberColor: "text-arctic",
-    numberBg: "bg-arctic/10",
+    numberBg: "bg-arctic/25",
     ctaStyle: "bg-arctic text-obsidian hover:bg-arctic/90",
     Icon: IconNova,
   },
@@ -160,7 +160,7 @@ const teamMembers = [
     isHuman: false,
     accentColor: "border-ember/30",
     numberColor: "text-ember",
-    numberBg: "bg-ember/10",
+    numberBg: "bg-ember/25",
     ctaStyle: "bg-ember text-pure hover:bg-ember/90",
     Icon: IconAlma,
   },
@@ -271,7 +271,7 @@ export default function TeamSection() {
                     <JoseLuisAvatar />
                   ) : (
                     <div className={`w-16 h-16 rounded-full ${member.numberBg} border ${member.accentColor} flex items-center justify-center`}>
-                      {Icon && <Icon className={`w-8 h-8 ${member.numberColor}`} />}
+                      {Icon && <Icon className={`w-9 h-9 ${member.numberColor}`} />}
                     </div>
                   )}
                 </div>
