@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
-import ProblemSolution from "@/components/problem-solution";
+import TeamSection from "@/components/TeamSection";
 import Services from "@/components/services";
 import HowItWorks from "@/components/how-it-works";
 import Pricing from "@/components/pricing";
@@ -15,7 +15,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
-      <ProblemSolution />
+      <TeamSection />
       <Services />
       <HowItWorks />
       <Pricing />
@@ -27,3 +27,4 @@ export default function Home() {
     </div>
   );
 }
+
