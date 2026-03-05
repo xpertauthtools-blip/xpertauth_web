@@ -1,12 +1,8 @@
 import { motion } from "framer-motion";
-import { Award, Clock, Quote } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
 import truckerImg from "@assets/stock_images/trucker_highway.jpg";
 import officeImg from "@assets/stock_images/businesswoman_office.jpg";
 import familyImg from "@assets/stock_images/family_senior.jpg";
-
-const statIcons = [Clock, Award];
-const statColors = ["text-xpertblue", "text-ember"];
 
 const testimonialImages = [truckerImg, officeImg, familyImg];
 
@@ -26,16 +22,12 @@ export default function SocialProof() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-16">
-          {stats.map((stat: any, i: number) => {
-            const Icon = statIcons[i];
-            return (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="text-center p-6 rounded-xl bg-white/[0.03] border border-white/[0.08]" data-testid={`stat-${i}`}>
-                <Icon className={`w-8 h-8 ${statColors[i]} mx-auto mb-3`} />
-                <div className="font-heading font-bold text-pure text-3xl sm:text-4xl">{stat.value}</div>
-                <div className="mt-1 text-white/50 text-sm">{stat.label}</div>
-              </motion.div>
-            );
-          })}
+          {stats.map((stat: any, i: number) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="text-center p-6 rounded-xl bg-white/[0.03] border border-white/[0.08]" data-testid={`stat-${i}`}>
+              <div className="font-heading font-bold text-pure text-5xl sm:text-6xl">{stat.value}</div>
+              <div className="mt-2 text-white/50 text-sm">{stat.label}</div>
+            </motion.div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -56,7 +48,6 @@ export default function SocialProof() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/30" />
               <div className="relative z-10 p-6 sm:p-8">
-                <Quote className="w-7 h-7 text-arctic/40 mb-3" />
                 <p className="text-white/90 text-sm leading-relaxed italic mb-5">"{t.quote}"</p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
