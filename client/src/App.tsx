@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/i18n/context";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
+import CustomCursor from "@/components/CustomCursor";
 
 function Router() {
   return (
