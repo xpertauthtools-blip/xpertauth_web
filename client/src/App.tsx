@@ -24,6 +24,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <I18nProvider>
+          <CustomCursor />
           <Toaster />
           <Router />
         </I18nProvider>
