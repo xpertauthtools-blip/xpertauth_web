@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Truck, Cpu, Heart, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useTranslations, useI18n } from "@/i18n/context";
 
 const CARD_HEIGHT = 420;
@@ -13,9 +13,9 @@ const PAUSE = 150;
 
 const serviceMeta = [
   {
-    icon: Truck,
-    iconBg: "bg-arctic/10",
-    iconColor: "text-arctic",
+    number: "01",
+    numberColor: "text-arctic",
+    numberBg: "bg-arctic/10",
     featureBorder: "border-arctic/20",
     featureText: "text-arctic",
     featureBg: "bg-arctic/5",
@@ -24,9 +24,9 @@ const serviceMeta = [
     gradientFrom: "from-arctic/10",
   },
   {
-    icon: Cpu,
-    iconBg: "bg-xpertblue/10",
-    iconColor: "text-xpertblue",
+    number: "02",
+    numberColor: "text-xpertblue",
+    numberBg: "bg-xpertblue/10",
     featureBorder: "border-xpertblue/20",
     featureText: "text-xpertblue",
     featureBg: "bg-xpertblue/5",
@@ -35,9 +35,9 @@ const serviceMeta = [
     gradientFrom: "from-xpertblue/10",
   },
   {
-    icon: Heart,
-    iconBg: "bg-ember/10",
-    iconColor: "text-ember",
+    number: "03",
+    numberColor: "text-ember",
+    numberBg: "bg-ember/10",
     featureBorder: "border-ember/20",
     featureText: "text-ember",
     featureBg: "bg-ember/5",
@@ -71,8 +71,8 @@ function ServiceCard({
 
       <div className="relative z-10 p-8 sm:p-10 md:p-12 h-full flex flex-col">
         <div className="flex items-start justify-between gap-3 mb-5">
-          <div className={`w-14 h-14 rounded-xl ${meta.iconBg} flex items-center justify-center flex-shrink-0`}>
-            <meta.icon className={`w-7 h-7 ${meta.iconColor}`} />
+          <div className={`w-14 h-14 rounded-xl ${meta.numberBg} flex items-center justify-center flex-shrink-0`}>
+            <span className={`font-heading font-bold text-xl ${meta.numberColor}`}>{meta.number}</span>
           </div>
           {meta.hasBadge && (
             <span className="px-4 py-1.5 text-xs font-bold rounded-full bg-ember text-pure uppercase tracking-wider">
