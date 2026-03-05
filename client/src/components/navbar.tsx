@@ -49,19 +49,27 @@ export default function Navbar() {
             data-testid="link-logo"
             aria-label="XpertAuth - Inicio"
           >
-            <img
-              src={LOGO_URL}
-              alt="XpertAuth"
-              className="h-9 w-auto object-contain"
-              style={{ maxHeight: "36px" }}
-              onLoad={() => setLogoLoaded(true)}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; setLogoLoaded(false); }}
-            />
-            {!logoLoaded && (
-              <div className="w-8 h-8 rounded-md bg-xpertblue flex items-center justify-center">
-                <span className="font-heading font-bold text-pure text-sm">X</span>
-              </div>
+            {logoLoaded ? (
+              <img
+                src={LOGO_URL}
+                alt="XpertAuth"
+                className="h-9 w-auto object-contain"
+                style={{ maxHeight: "36px" }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; setLogoLoaded(false); }}
+              />
+            ) : (
+              <img
+                src={LOGO_URL}
+                alt="XpertAuth"
+                className="h-9 w-auto object-contain"
+                style={{ maxHeight: "36px" }}
+                onLoad={() => setLogoLoaded(true)}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
             )}
+            <span className="font-heading font-semibold text-pure text-lg">
+              Xpert<span className="text-arctic">Auth</span>
+            </span>
           </button>
 
           <div className="hidden md:flex items-center gap-1">
