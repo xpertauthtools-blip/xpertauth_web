@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, Loader2, CheckCircle } from "lucide-react";
-import { SiLinkedin, SiInstagram } from "react-icons/si";
+import { SiLinkedin } from "react-icons/si";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslations } from "@/i18n/context";
@@ -53,8 +53,16 @@ export default function Footer() {
             </div>
             <p className="text-white/40 text-sm leading-relaxed mb-6">{m.description}</p>
             <div className="flex items-center gap-3">
-              <a href="#" className="w-9 h-9 rounded-md bg-white/[0.05] flex items-center justify-center text-white/40 transition-colors" data-testid="link-linkedin" aria-label="LinkedIn"><SiLinkedin className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-md bg-white/[0.05] flex items-center justify-center text-white/40 transition-colors" data-testid="link-instagram" aria-label="Instagram"><SiInstagram className="w-4 h-4" /></a>
+              <a
+                href="https://www.linkedin.com/in/josé-luis-echezarreta-fabregó-633b691b5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-md bg-white/[0.05] flex items-center justify-center text-white/40 hover:text-arctic transition-colors"
+                data-testid="link-linkedin"
+                aria-label="LinkedIn"
+              >
+                <SiLinkedin className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -63,7 +71,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <button onClick={() => scrollTo(link.href)} className="text-white/40 text-sm transition-colors" data-testid={`link-footer-${link.href.replace("#", "")}`}>{link.label}</button>
+                  <button onClick={() => scrollTo(link.href)} className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid={`link-footer-${link.href.replace("#", "")}`}>{link.label}</button>
                 </li>
               ))}
             </ul>
@@ -74,11 +82,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-arctic flex-shrink-0" />
-                <a href="mailto:info@xpertauth.com" className="text-white/40 text-sm transition-colors" data-testid="link-footer-email">info@xpertauth.com</a>
+                <a href="mailto:info@xpertauth.com" className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid="link-footer-email">info@xpertauth.com</a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-arctic flex-shrink-0" />
-                <a href="tel:+34625897546" className="text-white/40 text-sm transition-colors" data-testid="link-footer-phone">+34 625 897 546</a>
+                <a href="tel:+34625897546" className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid="link-footer-phone">+34 625 897 546</a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-arctic flex-shrink-0 mt-0.5" />
