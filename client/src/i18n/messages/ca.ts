@@ -8,9 +8,9 @@ const ca = {
   },
   hero: {
     badge: "Associació sense ànim de lucre",
-    title1: "Coneixement expert.",
-    title2: "Potenciat per IA.",
-    subtitle: "Transport especial, formació en IA i alfabetització digital per a gent gran. Tot en una sola associació.",
+    title1: "Forjem l'autoritat digital.",
+title2: "Coneixement expert potenciat per IA.",
+subtitle: "A XpertAuth no acumulem serveis. Desactivem problemes. Transport especial, formació en IA i alfabetització digital per a gent gran.",
     cta1: "Fes-te Soci",
     cta2: "Coneix els serveis",
   },
@@ -39,21 +39,21 @@ const ca = {
     items: [
       {
         title: "Transport Especial",
-        description: "Consultoria experta en normativa de transport especial. Resolució de dubtes sobre la DGT, permisos, vehicles especials i legislació vigent.",
+        description: "30 anys d'experiència en càrregues excepcionals. Permisos AE, AEG i AET, interpretació normativa DGT/SCT i planificació d'itineraris. Sense sorpreses legals.",
         features: ["Consultes normatives", "Assessoria en permisos", "Actualització legal"],
         cta: "Explorar Transport",
         href: "/servicios/transporte",
       },
       {
         title: "IA per a PIMEs",
-        description: "Implementació d'intel·ligència artificial adaptada a les necessitats reals de la teva empresa. Sense complicacions, sense argot tècnic.",
+        description: "La IA no és només per a grans empreses. Automatitzem els teus processos repetitius i formem el teu equip en 3 sessions. Resultats concrets des del primer mes.",
         features: ["Automatització", "Anàlisi intel·ligent", "Formació interna"],
         cta: "Descobrir IA per a PIMEs",
         href: "/servicios/ia-pymes",
       },
       {
         title: "Formació Sènior",
-        description: "Programa gratuït d'alfabetització digital per a gent gran. Grups reduïts, presencial i amb tot el temps del món.",
+        description: "Grups de màxim 6 persones, al teu ritme, sense argot. Smartphone, WhatsApp, banca en línia i, si vols, fins i tot IA. 100% gratuït, sempre.",
         features: ["100% Gratuït", "Grups de 6 màx.", "Presencial"],
         cta: "Conèixer Formació Sènior",
         href: "/servicios/formacion-senior",
@@ -246,7 +246,7 @@ const ca = {
     cookies: "Cookies",
     aiDisclosure: "Contingut creat i desenvolupat amb l'ajuda d'Intel·ligència Artificial.",
     rights: "Tots els drets reservats.",
-    spain: "Espanya",
+    spain: "Figueres, Girona, Catalunya",
   },
   waitlist: {
     titleFree: "Registre gratuït",
