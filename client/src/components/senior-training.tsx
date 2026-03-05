@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Heart, Users, MapPin, Clock, Smartphone } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
 
 const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
@@ -111,11 +110,8 @@ export default function SeniorTraining() {
               })}
             </div>
 
-            <div className="mt-10 flex flex-col sm:flex-row items-start gap-4">
+            <div className="mt-10">
               <span className="inline-flex px-5 py-2.5 bg-ember text-pure font-bold rounded-md text-sm uppercase tracking-wider">{m.free}</span>
-              <a href="https://wa.me/34625897546" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] text-white font-semibold rounded-md text-sm transition-all duration-200" data-testid="link-whatsapp-senior">
-                <SiWhatsapp className="w-5 h-5" />{m.whatsapp}
-              </a>
             </div>
           </motion.div>
 
@@ -144,10 +140,6 @@ export default function SeniorTraining() {
       >
         <Marquee />
       </motion.div>
-
-      <a href="https://wa.me/34625897546" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 transition-transform hover:scale-110" data-testid="button-whatsapp-float" aria-label="WhatsApp">
-        <SiWhatsapp className="w-7 h-7 text-white" />
-      </a>
     </section>
   );
 }
