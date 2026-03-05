@@ -8,9 +8,9 @@ const fr = {
   },
   hero: {
     badge: "Association à but non lucratif",
-    title1: "Expertise professionnelle.",
-    title2: "Propulsée par l'IA.",
-    subtitle: "Transport spécial, formation en IA et alphabétisation numérique pour les seniors. Tout en une seule association.",
+    title1: "Nous forgeons l'autorité numérique.",
+title2: "Expertise professionnelle propulsée par l'IA.",
+subtitle: "Chez XpertAuth nous n'accumulons pas des services. Nous résolvons des problèmes. Transport spécial, formation en IA et alphabétisation numérique pour les seniors.",
     cta1: "Rejoignez-nous",
     cta2: "Découvrir les services",
   },
@@ -39,21 +39,21 @@ const fr = {
     items: [
       {
         title: "Transport Spécial",
-        description: "Conseil expert en réglementation du transport spécial. Résolution de questions sur la DGT, permis, véhicules spéciaux et législation en vigueur.",
+        description: "30 ans d'expérience dans les charges exceptionnelles. Permis AE, AEG et AET, interprétation réglementaire DGT/SCT et planification d'itinéraires. Sans mauvaises surprises légales.",
         features: ["Consultations réglementaires", "Conseil en permis", "Mises à jour légales"],
         cta: "Explorer le Transport",
         href: "/servicios/transporte",
       },
       {
         title: "IA pour PME",
-        description: "Implémentation d'intelligence artificielle adaptée aux besoins réels de votre entreprise. Sans complications, sans jargon technique.",
+        description: "L'IA n'est pas réservée aux grandes entreprises. Nous automatisons vos processus répétitifs et formons votre équipe en 3 séances. Des résultats concrets dès le premier mois.",
         features: ["Automatisation", "Analyse intelligente", "Formation interne"],
         cta: "Découvrir l'IA pour PME",
         href: "/servicios/ia-pymes",
       },
       {
         title: "Formation Senior",
-        description: "Programme gratuit d'alphabétisation numérique pour les seniors. Petits groupes, en présentiel et avec tout le temps nécessaire.",
+        description: "Groupes de maximum 6 personnes, à votre rythme, sans jargon. Smartphone, WhatsApp, banque en ligne et, si vous voulez, même l'IA. 100% gratuit, toujours.",
         features: ["100% Gratuit", "Groupes de 6 max.", "Présentiel"],
         cta: "Connaître la Formation Senior",
         href: "/servicios/formacion-senior",
@@ -246,7 +246,7 @@ const fr = {
     cookies: "Cookies",
     aiDisclosure: "Contenu créé et développé avec l'aide de l'Intelligence Artificielle.",
     rights: "Tous droits réservés.",
-    spain: "Espagne",
+    spain: "Figueres, Girona, Catalogne",
   },
   waitlist: {
     titleFree: "Inscription gratuite",
