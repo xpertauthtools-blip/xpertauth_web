@@ -1,4 +1,4 @@
-mport { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Fondos oscuros de XpertAuth → cursor blanco
 const DARK_BG_COLORS = ["#0A0E1A", "#0F1628", "#070A12"];
