@@ -8,9 +8,9 @@ const en = {
   },
   hero: {
     badge: "Non-profit association",
-    title1: "Expert knowledge.",
-    title2: "Powered by AI.",
-    subtitle: "Special transport, AI training, and digital literacy for seniors. All in one association.",
+    title1: "We forge digital authority.",
+title2: "Expert knowledge powered by AI.",
+subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special transport, AI training, and digital literacy for seniors.",
     cta1: "Join Us",
     cta2: "Explore services",
   },
@@ -39,21 +39,21 @@ const en = {
     items: [
       {
         title: "Special Transport",
-        description: "Expert consulting on special transport regulations. Resolution of queries about DGT, permits, special vehicles, and current legislation.",
+        description: "30 years of experience in exceptional loads. AE, AEG and AET permits, DGT/SCT regulatory interpretation and route planning. No legal surprises.",
         features: ["Regulatory queries", "Permit advisory", "Legal updates"],
         cta: "Explore Transport",
         href: "/servicios/transporte",
       },
       {
         title: "AI for SMEs",
-        description: "Artificial intelligence implementation tailored to your business needs. No complications, no technical jargon.",
+        description: "AI is not just for large companies. We automate your repetitive processes and train your team in 3 sessions. Concrete results from the first month.",
         features: ["Automation", "Intelligent analysis", "Internal training"],
         cta: "Discover AI for SMEs",
         href: "/servicios/ia-pymes",
       },
       {
         title: "Senior Training",
-        description: "Free digital literacy program for seniors. Small groups, in-person, and all the time in the world.",
+        description: "Groups of maximum 6 people, your pace, no jargon. Smartphone, WhatsApp, online banking and, if you want, even AI. 100% free, always.",
         features: ["100% Free", "Groups of 6 max.", "In-person"],
         cta: "Learn about Senior Training",
         href: "/servicios/formacion-senior",
@@ -246,7 +246,7 @@ const en = {
     cookies: "Cookies",
     aiDisclosure: "Content created and developed with the help of Artificial Intelligence.",
     rights: "All rights reserved.",
-    spain: "Spain",
+    spain: "Figueres, Girona, Catalonia",
   },
   waitlist: {
     titleFree: "Free registration",
