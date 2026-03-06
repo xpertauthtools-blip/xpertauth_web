@@ -253,8 +253,8 @@ function ServiceCard({
         </div>
 
         {/* Columna derecha — ilustración centrada */}
-        <div className="hidden md:flex items-center justify-center w-56 lg:w-72 flex-shrink-0 px-6">
-          <div className="w-full max-w-[220px]">
+        <div className="hidden md:flex items-center justify-center w-56 lg:w-72 flex-shrink-0 pr-10 pl-0">
+          <div className="w-full max-w-[220px] -translate-x-8">
             <Illustration color={illColor} />
           </div>
         </div>
