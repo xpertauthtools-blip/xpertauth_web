@@ -9,8 +9,8 @@ const ca = {
   hero: {
     badge: "Associació sense ànim de lucre",
     title1: "Forjem l'autoritat digital.",
-title2: "Coneixement expert potenciat per IA.",
-subtitle: "A XpertAuth no acumulem serveis. Desactivem problemes. Transport especial, formació en IA i alfabetització digital per a gent gran.",
+    title2: "Coneixement expert potenciat per IA.",
+    subtitle: "A XpertAuth no acumulem serveis. Desactivem problemes. Transport especial, formació en IA i alfabetització digital per a gent gran.",
     cta1: "Fes-te Soci",
     cta2: "Coneix els serveis",
   },
@@ -70,17 +70,17 @@ subtitle: "A XpertAuth no acumulem serveis. Desactivem problemes. Transport espe
       {
         title: "Et registres com a soci",
         subtitle: "Des de 5€/mes",
-        description: "Tria el pla que millor s'adapti a les teves necessitats. És ràpid, segur i sense permanència.",
+        description: "Tria el teu pla en menys de 2 minuts. Sense permanència, cancel·lable quan vulguis.",
       },
       {
         title: "La IA respon a l'instant",
         subtitle: "24/7",
-        description: "El nostre assistent d'IA respon les teves consultes en temps real amb informació actualitzada i precisa.",
+        description: "LEX, NOVA o ALMA responen a l'instant, 24/7. Consultes normatives, IA per a la teva empresa o tecnologia sense por.",
       },
       {
         title: "Un expert intervé",
         subtitle: "Si necessites més",
-        description: "Quan la consulta ho requereix, un professional humà amb dècades d'experiència pren el relleu.",
+        description: "Quan la IA no és suficient, José Luis intervé directament. Criteri humà quan més importa.",
       },
       {
         title: "Aprens i creixes",
@@ -235,7 +235,7 @@ subtitle: "A XpertAuth no acumulem serveis. Desactivem problemes. Transport espe
     quickLinks: "Enllaços ràpids",
     contact: "Contacte",
     newsletter: "Newsletter",
-    newsletterSubtitle: "Rep novetats sobre transport, IA i formació digital.",
+    newsletterSubtitle: "Rep novetats sobre formació digital per a gent gran.",
     subscribed: "Subscrit!",
     subscribeButton: "Subscriure's",
     subscribePlaceholder: "tu@email.com",
