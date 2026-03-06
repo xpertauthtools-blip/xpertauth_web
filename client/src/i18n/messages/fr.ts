@@ -9,8 +9,8 @@ const fr = {
   hero: {
     badge: "Association à but non lucratif",
     title1: "Nous forgeons l'autorité numérique.",
-title2: "Expertise professionnelle propulsée par l'IA.",
-subtitle: "Chez XpertAuth nous n'accumulons pas des services. Nous résolvons des problèmes. Transport spécial, formation en IA et alphabétisation numérique pour les seniors.",
+    title2: "Expertise professionnelle propulsée par l'IA.",
+    subtitle: "Chez XpertAuth nous n'accumulons pas des services. Nous résolvons des problèmes. Transport spécial, formation en IA et alphabétisation numérique pour les seniors.",
     cta1: "Rejoignez-nous",
     cta2: "Découvrir les services",
   },
@@ -70,17 +70,17 @@ subtitle: "Chez XpertAuth nous n'accumulons pas des services. Nous résolvons de
       {
         title: "Vous vous inscrivez comme membre",
         subtitle: "Dès 5€/mois",
-        description: "Choisissez le plan qui correspond le mieux à vos besoins. C'est rapide, sûr et sans engagement.",
+        description: "Choisissez votre plan en moins de 2 minutes. Sans engagement, annulable quand vous voulez.",
       },
       {
         title: "L'IA répond instantanément",
         subtitle: "24h/24",
-        description: "Notre assistant IA répond à vos questions en temps réel avec des informations à jour et précises.",
+        description: "LEX, NOVA ou ALMA répondent instantanément, 24h/24. Questions réglementaires, IA pour votre entreprise ou technologie sans crainte.",
       },
       {
         title: "Un expert intervient",
         subtitle: "Si vous en avez besoin",
-        description: "Lorsque la consultation le nécessite, un professionnel humain avec des décennies d'expérience prend le relais.",
+        description: "Quand l'IA ne suffit pas, José Luis intervient directement. Jugement humain quand c'est le plus important.",
       },
       {
         title: "Vous apprenez et progressez",
@@ -235,7 +235,7 @@ subtitle: "Chez XpertAuth nous n'accumulons pas des services. Nous résolvons de
     quickLinks: "Liens rapides",
     contact: "Contact",
     newsletter: "Newsletter",
-    newsletterSubtitle: "Recevez des nouvelles sur le transport, l'IA et la formation numérique.",
+    newsletterSubtitle: "Recevez des nouvelles sur la formation numérique pour les seniors.",
     subscribed: "Abonné !",
     subscribeButton: "S'abonner",
     subscribePlaceholder: "vous@email.com",
