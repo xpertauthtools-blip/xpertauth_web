@@ -164,7 +164,7 @@ const es = {
       {
         quote: "La IA nos ayudó a automatizar procesos que antes consumían horas. Increíble relación calidad-precio.",
         author: "María R.",
-        role: "Directora de operaciones, LogiTrans",
+        role: "Directora de operaciones",
       },
       {
         quote: "Mis padres ahora hacen videollamadas solos. El programa de formación es maravilloso.",
