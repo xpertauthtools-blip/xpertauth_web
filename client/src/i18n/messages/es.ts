@@ -39,21 +39,21 @@ const es = {
     items: [
       {
         title: "Transporte Especial",
-  description: "30 años de experiencia en cargas excepcionales. Permisos AE, AEG y AET, interpretación normativa DGT/SCT y planificación de itinerarios. Sin sorpresas legales.",
+        description: "30 años de experiencia en cargas excepcionales. Permisos AE, AEG y AET, interpretación normativa DGT/SCT y planificación de itinerarios. Sin sorpresas legales.",
         features: ["Consultas normativas", "Asesoría en permisos", "Actualización legal"],
         cta: "Explorar Transporte",
         href: "/servicios/transporte",
       },
       {
-          title: "IA para PYMEs",
-  description: "La IA no es solo para grandes empresas. Automatizamos tus procesos repetitivos y formamos a tu equipo en 3 sesiones. Resultados concretos desde el primer mes.",
+        title: "IA para PYMEs",
+        description: "La IA no es solo para grandes empresas. Automatizamos tus procesos repetitivos y formamos a tu equipo en 3 sesiones. Resultados concretos desde el primer mes.",
         features: ["Automatización", "Análisis inteligente", "Formación interna"],
         cta: "Descubrir IA para PYMEs",
         href: "/servicios/ia-pymes",
       },
       {
         title: "Formación Senior",
-  description: "Grupos de máximo 6 personas, ritmo tuyo, sin jerga. Smartphone, WhatsApp, banca online y, si quieres, hasta IA. 100% gratuito, siempre.",
+        description: "Grupos de máximo 6 personas, ritmo tuyo, sin jerga. Smartphone, WhatsApp, banca online y, si quieres, hasta IA. 100% gratuito, siempre.",
         features: ["100% Gratuito", "Grupos de 6 max.", "Presencial"],
         cta: "Conocer Formación Senior",
         href: "/servicios/formacion-senior",
@@ -70,17 +70,17 @@ const es = {
       {
         title: "Te registras como socio",
         subtitle: "Desde 5€/mes",
-        description: "Elige el plan que mejor se adapte a tus necesidades. Es rápido, seguro y sin permanencia.",
+        description: "Elige tu plan en menos de 2 minutos. Sin permanencia, cancelable cuando quieras.",
       },
       {
         title: "La IA responde al instante",
         subtitle: "24/7",
-        description: "Nuestro asistente de IA responde tus consultas en tiempo real con información actualizada y precisa.",
+        description: "LEX, NOVA o ALMA responden al instante, 24/7. Consultas normativas, IA para tu empresa o tecnología sin miedo.",
       },
       {
         title: "Un experto interviene",
         subtitle: "Si necesitas más",
-        description: "Cuando la consulta lo requiere, un profesional humano con décadas de experiencia toma el relevo.",
+        description: "Cuando la IA no es suficiente, José Luis interviene directamente. Criterio humano cuando más importa.",
       },
       {
         title: "Aprendes y creces",
@@ -131,7 +131,7 @@ const es = {
         features: [
           "Todo lo del plan Individual",
           "Múltiples usuarios por cuenta",
-          "Implementación IA a medida",
+          "Implementación IA a mida",
           "Consultoría personalizada",
           "Soporte prioritario",
           "Informes y análisis avanzados",
@@ -235,7 +235,7 @@ const es = {
     quickLinks: "Links rápidos",
     contact: "Contacto",
     newsletter: "Newsletter",
-    newsletterSubtitle: "Recibe novedades sobre transporte, IA y formación digital.",
+    newsletterSubtitle: "Recibe novedades sobre formación digital para mayores.",
     subscribed: "¡Suscrito!",
     subscribeButton: "Suscribirse",
     subscribePlaceholder: "tu@email.com",
