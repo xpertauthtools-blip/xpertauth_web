@@ -10,7 +10,7 @@ const ALMA_AVATAR = `${SUPABASE_BASE}/equipo/alma_avatar_v1.webp`;
 const teamMembers = [
   {
     id: "jose-luis",
-    name: "José Luis Echezarreta",
+    name: "José Luis",
     photo: JOSE_LUIS_PHOTO,
     role: {
       es: "Fundador y presidente",
