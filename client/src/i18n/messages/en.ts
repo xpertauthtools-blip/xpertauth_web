@@ -164,7 +164,7 @@ const en = {
       {
         quote: "AI helped us automate processes that used to take hours. Incredible value for money.",
         author: "María R.",
-        role: "Operations Director, LogiTrans",
+        role: "Operations Director",
       },
       {
         quote: "My parents now make video calls on their own. The training programme is wonderful.",
