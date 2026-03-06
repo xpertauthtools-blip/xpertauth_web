@@ -49,164 +49,133 @@ const serviceMeta = [
 ];
 
 // Ilustración 01 — Transporte Especial
-// Camión de perfil con carga sobredimensionada, señal de advertencia
 function IllustrationTransporte({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-20">
+    <svg viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
       {/* Carretera */}
-      <line x1="20" y1="175" x2="260" y2="175" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="20" y1="185" x2="260" y2="185" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-      {/* Línea discontinua */}
-      <line x1="60" y1="180" x2="80" y2="180" stroke={color} strokeWidth="1" strokeLinecap="round" strokeDasharray="4 8" />
-      <line x1="120" y1="180" x2="140" y2="180" stroke={color} strokeWidth="1" strokeLinecap="round" strokeDasharray="4 8" />
-      <line x1="180" y1="180" x2="200" y2="180" stroke={color} strokeWidth="1" strokeLinecap="round" strokeDasharray="4 8" />
-
-      {/* Cabina del camión */}
-      <rect x="170" y="130" width="65" height="45" rx="4" stroke={color} strokeWidth="1.5" />
-      {/* Parabrisas */}
-      <rect x="195" y="136" width="30" height="20" rx="2" stroke={color} strokeWidth="1" strokeOpacity="0.6" />
-      {/* Paragolpes */}
-      <rect x="232" y="162" width="8" height="8" rx="1" stroke={color} strokeWidth="1" />
-      {/* Faro */}
-      <circle cx="237" cy="148" r="3" stroke={color} strokeWidth="1" />
+      <line x1="10" y1="148" x2="230" y2="148" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <line x1="10" y1="158" x2="230" y2="158" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <line x1="40" y1="153" x2="65" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
+      <line x1="105" y1="153" x2="130" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
+      <line x1="170" y1="153" x2="195" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
 
       {/* Remolque */}
-      <rect x="45" y="120" width="128" height="55" rx="3" stroke={color} strokeWidth="1.5" />
-      {/* Carga excepcional (sobresale por arriba) */}
-      <rect x="55" y="75" width="108" height="48" rx="3" stroke={color} strokeWidth="1.5" strokeDasharray="5 3" />
-      {/* Flejes de sujeción */}
-      <line x1="80" y1="75" x2="80" y2="175" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="110" y1="75" x2="110" y2="175" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="140" y1="75" x2="140" y2="175" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <rect x="28" y="98" width="118" height="50" rx="3" stroke={color} strokeWidth="2.5" />
+      {/* Carga excepcional */}
+      <rect x="38" y="58" width="98" height="42" rx="3" stroke={color} strokeWidth="2" strokeDasharray="6 4" />
+      {/* Flejes */}
+      <line x1="62" y1="58" x2="62" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="95" y1="58" x2="95" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="128" y1="58" x2="128" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
 
-      {/* Ruedas camión */}
-      <circle cx="195" cy="175" r="12" stroke={color} strokeWidth="1.5" />
-      <circle cx="195" cy="175" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <circle cx="225" cy="175" r="12" stroke={color} strokeWidth="1.5" />
-      <circle cx="225" cy="175" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      {/* Cabina */}
+      <rect x="146" y="106" width="60" height="42" rx="4" stroke={color} strokeWidth="2.5" />
+      <rect x="168" y="112" width="28" height="18" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.7" />
+      <circle cx="204" cy="126" r="4" stroke={color} strokeWidth="1.5" />
+
       {/* Ruedas remolque */}
-      <circle cx="75" cy="175" r="12" stroke={color} strokeWidth="1.5" />
-      <circle cx="75" cy="175" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <circle cx="105" cy="175" r="12" stroke={color} strokeWidth="1.5" />
-      <circle cx="105" cy="175" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <circle cx="145" cy="175" r="12" stroke={color} strokeWidth="1.5" />
-      <circle cx="145" cy="175" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="55" cy="148" r="13" stroke={color} strokeWidth="2.5" />
+      <circle cx="55" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <circle cx="90" cy="148" r="13" stroke={color} strokeWidth="2.5" />
+      <circle cx="90" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <circle cx="128" cy="148" r="13" stroke={color} strokeWidth="2.5" />
+      <circle cx="128" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
 
-      {/* Señal triangular de advertencia */}
-      <polygon points="30,95 18,118 42,118" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
-      <line x1="30" y1="102" x2="30" y2="111" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="30" cy="114" r="1.5" fill={color} />
+      {/* Ruedas cabina */}
+      <circle cx="162" cy="148" r="13" stroke={color} strokeWidth="2.5" />
+      <circle cx="162" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <circle cx="196" cy="148" r="13" stroke={color} strokeWidth="2.5" />
+      <circle cx="196" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
 
-      {/* Señal lateral de convoy */}
-      <rect x="45" y="108" width="128" height="10" rx="2" stroke={color} strokeWidth="1" strokeOpacity="0.4" strokeDasharray="6 4" />
+      {/* Señal de advertencia */}
+      <polygon points="18,82 6,106 30,106" stroke={color} strokeWidth="2" strokeLinejoin="round" />
+      <line x1="18" y1="90" x2="18" y2="100" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="18" cy="103" r="2" fill={color} />
     </svg>
   );
 }
 
 // Ilustración 02 — IA para PYMEs
-// Nodos conectados, flujo de automatización
 function IllustrationIA({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-20">
+    <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
       {/* Nodo central */}
-      <circle cx="140" cy="110" r="22" stroke={color} strokeWidth="1.5" />
-      <circle cx="140" cy="110" r="10" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <circle cx="140" cy="110" r="3" fill={color} />
+      <circle cx="120" cy="100" r="24" stroke={color} strokeWidth="2.5" />
+      <circle cx="120" cy="100" r="10" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+      <circle cx="120" cy="100" r="4" fill={color} />
 
       {/* Nodo superior izquierdo */}
-      <circle cx="60" cy="50" r="14" stroke={color} strokeWidth="1.5" />
-      <circle cx="60" cy="50" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="72" y1="60" x2="120" y2="95" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="42" cy="42" r="16" stroke={color} strokeWidth="2.5" />
+      <circle cx="42" cy="42" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="56" y1="53" x2="98" y2="82" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
       {/* Nodo superior derecho */}
-      <circle cx="220" cy="50" r="14" stroke={color} strokeWidth="1.5" />
-      <circle cx="220" cy="50" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="208" y1="60" x2="160" y2="95" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="198" cy="42" r="16" stroke={color} strokeWidth="2.5" />
+      <circle cx="198" cy="42" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="184" y1="53" x2="142" y2="82" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
       {/* Nodo inferior izquierdo */}
-      <circle cx="50" cy="170" r="14" stroke={color} strokeWidth="1.5" />
-      <circle cx="50" cy="170" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="63" y1="162" x2="120" y2="126" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="42" cy="158" r="16" stroke={color} strokeWidth="2.5" />
+      <circle cx="42" cy="158" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="56" y1="149" x2="98" y2="118" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
       {/* Nodo inferior derecho */}
-      <circle cx="230" cy="170" r="14" stroke={color} strokeWidth="1.5" />
-      <circle cx="230" cy="170" r="5" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="217" y1="162" x2="160" y2="126" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="198" cy="158" r="16" stroke={color} strokeWidth="2.5" />
+      <circle cx="198" cy="158" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+      <line x1="184" y1="149" x2="142" y2="118" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
       {/* Nodo izquierdo */}
-      <circle cx="30" cy="110" r="10" stroke={color} strokeWidth="1.5" />
-      <line x1="40" y1="110" x2="118" y2="110" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="18" cy="100" r="11" stroke={color} strokeWidth="2.5" />
+      <line x1="29" y1="100" x2="96" y2="100" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
       {/* Nodo derecho */}
-      <circle cx="250" cy="110" r="10" stroke={color} strokeWidth="1.5" />
-      <line x1="240" y1="110" x2="162" y2="110" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="222" cy="100" r="11" stroke={color} strokeWidth="2.5" />
+      <line x1="211" y1="100" x2="144" y2="100" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
-      {/* Pulso / onda alrededor del nodo central */}
-      <circle cx="140" cy="110" r="35" stroke={color} strokeWidth="0.75" strokeOpacity="0.3" strokeDasharray="3 5" />
-      <circle cx="140" cy="110" r="50" stroke={color} strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="2 6" />
-
-      {/* Flechas de flujo */}
-      <path d="M86 82 L118 100" stroke={color} strokeWidth="1" strokeOpacity="0.6" markerEnd="url(#arrow)" />
-      <path d="M194 82 L162 100" stroke={color} strokeWidth="1" strokeOpacity="0.6" />
-      <path d="M162 122 L194 140" stroke={color} strokeWidth="1" strokeOpacity="0.6" />
-      <path d="M118 122 L86 140" stroke={color} strokeWidth="1" strokeOpacity="0.6" />
-
-      {/* Etiquetas mini */}
-      <rect x="46" y="42" width="28" height="3" rx="1.5" fill={color} fillOpacity="0.3" />
-      <rect x="46" y="48" width="20" height="3" rx="1.5" fill={color} fillOpacity="0.2" />
-      <rect x="206" y="42" width="28" height="3" rx="1.5" fill={color} fillOpacity="0.3" />
-      <rect x="206" y="48" width="20" height="3" rx="1.5" fill={color} fillOpacity="0.2" />
+      {/* Anillos de pulso */}
+      <circle cx="120" cy="100" r="38" stroke={color} strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 6" />
+      <circle cx="120" cy="100" r="54" stroke={color} strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 7" />
     </svg>
   );
 }
 
 // Ilustración 03 — Formación Senior
-// Figura humana con smartphone, ondas de conexión
 function IllustrationSenior({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-20">
-      {/* Figura humana — cabeza */}
-      <circle cx="130" cy="52" r="20" stroke={color} strokeWidth="1.5" />
+    <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
+      {/* Cabeza */}
+      <circle cx="100" cy="44" r="22" stroke={color} strokeWidth="2.5" />
       {/* Cuerpo */}
-      <path d="M110 72 C105 85 100 105 102 130 L158 130 C160 105 155 85 150 72 Z" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M78 66 C72 82 68 108 70 132 L130 132 C132 108 128 82 122 66 Z" stroke={color} strokeWidth="2.5" strokeLinejoin="round" />
       {/* Piernas */}
-      <line x1="115" y1="130" x2="110" y2="175" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="145" y1="130" x2="150" y2="175" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="85" y1="132" x2="80" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="115" y1="132" x2="120" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
       {/* Pies */}
-      <line x1="110" y1="175" x2="100" y2="175" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="150" y1="175" x2="160" y2="175" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="80" y1="172" x2="68" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="120" y1="172" x2="132" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
 
-      {/* Brazo extendido hacia el smartphone */}
-      <path d="M150 90 C160 88 168 86 175 85" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      {/* Brazo extendido */}
+      <path d="M122 88 C138 86 150 84 160 83" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
 
       {/* Smartphone */}
-      <rect x="175" y="72" width="36" height="60" rx="5" stroke={color} strokeWidth="1.5" />
-      {/* Pantalla */}
-      <rect x="180" y="80" width="26" height="38" rx="2" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-      {/* Botón home */}
-      <circle cx="193" cy="124" r="3" stroke={color} strokeWidth="1" strokeOpacity="0.6" />
-      {/* Notch */}
-      <rect x="188" y="75" width="10" height="3" rx="1.5" stroke={color} strokeWidth="0.75" strokeOpacity="0.4" />
+      <rect x="160" y="68" width="42" height="70" rx="6" stroke={color} strokeWidth="2.5" />
+      <rect x="166" y="78" width="30" height="44" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+      <circle cx="181" cy="130" r="4" stroke={color} strokeWidth="1.5" strokeOpacity="0.7" />
+      <rect x="175" y="72" width="12" height="4" rx="2" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
 
-      {/* Contenido pantalla — íconos simples */}
-      <rect x="183" y="84" width="8" height="8" rx="1.5" stroke={color} strokeWidth="0.75" strokeOpacity="0.5" />
-      <rect x="195" y="84" width="8" height="8" rx="1.5" stroke={color} strokeWidth="0.75" strokeOpacity="0.5" />
-      <rect x="183" y="97" width="8" height="8" rx="1.5" stroke={color} strokeWidth="0.75" strokeOpacity="0.5" />
-      <rect x="195" y="97" width="8" height="8" rx="1.5" stroke={color} strokeWidth="0.75" strokeOpacity="0.5" />
+      {/* Iconos en pantalla */}
+      <rect x="169" y="83" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+      <rect x="183" y="83" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+      <rect x="169" y="98" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+      <rect x="183" y="98" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
 
-      {/* Ondas WiFi / conexión desde el smartphone */}
-      <path d="M218 88 C225 82 225 78 218 72" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.6" />
-      <path d="M222 93 C234 83 234 73 222 63" stroke={color} strokeWidth="1" strokeLinecap="round" strokeOpacity="0.4" />
-      <path d="M226 98 C242 84 242 68 226 54" stroke={color} strokeWidth="0.75" strokeLinecap="round" strokeOpacity="0.25" />
+      {/* Ondas WiFi */}
+      <path d="M208 84 C218 76 218 70 208 62" stroke={color} strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
+      <path d="M214 90 C230 78 230 64 214 52" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeOpacity="0.45" />
+      <path d="M219 96 C240 80 240 58 219 42" stroke={color} strokeWidth="1" strokeLinecap="round" strokeOpacity="0.25" />
 
-      {/* Figura sentada — mesa / silla (contexto formación) */}
-      <line x1="70" y1="175" x2="70" y2="140" stroke={color} strokeWidth="1" strokeOpacity="0.4" strokeLinecap="round" />
-      <line x1="55" y1="140" x2="85" y2="140" stroke={color} strokeWidth="1" strokeOpacity="0.4" strokeLinecap="round" />
-      <line x1="55" y1="175" x2="55" y2="140" stroke={color} strokeWidth="1" strokeOpacity="0.4" strokeLinecap="round" />
-      <line x1="85" y1="175" x2="85" y2="140" stroke={color} strokeWidth="1" strokeOpacity="0.4" strokeLinecap="round" />
-
-      {/* Corazón pequeño — cercanía / calidez */}
-      <path d="M128 30 C128 27.5 125 25 122.5 27.5 C120 30 128 36 128 36 C128 36 136 30 133.5 27.5 C131 25 128 27.5 128 30Z" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+      {/* Corazón */}
+      <path d="M100 24 C100 21 97 18 94 21 C91 24 100 31 100 31 C100 31 109 24 106 21 C103 18 100 21 100 24Z" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
     </svg>
   );
 }
@@ -283,9 +252,11 @@ function ServiceCard({
           </div>
         </div>
 
-        {/* Columna derecha — ilustración */}
-        <div className="hidden md:flex items-center justify-center w-64 lg:w-80 flex-shrink-0 pr-8">
-          <Illustration color={illColor} />
+        {/* Columna derecha — ilustración centrada */}
+        <div className="hidden md:flex items-center justify-center w-56 lg:w-72 flex-shrink-0 px-6">
+          <div className="w-full max-w-[220px]">
+            <Illustration color={illColor} />
+          </div>
         </div>
       </div>
     </div>
@@ -306,7 +277,6 @@ export default function Services() {
     const scrolled = Math.max(0, -(rect.top - STICKY_TOP) - HEADER_SPACE);
 
     const offsets = [0, 0, 0];
-
     offsets[0] = 0;
 
     const card2Start = PAUSE;
