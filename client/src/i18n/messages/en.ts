@@ -9,8 +9,8 @@ const en = {
   hero: {
     badge: "Non-profit association",
     title1: "We forge digital authority.",
-title2: "Expert knowledge powered by AI.",
-subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special transport, AI training, and digital literacy for seniors.",
+    title2: "Expert knowledge powered by AI.",
+    subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special transport, AI training, and digital literacy for seniors.",
     cta1: "Join Us",
     cta2: "Explore services",
   },
@@ -69,18 +69,18 @@ subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special
     steps: [
       {
         title: "Register as a member",
-        subtitle: "From \u20AC5/month",
-        description: "Choose the plan that best suits your needs. It's fast, secure, and commitment-free.",
+        subtitle: "From €5/month",
+        description: "Choose your plan in under 2 minutes. No commitment, cancel anytime.",
       },
       {
         title: "AI responds instantly",
         subtitle: "24/7",
-        description: "Our AI assistant answers your queries in real time with up-to-date and accurate information.",
+        description: "LEX, NOVA or ALMA respond instantly, 24/7. Regulatory queries, AI for your business, or technology without fear.",
       },
       {
         title: "An expert steps in",
         subtitle: "When you need more",
-        description: "When the query requires it, a human professional with decades of experience takes over.",
+        description: "When AI is not enough, José Luis steps in directly. Human judgement when it matters most.",
       },
       {
         title: "You learn and grow",
@@ -97,7 +97,7 @@ subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special
     plans: [
       {
         name: "Free User",
-        price: "\u20AC0",
+        price: "€0",
         period: "/forever",
         description: "Access public content and participate in the community.",
         features: [
@@ -110,7 +110,7 @@ subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special
       },
       {
         name: "Individual Member",
-        price: "\u20AC5",
+        price: "€5",
         period: "/month",
         description: "Full access to AI consulting and expert support.",
         features: [
@@ -163,7 +163,7 @@ subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special
       },
       {
         quote: "AI helped us automate processes that used to take hours. Incredible value for money.",
-        author: "Mar\u00EDa R.",
+        author: "María R.",
         role: "Operations Director, LogiTrans",
       },
       {
@@ -235,7 +235,7 @@ subtitle: "At XpertAuth we don't accumulate services. We solve problems. Special
     quickLinks: "Quick links",
     contact: "Contact",
     newsletter: "Newsletter",
-    newsletterSubtitle: "Receive news about transport, AI, and digital training.",
+    newsletterSubtitle: "Receive news about digital training for seniors.",
     subscribed: "Subscribed!",
     subscribeButton: "Subscribe",
     subscribePlaceholder: "you@email.com",
