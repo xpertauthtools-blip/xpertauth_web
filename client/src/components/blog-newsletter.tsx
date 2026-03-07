@@ -172,10 +172,10 @@ export default function BlogNewsletter() {
           <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
           {/* — Blog — */}
-          <div className="lg:col-span-3">
+          <div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-arctic" />
@@ -208,8 +208,8 @@ export default function BlogNewsletter() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-grow">
-                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors">
-                          {post.title}
+                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors capitalize-first">
+                          {post.title.charAt(0).toUpperCase() + post.title.slice(1).toLowerCase()}
                         </h4>
                         <p className="text-white/50 text-sm leading-relaxed">{post.excerpt}</p>
                         <div className="mt-3 flex items-center gap-2">
@@ -226,7 +226,7 @@ export default function BlogNewsletter() {
           </div>
 
           {/* — Newsletter — */}
-          <div className="lg:col-span-2">
+          <div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Mail className="w-5 h-5 text-ember" />
@@ -259,12 +259,14 @@ export default function BlogNewsletter() {
                     <span className="inline-block px-2.5 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full mb-3 font-mono">
                       {nl.volume}
                     </span>
-                    <h4 className="font-heading font-semibold text-pure text-sm mb-1">{nl.title}</h4>
-                    <p className="text-white/40 text-xs leading-relaxed line-clamp-3">{nl.content}</p>
+                    <h4 className="font-heading font-semibold text-pure text-base mb-2">
+                      {nl.title.charAt(0).toUpperCase() + nl.title.slice(1)}
+                    </h4>
+                    <p className="text-white/50 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
                     {nl.scheduled_at && (
                       <div className="mt-3 flex items-center gap-2">
-                        <Calendar className="w-3 h-3 text-white/20" />
-                        <span className="text-white/20 text-xs">{formatDate(nl.scheduled_at)}</span>
+                        <Calendar className="w-3.5 h-3.5 text-white/30" />
+                        <span className="text-white/30 text-xs">{formatDate(nl.scheduled_at)}</span>
                       </div>
                     )}
                   </motion.div>
