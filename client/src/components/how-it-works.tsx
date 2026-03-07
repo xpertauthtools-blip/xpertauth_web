@@ -127,7 +127,7 @@ export default function HowItWorks() {
                     <img
                       src={src}
                       alt=""
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-contain"
                       style={{
                         filter: hovered ? "grayscale(0)" : "grayscale(1)",
                         transition: "filter 0.4s ease-out",
