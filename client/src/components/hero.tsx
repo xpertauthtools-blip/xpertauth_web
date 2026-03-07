@@ -26,15 +26,15 @@ function ParticleField() {
 
     const initParticles = () => {
       particles.length = 0;
-      const count = Math.min(60, Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 15000));
+      const count = Math.min(70, Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 12000));
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.offsetWidth,
           y: Math.random() * canvas.offsetHeight,
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.4 + 0.1,
+          size: Math.random() * 2 + 0.8,
+          opacity: Math.random() * 0.5 + 0.2,
         });
       }
     };
@@ -58,12 +58,12 @@ function ParticleField() {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
+          if (dist < 160) {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(77, 159, 236, ${0.06 * (1 - dist / 150)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(77, 159, 236, ${0.18 * (1 - dist / 160)})`;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         });
@@ -81,7 +81,7 @@ function ParticleField() {
     return () => { cancelAnimationFrame(animationId); window.removeEventListener("resize", handleResize); };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.6 }} />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.8 }} />;
 }
 
 export default function Hero() {
@@ -94,8 +94,24 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-obsidian overflow-hidden" data-testid="section-hero">
+
+      {/* Gradiente animado de fondo */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 60% at 20% 50%, rgba(27, 79, 216, 0.12) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 80% at 80% 30%, rgba(77, 159, 236, 0.08) 0%, transparent 55%),
+            radial-gradient(ellipse 50% 50% at 50% 80%, rgba(27, 79, 216, 0.06) 0%, transparent 50%)
+          `,
+          animation: "heroGlow 10s ease-in-out infinite alternate",
+        }}
+      />
+
       <ParticleField />
-      <div className="absolute inset-0 bg-gradient-to-b from-xpertblue/5 via-transparent to-obsidian/80 pointer-events-none" />
+
+      {/* Gradiente fade hacia abajo */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-obsidian/70 pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 pb-32">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
@@ -129,6 +145,35 @@ export default function Hero() {
           </button>
         </motion.div>
       </div>
+
+      <style>{`
+        @keyframes heroGlow {
+          0% {
+            background:
+              radial-gradient(ellipse 80% 60% at 20% 50%, rgba(27, 79, 216, 0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 80% at 80% 30%, rgba(77, 159, 236, 0.08) 0%, transparent 55%),
+              radial-gradient(ellipse 50% 50% at 50% 80%, rgba(27, 79, 216, 0.06) 0%, transparent 50%);
+          }
+          33% {
+            background:
+              radial-gradient(ellipse 70% 70% at 70% 40%, rgba(27, 79, 216, 0.10) 0%, transparent 60%),
+              radial-gradient(ellipse 80% 50% at 15% 60%, rgba(77, 159, 236, 0.10) 0%, transparent 55%),
+              radial-gradient(ellipse 60% 40% at 60% 20%, rgba(27, 79, 216, 0.07) 0%, transparent 50%);
+          }
+          66% {
+            background:
+              radial-gradient(ellipse 60% 80% at 50% 20%, rgba(77, 159, 236, 0.09) 0%, transparent 60%),
+              radial-gradient(ellipse 70% 60% at 30% 70%, rgba(27, 79, 216, 0.11) 0%, transparent 55%),
+              radial-gradient(ellipse 80% 60% at 80% 60%, rgba(77, 159, 236, 0.07) 0%, transparent 50%);
+          }
+          100% {
+            background:
+              radial-gradient(ellipse 80% 60% at 20% 50%, rgba(27, 79, 216, 0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 80% at 80% 30%, rgba(77, 159, 236, 0.08) 0%, transparent 55%),
+              radial-gradient(ellipse 50% 50% at 50% 80%, rgba(27, 79, 216, 0.06) 0%, transparent 50%);
+          }
+        }
+      `}</style>
     </section>
   );
 }
