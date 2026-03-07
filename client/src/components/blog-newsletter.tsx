@@ -235,7 +235,7 @@ export default function BlogNewsletter() {
                   Formación Senior
                 </span>
               </div>
-              <a href="/es/newsletter" className="text-arctic text-xs font-medium hover:underline flex items-center gap-1">
+              <a href="/es/newsletter" className="text-ember text-xs font-medium hover:underline flex items-center gap-1">
                 Ver todas <ArrowRight className="w-3 h-3" />
               </a>
             </div>
