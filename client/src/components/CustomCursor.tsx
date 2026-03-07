@@ -1,28 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 
-// Fondos oscuros de XpertAuth → cursor blanco
-const DARK_BG_COLORS = ["#0A0E1A", "#0F1628", "#070A12"];
+function getLuminanceAt(x: number, y: number): number {
+  // Obtener todos los elementos en el punto (de más superficial a más profundo)
+  const elements = document.elementsFromPoint(x, y);
 
-function isDarkBackground(element: Element | null): boolean {
-  if (!element) return true;
-  let el: Element | null = element;
-  while (el && el !== document.body) {
+  for (const el of elements) {
+    // Ignorar el propio cursor y elementos sin fondo real
+    if ((el as HTMLElement).dataset?.cursor === "true") continue;
+
     const bg = window.getComputedStyle(el).backgroundColor;
-    if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
-      // Convierte rgb a hex aproximado para comparar luminosidad
-      const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      if (match) {
-        const r = parseInt(match[1]);
-        const g = parseInt(match[2]);
-        const b = parseInt(match[3]);
-        // Luminosidad relativa — si es oscuro, cursor blanco
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        return luminance < 0.4;
-      }
-    }
-    el = el.parentElement;
+    if (!bg || bg === "rgba(0, 0, 0, 0)" || bg === "transparent") continue;
+
+    const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (!match) continue;
+
+    const r = parseInt(match[1]);
+    const g = parseInt(match[2]);
+    const b = parseInt(match[3]);
+
+    // Si el alpha es 0, ignorar
+    const alphaMatch = bg.match(/rgba\(\d+,\s*\d+,\s*\d+,\s*([\d.]+)\)/);
+    if (alphaMatch && parseFloat(alphaMatch[1]) < 0.1) continue;
+
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   }
-  return true; // Por defecto oscuro (la mayoría de la web es dark)
+
+  // Por defecto: oscuro (la mayoría de la web es dark)
+  return 0;
 }
 
 export default function CustomCursor() {
@@ -32,7 +36,6 @@ export default function CustomCursor() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Solo en desktop — no mostrar en touch
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     let rafId: number;
@@ -53,10 +56,9 @@ export default function CustomCursor() {
       mouseY = e.clientY;
       if (!visible) setVisible(true);
 
-      // Detectar si el elemento bajo el cursor tiene fondo claro
-      const el = document.elementFromPoint(mouseX, mouseY);
-      const dark = isDarkBackground(el);
-      setIsLight(!dark);
+      const luminance = getLuminanceAt(mouseX, mouseY);
+      // Umbral 0.5: por encima → fondo claro → cursor oscuro
+      setIsLight(luminance > 0.5);
 
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(updateCursor);
@@ -77,7 +79,6 @@ export default function CustomCursor() {
     };
   }, [visible]);
 
-  // No renderizar en dispositivos táctiles
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
     return null;
   }
@@ -89,6 +90,7 @@ export default function CustomCursor() {
       {/* Círculo exterior */}
       <div
         ref={cursorRef}
+        data-cursor="true"
         style={{
           position: "fixed",
           top: 0,
@@ -100,13 +102,14 @@ export default function CustomCursor() {
           opacity: visible ? 0.7 : 0,
           pointerEvents: "none",
           zIndex: 99999,
-          transition: "opacity 0.2s ease, border-color 0.2s ease",
+          transition: "opacity 0.2s ease, border-color 0.3s ease",
           willChange: "transform",
         }}
       />
       {/* Punto central */}
       <div
         ref={dotRef}
+        data-cursor="true"
         style={{
           position: "fixed",
           top: 0,
@@ -118,7 +121,7 @@ export default function CustomCursor() {
           opacity: visible ? 1 : 0,
           pointerEvents: "none",
           zIndex: 99999,
-          transition: "opacity 0.2s ease, background-color 0.2s ease",
+          transition: "opacity 0.2s ease, background-color 0.3s ease",
           willChange: "transform",
         }}
       />
