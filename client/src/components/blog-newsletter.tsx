@@ -253,22 +253,27 @@ export default function BlogNewsletter() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]"
+                    className="group p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-ember/30 transition-all duration-300"
                     data-testid={`card-newsletter-${i}`}
                   >
-                    <span className="inline-block px-2.5 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full mb-3 font-mono">
-                      {nl.volume}
-                    </span>
-                    <h4 className="font-heading font-semibold text-pure text-base mb-2">
-                      {nl.title.charAt(0).toUpperCase() + nl.title.slice(1)}
-                    </h4>
-                    <p className="text-white/50 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
-                    {nl.scheduled_at && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <Calendar className="w-3.5 h-3.5 text-white/30" />
-                        <span className="text-white/30 text-xs">{formatDate(nl.scheduled_at)}</span>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-grow">
+                        <span className="inline-block px-2.5 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full mb-3 font-mono">
+                          {nl.volume}
+                        </span>
+                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-ember transition-colors">
+                          {nl.title.charAt(0).toUpperCase() + nl.title.slice(1)}
+                        </h4>
+                        <p className="text-white/50 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
+                        {nl.scheduled_at && (
+                          <div className="mt-3 flex items-center gap-2">
+                            <Calendar className="w-3.5 h-3.5 text-white/30" />
+                            <span className="text-white/30 text-xs">{formatDate(nl.scheduled_at)}</span>
+                          </div>
+                        )}
                       </div>
-                    )}
+                      <ArrowRight className="w-5 h-5 text-white/20 flex-shrink-0 mt-1 transition-all group-hover:text-ember group-hover:translate-x-1" />
+                    </div>
                   </motion.div>
                 ))
               )}
