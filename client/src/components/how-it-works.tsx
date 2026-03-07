@@ -88,10 +88,10 @@ export default function HowItWorks() {
 
           {/* Contenido principal — flex-grow para ocupar el espacio restante */}
           <div className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 min-h-0">
-            {/* Imagen: ocupa el espacio disponible sin desbordar */}
+            {/* Imagen: altura controlada para que quepan título + subtítulo + descripción */}
             <div
               className="relative w-[85%] sm:w-[80%] max-w-5xl overflow-hidden rounded-2xl border border-white/10 flex-shrink-0"
-              style={{ height: "clamp(220px, 45vh, 500px)" }}
+              style={{ height: "clamp(180px, 38vh, 420px)" }}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               data-testid="step-image-container"
@@ -127,7 +127,7 @@ export default function HowItWorks() {
                     <img
                       src={src}
                       alt=""
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                       style={{
                         filter: hovered ? "grayscale(0)" : "grayscale(1)",
                         transition: "filter 0.4s ease-out",
