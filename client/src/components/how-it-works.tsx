@@ -88,15 +88,14 @@ export default function HowItWorks() {
 
           {/* Contenido principal — flex-grow para ocupar el espacio restante */}
           <div className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 min-h-0">
-            {/* Imagen: ancho completo, altura automática según la imagen */}
+            {/* Imagen: proporción 16:9 exacta, ancho limitado para que quepa en pantallas pequeñas */}
             <div
-              className="relative w-[85%] sm:w-[80%] max-w-5xl overflow-hidden rounded-2xl border border-white/10 flex-shrink-0"
+              className="relative w-full overflow-hidden rounded-2xl border border-white/10 flex-shrink-0"
+              style={{ aspectRatio: "16/9", maxHeight: "clamp(180px, 40vh, 420px)", maxWidth: "calc(clamp(180px, 40vh, 420px) * 16 / 9)" }}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               data-testid="step-image-container"
             >
-              {/* Imagen de referencia invisible para que el contenedor tome la altura correcta */}
-              <img src={stepImages[0]} alt="" className="w-full h-auto opacity-0 pointer-events-none" style={{ maxHeight: "clamp(180px, 38vh, 420px)", objectFit: "contain" }} />
               {stepImages.map((src, i) => {
                 let translateX = 0;
 
