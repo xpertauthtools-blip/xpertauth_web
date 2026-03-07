@@ -64,7 +64,7 @@ function useCountUp(target: number, duration: number, active: boolean) {
 const stats = [
   { value: 100, suffix: "%", label: "Gratuito para los asistentes" },
   { value: 3, suffix: "h", label: "Sesiones prácticas por módulo" },
-  { value: 3, suffix: " meses", label: "De seguimiento incluido" },
+  { value: 3, suffix: "+", label: "Meses de seguimiento incluido" },
 ];
 
 function AnimatedStats() {
@@ -81,18 +81,100 @@ function AnimatedStats() {
   }, []);
 
   return (
-    <div ref={ref} className="grid grid-cols-3 gap-6 p-8 rounded-2xl border border-white/10 bg-white/5">
+    <div ref={ref} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
       {stats.map((s, i) => {
         const count = useCountUp(s.value, 1200, active);
         return (
-          <div key={i} className="text-center">
-            <div className="font-heading font-bold text-4xl sm:text-5xl text-ember">
+          <div
+            key={i}
+            className={`flex items-center gap-6 px-8 py-6 ${i < stats.length - 1 ? "border-b border-white/10" : ""}`}
+          >
+            {/* Número */}
+            <div className="font-heading font-bold text-5xl sm:text-6xl text-ember w-36 text-right flex-shrink-0 tabular-nums">
               {count}{s.suffix}
             </div>
-            <p className="mt-2 text-white/50 text-xs sm:text-sm leading-snug">{s.label}</p>
+            {/* Separador vertical */}
+            <div className="w-px h-12 bg-white/10 flex-shrink-0" />
+            {/* Label */}
+            <p className="text-white/60 text-sm sm:text-base leading-snug">{s.label}</p>
           </div>
         );
       })}
+    </div>
+  );
+}
+
+// — Formulario de contacto inline —
+function SeniorContactForm() {
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+
+  const handleSubmit = async () => {
+    if (!nombre.trim() || !telefono.trim()) return;
+    setStatus("sending");
+    try {
+      const res = await fetch(
+        "https://dcuvptwwtdhlepvcttvx.supabase.co/rest/v1/contacto",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify({
+            nombre,
+            telefono,
+            motivo: "Formación Senior",
+          }),
+        }
+      );
+      if (!res.ok) throw new Error();
+      setStatus("ok");
+      setNombre("");
+      setTelefono("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "ok") {
+    return (
+      <div className="flex items-center gap-2 text-ember text-sm font-medium py-2">
+        <Heart className="w-4 h-4" />
+        ¡Gracias! Nos pondremos en contacto pronto.
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col sm:flex-row gap-3">
+      <input
+        type="text"
+        placeholder="Nombre"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-ember/60 transition-colors"
+      />
+      <input
+        type="tel"
+        placeholder="Teléfono"
+        value={telefono}
+        onChange={(e) => setTelefono(e.target.value)}
+        className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-ember/60 transition-colors"
+      />
+      <button
+        onClick={handleSubmit}
+        disabled={status === "sending" || !nombre.trim() || !telefono.trim()}
+        className="px-5 py-2.5 bg-ember hover:bg-ember/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
+      >
+        {status === "sending" ? "Enviando..." : "Solicitar info"}
+      </button>
+      {status === "error" && (
+        <p className="text-red-400 text-xs mt-1 w-full">Algo salió mal. Inténtalo de nuevo.</p>
+      )}
     </div>
   );
 }
@@ -171,10 +253,16 @@ export default function SeniorTraining() {
               })}
             </div>
 
-            <div className="mt-10">
+            <div className="mt-10 space-y-4">
               <span className="inline-flex px-5 py-2.5 bg-ember text-white font-bold rounded-md text-sm uppercase tracking-wider">
                 {m.free}
               </span>
+
+              {/* Formulario inline */}
+              <div className="pt-4">
+                <p className="text-white/60 text-sm mb-3">¿Conoces a alguien que se beneficiaría? Déjanos su nombre y teléfono y nos ponemos en contacto.</p>
+                <SeniorContactForm />
+              </div>
             </div>
           </motion.div>
 
