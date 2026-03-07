@@ -1,33 +1,91 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FileText, Mail, ArrowRight, Calendar, Loader2, CheckCircle } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useTranslations } from "@/i18n/context";
 
+const SUPABASE_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co";
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// — Fetch helpers —
+async function fetchPosts() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,created_at&is_published=eq.true&order=created_at.desc&limit=3`,
+    {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    }
+  );
+  if (!res.ok) throw new Error("Error cargando posts");
+  return res.json();
+}
+
+async function fetchNewsletters() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,published_at&order=published_at.desc&limit=2`,
+    {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    }
+  );
+  if (!res.ok) throw new Error("Error cargando newsletter");
+  return res.json();
+}
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return "";
+  return new Date(dateStr).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+// — Newsletter signup —
 function NewsletterSignupInline() {
   const { t } = useTranslations("blog");
   const [email, setEmail] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error" | "duplicate">("idle");
 
-  const mutation = useMutation({
-    mutationFn: async (data: { email: string }) => {
-      const res = await apiRequest("POST", "/api/newsletter", data);
-      return res.json();
-    },
-    onSuccess: () => {
-      setSuccess(true);
-      setEmail("");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!email.trim()) return;
-    mutation.mutate({ email });
+    setStatus("sending");
+    try {
+      // Comprobar si ya existe
+      const check = await fetch(
+        `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&select=id`,
+        {
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          },
+        }
+      );
+      const existing = await check.json();
+      if (existing.length > 0) { setStatus("duplicate"); return; }
+
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/suscriptores`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({ email, canal: "blog" }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("ok");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
   };
 
-  if (success) {
+  if (status === "ok") {
     return (
       <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-center">
         <CheckCircle className="w-8 h-8 text-arctic mx-auto mb-2" />
@@ -37,79 +95,185 @@ function NewsletterSignupInline() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+    <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
       <p className="text-white/70 text-sm font-medium mb-3">{t("subscribeLabel")}</p>
       <div className="flex gap-2">
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("subscribePlaceholder")} required className="flex-grow px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/25 focus:outline-none focus:border-arctic/50 transition-colors" data-testid="input-newsletter-email" />
-        <button type="submit" disabled={mutation.isPending} className="px-4 py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:opacity-60 flex-shrink-0" data-testid="button-newsletter-submit">
-          {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          placeholder={t("subscribePlaceholder")}
+          className="flex-grow px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/25 focus:outline-none focus:border-arctic/50 transition-colors"
+          data-testid="input-newsletter-email"
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={status === "sending" || !email.trim()}
+          className="px-4 py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:cursor-not-allowed flex-shrink-0"
+          data-testid="button-newsletter-submit"
+        >
+          {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
         </button>
       </div>
-      {mutation.isError && (
-        <p className="mt-2 text-red-400 text-xs" data-testid="text-newsletter-error">
-          {(mutation.error as Error)?.message?.includes("409") ? t("subscribeErrorDuplicate") : t("subscribeErrorGeneric")}
-        </p>
+      {status === "duplicate" && (
+        <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>
       )}
-    </form>
+      {status === "error" && (
+        <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>
+      )}
+    </div>
+  );
+}
+
+// — Skeleton loader —
+function SkeletonCard() {
+  return (
+    <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] animate-pulse">
+      <div className="h-4 bg-white/10 rounded w-3/4 mb-3" />
+      <div className="h-3 bg-white/10 rounded w-full mb-2" />
+      <div className="h-3 bg-white/10 rounded w-2/3" />
+    </div>
   );
 }
 
 export default function BlogNewsletter() {
   const { messages } = useTranslations("blog");
   const m = messages as any;
-  const posts = m.posts || [];
-  const newsletters = m.newsletters || [];
+
+  const [posts, setPosts] = useState<any[]>([]);
+  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [loadingNL, setLoadingNL] = useState(true);
+
+  useEffect(() => {
+    fetchPosts()
+      .then(setPosts)
+      .finally(() => setLoadingPosts(false));
+    fetchNewsletters()
+      .then(setNewsletters)
+      .finally(() => setLoadingNL(false));
+  }, []);
 
   return (
     <section id="blog" className="py-20 sm:py-28 bg-obsidian" data-testid="section-blog-newsletter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="text-center mb-16">
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
           <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
           <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+
+          {/* — Blog — */}
           <div className="lg:col-span-3">
-            <div className="flex items-center gap-2 mb-6">
-              <FileText className="w-5 h-5 text-arctic" />
-              <h3 className="font-heading font-semibold text-pure text-lg">{m.articlesTitle}</h3>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-arctic" />
+                <h3 className="font-heading font-semibold text-pure text-lg">{m.articlesTitle}</h3>
+                <span className="px-2 py-0.5 bg-arctic/10 text-arctic text-xs font-bold rounded-full">
+                  Transporte & IA
+                </span>
+              </div>
+              <a href="/es/blog" className="text-arctic text-xs font-medium hover:underline flex items-center gap-1">
+                Ver todos <ArrowRight className="w-3 h-3" />
+              </a>
             </div>
+
             <div className="space-y-4">
-              {posts.map((post: any, i: number) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="group p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] cursor-pointer transition-all duration-300" data-testid={`card-blog-${i}`}>
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-grow">
-                      <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors">{post.title}</h4>
-                      <p className="text-white/50 text-sm leading-relaxed">{post.excerpt}</p>
-                      <div className="mt-3 flex items-center gap-2">
-                        <Calendar className="w-3.5 h-3.5 text-white/30" />
-                        <span className="text-white/30 text-xs">{m.comingSoon}</span>
+              {loadingPosts ? (
+                <><SkeletonCard /><SkeletonCard /><SkeletonCard /></>
+              ) : posts.length === 0 ? (
+                <p className="text-white/30 text-sm">Próximamente los primeros artículos.</p>
+              ) : (
+                posts.map((post, i) => (
+                  <motion.a
+                    key={post.id}
+                    href={`/es/blog/${post.slug}`}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="group p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] cursor-pointer transition-all duration-300 hover:border-arctic/30 block"
+                    data-testid={`card-blog-${i}`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-grow">
+                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors">
+                          {post.title}
+                        </h4>
+                        <p className="text-white/50 text-sm leading-relaxed">{post.excerpt}</p>
+                        <div className="mt-3 flex items-center gap-2">
+                          <Calendar className="w-3.5 h-3.5 text-white/30" />
+                          <span className="text-white/30 text-xs">{formatDate(post.created_at)}</span>
+                        </div>
                       </div>
+                      <ArrowRight className="w-5 h-5 text-white/20 flex-shrink-0 mt-1 transition-all group-hover:text-arctic group-hover:translate-x-1" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-white/20 flex-shrink-0 mt-1 transition-all group-hover:text-arctic group-hover:translate-x-1" />
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.a>
+                ))
+              )}
             </div>
           </div>
 
+          {/* — Newsletter — */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <Mail className="w-5 h-5 text-arctic" />
-              <h3 className="font-heading font-semibold text-pure text-lg">{m.newsletterTitle}</h3>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Mail className="w-5 h-5 text-ember" />
+                <h3 className="font-heading font-semibold text-pure text-lg">{m.newsletterTitle}</h3>
+                <span className="px-2 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full">
+                  Formación Senior
+                </span>
+              </div>
+              <a href="/es/newsletter" className="text-arctic text-xs font-medium hover:underline flex items-center gap-1">
+                Ver todas <ArrowRight className="w-3 h-3" />
+              </a>
             </div>
+
             <div className="space-y-4 mb-6">
-              {newsletters.map((nl: any, i: number) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }} className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]" data-testid={`card-newsletter-${i}`}>
-                  <span className="inline-block px-2.5 py-0.5 bg-arctic/10 text-arctic text-xs font-bold rounded-full mb-3 font-mono">{nl.volume}</span>
-                  <h4 className="font-heading font-semibold text-pure text-sm mb-1">{nl.title}</h4>
-                  <p className="text-white/40 text-xs leading-relaxed">{nl.description}</p>
-                </motion.div>
-              ))}
+              {loadingNL ? (
+                <><SkeletonCard /><SkeletonCard /></>
+              ) : newsletters.length === 0 ? (
+                <p className="text-white/30 text-sm">Próximamente las primeras entregas.</p>
+              ) : (
+                newsletters.map((nl, i) => (
+                  <motion.div
+                    key={nl.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]"
+                    data-testid={`card-newsletter-${i}`}
+                  >
+                    <span className="inline-block px-2.5 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full mb-3 font-mono">
+                      {nl.volume}
+                    </span>
+                    <h4 className="font-heading font-semibold text-pure text-sm mb-1">{nl.title}</h4>
+                    <p className="text-white/40 text-xs leading-relaxed line-clamp-3">{nl.content}</p>
+                    {nl.published_at && (
+                      <div className="mt-3 flex items-center gap-2">
+                        <Calendar className="w-3 h-3 text-white/20" />
+                        <span className="text-white/20 text-xs">{formatDate(nl.published_at)}</span>
+                      </div>
+                    )}
+                  </motion.div>
+                ))
+              )}
             </div>
+
             <NewsletterSignupInline />
           </div>
+
         </div>
       </div>
     </section>
