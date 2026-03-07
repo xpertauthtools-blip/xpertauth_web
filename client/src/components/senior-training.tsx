@@ -115,7 +115,7 @@ function SeniorContactForm() {
     setStatus("sending");
     try {
       const res = await fetch(
-        "https://dcuvptwwtdhlepvcttvx.supabase.co/rest/v1/contacto",
+        "https://dcuvptwwtdhlepvcttvx.supabase.co/rest/v1/leads_senior",
         {
           method: "POST",
           headers: {
@@ -127,7 +127,6 @@ function SeniorContactForm() {
           body: JSON.stringify({
             nombre,
             telefono,
-            motivo: "Formación Senior",
           }),
         }
       );
@@ -168,7 +167,7 @@ function SeniorContactForm() {
       <button
         onClick={handleSubmit}
         disabled={status === "sending" || !nombre.trim() || !telefono.trim()}
-        className="px-5 py-2.5 bg-xpert-blue hover:bg-xpert-blue/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
+        className="px-5 py-2.5 bg-[#1B4FD8] hover:bg-[#1B4FD8]/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
       >
         {status === "sending" ? "Enviando..." : "Solicitar info"}
       </button>
