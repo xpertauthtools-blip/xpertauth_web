@@ -167,7 +167,7 @@ function SeniorContactForm() {
       <button
         onClick={handleSubmit}
         disabled={status === "sending" || !nombre.trim() || !telefono.trim()}
-        className="px-5 py-2.5 bg-[#1B4FD8] hover:bg-[#1B4FD8]/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
+        className="px-5 py-2.5 bg-xpertblue text-pure font-semibold rounded-md text-sm transition-all duration-300 whitespace-nowrap disabled:cursor-not-allowed"
       >
         {status === "sending" ? "Enviando..." : "Solicitar info"}
       </button>
