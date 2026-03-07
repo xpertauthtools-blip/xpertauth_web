@@ -71,7 +71,7 @@ export default function SocialProof() {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{ backgroundImage: `url(${testimonialBgs[i]})` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent" />
 
               {/* Contenido */}
               <div className="relative z-10 p-6 sm:p-8">
