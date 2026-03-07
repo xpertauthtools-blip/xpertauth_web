@@ -1,32 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 
 function getLuminanceAt(x: number, y: number): number {
-  // Obtener todos los elementos en el punto (de más superficial a más profundo)
   const elements = document.elementsFromPoint(x, y);
 
   for (const el of elements) {
-    // Ignorar el propio cursor y elementos sin fondo real
     if ((el as HTMLElement).dataset?.cursor === "true") continue;
+    if (el === document.documentElement || el === document.body) continue;
 
     const bg = window.getComputedStyle(el).backgroundColor;
     if (!bg || bg === "rgba(0, 0, 0, 0)" || bg === "transparent") continue;
 
-    const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
     if (!match) continue;
 
     const r = parseInt(match[1]);
     const g = parseInt(match[2]);
     const b = parseInt(match[3]);
+    const a = match[4] !== undefined ? parseFloat(match[4]) : 1;
 
-    // Si el alpha es 0, ignorar
-    const alphaMatch = bg.match(/rgba\(\d+,\s*\d+,\s*\d+,\s*([\d.]+)\)/);
-    if (alphaMatch && parseFloat(alphaMatch[1]) < 0.1) continue;
+    // Ignorar colores con alpha menor a 0.15 — son casi transparentes
+    if (a < 0.15) continue;
 
-    return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // Solo considerar fondos con luminancia significativa (no near-black)
+    // Si alpha es parcial, mezclar con fondo oscuro (#0A0E1A ≈ luminance 0.04)
+    const blended = a < 1 ? luminance * a + 0.04 * (1 - a) : luminance;
+
+    return blended;
   }
 
-  // Por defecto: oscuro (la mayoría de la web es dark)
-  return 0;
+  return 0.04; // Por defecto: Obsidian
 }
 
 export default function CustomCursor() {
