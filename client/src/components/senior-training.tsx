@@ -62,9 +62,9 @@ function useCountUp(target: number, duration: number, active: boolean) {
 }
 
 const stats = [
-  { value: 6, suffix: "", label: "Máximo 6 personas por grupo" },
   { value: 100, suffix: "%", label: "Gratuito para los asistentes" },
   { value: 3, suffix: "h", label: "Sesiones prácticas por módulo" },
+  { value: 3, suffix: " meses", label: "De seguimiento incluido" },
 ];
 
 function AnimatedStats() {
