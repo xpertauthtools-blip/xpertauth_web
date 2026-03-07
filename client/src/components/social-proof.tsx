@@ -3,10 +3,10 @@ import { useTranslations } from "@/i18n/context";
 
 const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
 
-const testimonialVideos = [
-  `${SUPABASE_BASE}/testimonials/carlos_video_v1.mp4`,
-  `${SUPABASE_BASE}/testimonials/maria_video_v1.mp4`,
-  `${SUPABASE_BASE}/testimonials/ana_video_v1.mp4`,
+const testimonialBgs = [
+  `${SUPABASE_BASE}/testimonials/carlos_bg_v1.webp`,
+  `${SUPABASE_BASE}/testimonials/maria_bg_v1.webp`,
+  `${SUPABASE_BASE}/testimonials/ana_bg_v1.webp`,
 ];
 
 const testimonialAvatars = [
@@ -54,7 +54,7 @@ export default function SocialProof() {
           ))}
         </div>
 
-        {/* Testimonios con vídeo de fondo */}
+        {/* Testimonios con imagen de fondo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t: any, i: number) => (
             <motion.div
@@ -66,14 +66,10 @@ export default function SocialProof() {
               className="relative rounded-xl overflow-hidden min-h-[320px] flex flex-col justify-end group"
               data-testid={`testimonial-${i}`}
             >
-              {/* Vídeo de fondo */}
-              <video
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                src={testimonialVideos[i]}
-                autoPlay
-                loop
-                muted
-                playsInline
+              {/* Imagen de fondo */}
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={{ backgroundImage: `url(${testimonialBgs[i]})` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/30" />
 
