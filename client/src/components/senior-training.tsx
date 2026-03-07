@@ -168,7 +168,7 @@ function SeniorContactForm() {
       <button
         onClick={handleSubmit}
         disabled={status === "sending" || !nombre.trim() || !telefono.trim()}
-        className="px-5 py-2.5 bg-ember hover:bg-ember/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
+        className="px-5 py-2.5 bg-xpert-blue hover:bg-xpert-blue/80 disabled:opacity-40 text-white font-bold rounded-lg text-sm transition-colors whitespace-nowrap"
       >
         {status === "sending" ? "Enviando..." : "Solicitar info"}
       </button>
@@ -260,7 +260,7 @@ export default function SeniorTraining() {
 
               {/* Formulario inline */}
               <div className="pt-4">
-                <p className="text-white/60 text-sm mb-3">¿Conoces a alguien que se beneficiaría? Déjanos su nombre y teléfono y nos ponemos en contacto.</p>
+                <p className="text-white/90 text-sm mb-3">¿Te interesa? Déjanos tu nombre y teléfono y te contamos cómo apuntarte.</p>
                 <SeniorContactForm />
               </div>
             </div>
