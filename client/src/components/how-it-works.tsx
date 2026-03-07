@@ -11,7 +11,6 @@ const stepImages = [
   `${SUPABASE_BASE}/como-funciona/paso4_comunidad_v1.webp`,
 ];
 
-const IMAGE_HEIGHT = 500;
 const SCROLL_PER_STEP = 600;
 const HEADER_SPACE = 220;
 const STICKY_TOP = 0;
@@ -74,22 +73,25 @@ export default function HowItWorks() {
         <div className="absolute inset-0 bg-gradient-to-b from-obsidian-light via-obsidian to-obsidian pointer-events-none" />
 
         <div className="relative z-10 h-full flex flex-col">
-          <div className="pt-16 sm:pt-20 pb-6 text-center px-4 sm:px-6 lg:px-8">
+          {/* Header — padding reducido en pantallas pequeñas */}
+          <div className="pt-10 sm:pt-16 lg:pt-20 pb-3 sm:pb-6 text-center px-4 sm:px-6 lg:px-8">
             <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
               {m.label}
             </span>
-            <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-3">
+            <h2 className="font-heading font-bold text-pure text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-3">
               {m.title}
             </h2>
-            <p className="mt-3 text-white/50 text-sm sm:text-base max-w-xl mx-auto">
+            <p className="mt-2 sm:mt-3 text-white/50 text-xs sm:text-sm lg:text-base max-w-xl mx-auto">
               {m.subtitle}
             </p>
           </div>
 
-          <div className="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 lg:px-8">
+          {/* Contenido principal — flex-grow para ocupar el espacio restante */}
+          <div className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 min-h-0">
+            {/* Imagen: ocupa el espacio disponible sin desbordar */}
             <div
-              className="relative w-[80%] max-w-5xl overflow-hidden rounded-2xl border border-white/10"
-              style={{ height: IMAGE_HEIGHT }}
+              className="relative w-[85%] sm:w-[80%] max-w-5xl overflow-hidden rounded-2xl border border-white/10 flex-shrink-0"
+              style={{ height: "clamp(220px, 45vh, 500px)" }}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               data-testid="step-image-container"
@@ -143,7 +145,8 @@ export default function HowItWorks() {
               })}
             </div>
 
-            <div className="flex gap-2 mt-5 mb-4">
+            {/* Dots */}
+            <div className="flex gap-2 mt-3 sm:mt-5 mb-3 sm:mb-4">
               {steps.map((_: any, i: number) => (
                 <div
                   key={i}
@@ -157,7 +160,8 @@ export default function HowItWorks() {
               ))}
             </div>
 
-            <div className="w-[80%] max-w-5xl" style={{ minHeight: 80 }}>
+            {/* Texto del paso — siempre visible */}
+            <div className="w-[85%] sm:w-[80%] max-w-5xl">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeStep}
@@ -168,13 +172,13 @@ export default function HowItWorks() {
                   className="text-center"
                   data-testid={`step-info-${activeStep}`}
                 >
-                  <h3 className="font-heading text-[24px] font-bold" style={{ color: "#FFFFFF" }}>
+                  <h3 className="font-heading text-[20px] sm:text-[24px] font-bold" style={{ color: "#FFFFFF" }}>
                     {steps[activeStep]?.title}
                   </h3>
-                  <span className="text-[14px] font-medium" style={{ color: "#4D9FEC" }}>
+                  <span className="text-[13px] sm:text-[14px] font-medium" style={{ color: "#4D9FEC" }}>
                     {steps[activeStep]?.subtitle}
                   </span>
-                  <p className="mt-2 text-[16px] max-w-lg mx-auto" style={{ color: "#CBD5E1", lineHeight: 1.6 }}>
+                  <p className="mt-2 text-[14px] sm:text-[16px] max-w-lg mx-auto" style={{ color: "#CBD5E1", lineHeight: 1.6 }}>
                     {steps[activeStep]?.description}
                   </p>
                 </motion.div>
