@@ -22,8 +22,9 @@ async function fetchPosts() {
 }
 
 async function fetchNewsletters() {
+  const now = new Date().toISOString();
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,published_at&order=published_at.desc&limit=2`,
+    `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,scheduled_at&scheduled_at=lte.${now}&order=scheduled_at.desc&limit=2`,
     {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -260,10 +261,10 @@ export default function BlogNewsletter() {
                     </span>
                     <h4 className="font-heading font-semibold text-pure text-sm mb-1">{nl.title}</h4>
                     <p className="text-white/40 text-xs leading-relaxed line-clamp-3">{nl.content}</p>
-                    {nl.published_at && (
+                    {nl.scheduled_at && (
                       <div className="mt-3 flex items-center gap-2">
                         <Calendar className="w-3 h-3 text-white/20" />
-                        <span className="text-white/20 text-xs">{formatDate(nl.published_at)}</span>
+                        <span className="text-white/20 text-xs">{formatDate(nl.scheduled_at)}</span>
                       </div>
                     )}
                   </motion.div>
