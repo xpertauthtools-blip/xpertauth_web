@@ -222,6 +222,9 @@ const fr = {
     subscribeSuccess: "Abonné avec succès !",
     subscribeErrorDuplicate: "Cet email est déjà abonné.",
     subscribeErrorGeneric: "Erreur lors de l'abonnement. Veuillez réessayer.",
+    blogSubscribeLabel: "Recevez les nouveaux articles dans votre email",
+    blogSubscribeSubtitle: "Transport spécial et IA pour PME. Sans spam.",
+    newsletterSubscribeSubtitle: "Formation numérique pour les seniors. Une édition toutes les deux semaines.",
   },
   ctaFinal: {
     title1: "Rejoignez XpertAuth.",
