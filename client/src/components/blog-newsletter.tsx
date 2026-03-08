@@ -291,7 +291,7 @@ export default function BlogNewsletter() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-grow">
                         <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors">
-                          {post.title.charAt(0).toUpperCase() + post.title.slice(1)}
+                          {post.title.charAt(0).toUpperCase() + post.title.slice(1).toLowerCase()}
                         </h4>
                         <p className="text-white/60 text-sm leading-relaxed">{post.excerpt}</p>
                         <div className="mt-3 flex items-center gap-2">
@@ -349,7 +349,7 @@ export default function BlogNewsletter() {
                           {nl.volume}
                         </span>
                         <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-ember transition-colors">
-                          {nl.title.charAt(0).toUpperCase() + nl.title.slice(1)}
+                          {nl.title.charAt(0).toUpperCase() + nl.title.slice(1).toLowerCase()}
                         </h4>
                         <p className="text-white/60 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
                         {nl.scheduled_at && (
