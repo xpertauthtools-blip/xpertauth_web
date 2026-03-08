@@ -104,12 +104,12 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                 <div className="text-center py-6">
                   <CheckCircle className="w-12 h-12 text-arctic mx-auto mb-4" />
                   <h3 className="font-heading font-bold text-pure text-xl mb-2">{t("successTitle")}</h3>
-                  <p className="text-white/60 text-sm">{t("successText")}</p>
+                  <p className="text-white/60 text-sm">{t("successMessage")}</p>
                   <button
                     onClick={handleClose}
                     className="mt-6 px-6 py-2.5 bg-xpertblue hover:bg-xpertblue/90 text-pure text-sm font-semibold rounded-md transition-colors"
                   >
-                    {t("successClose")}
+                    {t("close")}
                   </button>
                 </div>
               ) : (
@@ -120,35 +120,35 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                   <div className="space-y-4">
                     {/* Nombre */}
                     <div>
-                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("labelNombre")}</label>
+                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("nameLabel")}</label>
                       <input
                         type="text"
                         value={form.nombre}
                         onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                        placeholder={t("placeholderNombre")}
+                        placeholder={t("namePlaceholder")}
                         className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/30 focus:outline-none focus:border-arctic/50 transition-colors"
                       />
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("labelEmail")}</label>
+                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("emailLabel")}</label>
                       <input
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder={t("placeholderEmail")}
+                        placeholder={t("emailPlaceholder")}
                         className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/30 focus:outline-none focus:border-arctic/50 transition-colors"
                       />
                     </div>
 
                     {/* Mensaje */}
                     <div>
-                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("labelMensaje")}</label>
+                      <label className="block text-white/70 text-xs font-medium mb-1.5">{t("messageLabel")}</label>
                       <textarea
                         value={form.mensaje}
                         onChange={(e) => setForm({ ...form, mensaje: e.target.value })}
-                        placeholder={t("placeholderMensaje")}
+                        placeholder={t("messagePlaceholder")}
                         rows={4}
                         className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/30 focus:outline-none focus:border-arctic/50 transition-colors resize-none"
                       />
