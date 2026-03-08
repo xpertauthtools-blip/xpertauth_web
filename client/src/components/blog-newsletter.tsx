@@ -9,7 +9,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 // — Fetch helpers —
 async function fetchPosts() {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,created_at&is_published=eq.true&order=created_at.desc&limit=3`,
+    `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,slug,created_at&is_published=eq.true&order=created_at.desc&limit=2`,
     {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -45,8 +45,8 @@ function formatDate(dateStr: string) {
   });
 }
 
-// — Newsletter signup —
-function NewsletterSignupInline() {
+// — Formulario suscripción Blog —
+function BlogSignupInline() {
   const { t } = useTranslations("blog");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error" | "duplicate">("idle");
@@ -55,9 +55,8 @@ function NewsletterSignupInline() {
     if (!email.trim()) return;
     setStatus("sending");
     try {
-      // Comprobar si ya existe
       const check = await fetch(
-        `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&select=id`,
+        `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&canal=eq.blog&select=id`,
         {
           headers: {
             apikey: SUPABASE_ANON_KEY,
@@ -90,14 +89,15 @@ function NewsletterSignupInline() {
     return (
       <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-center">
         <CheckCircle className="w-8 h-8 text-arctic mx-auto mb-2" />
-        <p className="text-white/70 text-sm font-medium">{t("subscribeSuccess")}</p>
+        <p className="text-white/80 text-sm font-medium">{t("subscribeSuccess")}</p>
       </div>
     );
   }
 
   return (
     <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
-      <p className="text-white/70 text-sm font-medium mb-3">{t("subscribeLabel")}</p>
+      <p className="text-white/80 text-sm font-medium mb-1">{t("blogSubscribeLabel")}</p>
+      <p className="text-white/50 text-xs mb-3">{t("blogSubscribeSubtitle")}</p>
       <div className="flex gap-2">
         <input
           type="email"
@@ -105,13 +105,95 @@ function NewsletterSignupInline() {
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder={t("subscribePlaceholder")}
-          className="flex-grow px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/25 focus:outline-none focus:border-arctic/50 transition-colors"
+          className="flex-grow px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/30 focus:outline-none focus:border-arctic/50 transition-colors"
+          data-testid="input-blog-email"
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={status === "sending" || !email.trim()}
+          className="px-4 py-2.5 bg-arctic/20 hover:bg-arctic/30 border border-arctic/30 text-arctic text-sm font-semibold rounded-md transition-all duration-200 disabled:cursor-not-allowed flex-shrink-0"
+          data-testid="button-blog-submit"
+        >
+          {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
+        </button>
+      </div>
+      {status === "duplicate" && (
+        <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>
+      )}
+      {status === "error" && (
+        <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>
+      )}
+    </div>
+  );
+}
+
+// — Formulario suscripción Newsletter —
+function NewsletterSignupInline() {
+  const { t } = useTranslations("blog");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error" | "duplicate">("idle");
+
+  const handleSubmit = async () => {
+    if (!email.trim()) return;
+    setStatus("sending");
+    try {
+      const check = await fetch(
+        `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&canal=eq.newsletter&select=id`,
+        {
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          },
+        }
+      );
+      const existing = await check.json();
+      if (existing.length > 0) { setStatus("duplicate"); return; }
+
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/suscriptores`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({ email, canal: "newsletter" }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("ok");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "ok") {
+    return (
+      <div className="p-5 rounded-xl bg-white/[0.03] border border-ember/20 text-center">
+        <CheckCircle className="w-8 h-8 text-ember mx-auto mb-2" />
+        <p className="text-white/80 text-sm font-medium">{t("subscribeSuccess")}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-5 rounded-xl bg-white/[0.03] border border-ember/20">
+      <p className="text-white/80 text-sm font-medium mb-1">{t("subscribeLabel")}</p>
+      <p className="text-white/50 text-xs mb-3">{t("newsletterSubscribeSubtitle")}</p>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          placeholder={t("subscribePlaceholder")}
+          className="flex-grow px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/30 focus:outline-none focus:border-ember/50 transition-colors"
           data-testid="input-newsletter-email"
         />
         <button
           onClick={handleSubmit}
           disabled={status === "sending" || !email.trim()}
-          className="px-4 py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:cursor-not-allowed flex-shrink-0"
+          className="px-4 py-2.5 bg-ember/20 hover:bg-ember/30 border border-ember/30 text-ember text-sm font-semibold rounded-md transition-all duration-200 disabled:cursor-not-allowed flex-shrink-0"
           data-testid="button-newsletter-submit"
         >
           {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
@@ -169,13 +251,13 @@ export default function BlogNewsletter() {
         >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
           <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
-          <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
+          <p className="mt-4 text-white/60 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-          {/* — Blog — */}
-          <div>
+          {/* — Columna Blog — */}
+          <div className="flex flex-col">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-arctic" />
@@ -189,11 +271,11 @@ export default function BlogNewsletter() {
               </a>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 flex-grow">
               {loadingPosts ? (
-                <><SkeletonCard /><SkeletonCard /><SkeletonCard /></>
+                <><SkeletonCard /><SkeletonCard /></>
               ) : posts.length === 0 ? (
-                <p className="text-white/30 text-sm">Próximamente los primeros artículos.</p>
+                <p className="text-white/50 text-sm">Próximamente los primeros artículos.</p>
               ) : (
                 posts.map((post, i) => (
                   <motion.a
@@ -208,25 +290,30 @@ export default function BlogNewsletter() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-grow">
-                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors capitalize-first">
-                          {post.title.charAt(0).toUpperCase() + post.title.slice(1).toLowerCase()}
+                        <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-arctic transition-colors">
+                          {post.title.charAt(0).toUpperCase() + post.title.slice(1)}
                         </h4>
-                        <p className="text-white/50 text-sm leading-relaxed">{post.excerpt}</p>
+                        <p className="text-white/60 text-sm leading-relaxed">{post.excerpt}</p>
                         <div className="mt-3 flex items-center gap-2">
-                          <Calendar className="w-3.5 h-3.5 text-white/30" />
-                          <span className="text-white/30 text-xs">{formatDate(post.created_at)}</span>
+                          <Calendar className="w-3.5 h-3.5 text-white/40" />
+                          <span className="text-white/40 text-xs">{formatDate(post.created_at)}</span>
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-white/20 flex-shrink-0 mt-1 transition-all group-hover:text-arctic group-hover:translate-x-1" />
+                      <ArrowRight className="w-5 h-5 text-white/30 flex-shrink-0 mt-1 transition-all group-hover:text-arctic group-hover:translate-x-1" />
                     </div>
                   </motion.a>
                 ))
               )}
             </div>
+
+            {/* CTA suscripción Blog */}
+            <div className="mt-6">
+              <BlogSignupInline />
+            </div>
           </div>
 
-          {/* — Newsletter — */}
-          <div>
+          {/* — Columna Newsletter — */}
+          <div className="flex flex-col">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Mail className="w-5 h-5 text-ember" />
@@ -240,11 +327,11 @@ export default function BlogNewsletter() {
               </a>
             </div>
 
-            <div className="space-y-4 mb-6">
+            <div className="space-y-4 flex-grow">
               {loadingNL ? (
                 <><SkeletonCard /><SkeletonCard /></>
               ) : newsletters.length === 0 ? (
-                <p className="text-white/30 text-sm">Próximamente las primeras entregas.</p>
+                <p className="text-white/50 text-sm">Próximamente las primeras entregas.</p>
               ) : (
                 newsletters.map((nl, i) => (
                   <motion.div
@@ -264,22 +351,25 @@ export default function BlogNewsletter() {
                         <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-ember transition-colors">
                           {nl.title.charAt(0).toUpperCase() + nl.title.slice(1)}
                         </h4>
-                        <p className="text-white/50 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
+                        <p className="text-white/60 text-sm leading-relaxed line-clamp-3">{nl.content}</p>
                         {nl.scheduled_at && (
                           <div className="mt-3 flex items-center gap-2">
-                            <Calendar className="w-3.5 h-3.5 text-white/30" />
-                            <span className="text-white/30 text-xs">{formatDate(nl.scheduled_at)}</span>
+                            <Calendar className="w-3.5 h-3.5 text-white/40" />
+                            <span className="text-white/40 text-xs">{formatDate(nl.scheduled_at)}</span>
                           </div>
                         )}
                       </div>
-                      <ArrowRight className="w-5 h-5 text-white/20 flex-shrink-0 mt-1 transition-all group-hover:text-ember group-hover:translate-x-1" />
+                      <ArrowRight className="w-5 h-5 text-white/30 flex-shrink-0 mt-1 transition-all group-hover:text-ember group-hover:translate-x-1" />
                     </div>
                   </motion.div>
                 ))
               )}
             </div>
 
-            <NewsletterSignupInline />
+            {/* CTA suscripción Newsletter */}
+            <div className="mt-6">
+              <NewsletterSignupInline />
+            </div>
           </div>
 
         </div>
