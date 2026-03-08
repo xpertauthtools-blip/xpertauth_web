@@ -292,6 +292,8 @@ const es = {
     successMessage: "Hemos recibido tu mensaje. Nos pondremos en contacto contigo pronto.",
     close: "Cerrar",
     errorGeneric: "Error al enviar. Inténtalo de nuevo.",
+    errorRequired: "Por favor, rellena todos los campos.",
+    errorPrivacy: "Debes aceptar la política de privacidad.",
   },
   cookies: {
     title: "Tu privacidad importa",
