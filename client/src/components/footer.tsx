@@ -1,35 +1,11 @@
-import { useState } from "react";
-import { Mail, Phone, MapPin, Loader2, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useTranslations } from "@/i18n/context";
 
 export default function Footer() {
-  const { t, messages } = useTranslations("footer");
+  const { messages } = useTranslations("footer");
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
-
-  const [email, setEmail] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  // Suscripción al newsletter (formación senior) — canal: newsletter
-  const mutation = useMutation({
-    mutationFn: async (data: { email: string; canal: string }) => {
-      const res = await apiRequest("POST", "/api/newsletter", data);
-      return res.json();
-    },
-    onSuccess: () => {
-      setSuccess(true);
-      setEmail("");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    mutation.mutate({ email, canal: "newsletter" });
-  };
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -42,6 +18,11 @@ export default function Footer() {
     { label: navT("formacionSenior"), href: "#formacion-senior" },
     { label: navT("blog"), href: "#blog" },
     { label: navT("hazteSocio"), href: "#hazte-socio" },
+  ];
+
+  const schedule = [
+    { day: m.scheduleMonday, hours: "16:00 – 18:30" },
+    { day: m.scheduleTueWedFri, hours: "09:00 – 13:00 / 16:00 – 18:30" },
   ];
 
   return (
@@ -59,7 +40,7 @@ export default function Footer() {
                 Xpert<span className="text-arctic">Auth</span>
               </span>
             </div>
-            <p className="text-white/40 text-sm leading-relaxed mb-6">{m.description}</p>
+            <p className="text-white/50 text-sm leading-relaxed mb-6">{m.description}</p>
             <div className="flex items-center gap-3">
               <a
                 href="https://www.linkedin.com/in/josé-luis-echezarreta-fabregó-633b691b5"
@@ -84,7 +65,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <button
                     onClick={() => scrollTo(link.href)}
-                    className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                    className="text-white/50 text-sm hover:text-white/80 transition-colors"
                     data-testid={`link-footer-${link.href.replace("#", "")}`}
                   >
                     {link.label}
@@ -104,7 +85,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-arctic flex-shrink-0" />
                 <a
                   href="mailto:info@xpertauth.com"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                  className="text-white/50 text-sm hover:text-white/80 transition-colors"
                   data-testid="link-footer-email"
                 >
                   info@xpertauth.com
@@ -114,7 +95,7 @@ export default function Footer() {
                 <Phone className="w-4 h-4 text-arctic flex-shrink-0" />
                 <a
                   href="tel:+34625897546"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                  className="text-white/50 text-sm hover:text-white/80 transition-colors"
                   data-testid="link-footer-phone"
                 >
                   +34 625 897 546
@@ -122,78 +103,63 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-arctic flex-shrink-0 mt-0.5" />
-                <span className="text-white/40 text-sm">{m.spain}</span>
+                <span className="text-white/50 text-sm">{m.spain}</span>
               </li>
             </ul>
           </div>
 
-          {/* Columna 4 — Newsletter (Formación Senior) */}
+          {/* Columna 4 — Horario de atención */}
           <div>
             <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">
-              {m.newsletter}
+              {m.scheduleTitle}
             </h4>
-            {/* Subtítulo específico formación senior */}
-            <p className="text-white/40 text-sm mb-4">{m.newsletterSubtitle}</p>
-            {success ? (
-              <div className="flex items-center gap-2 text-arctic text-sm">
-                <CheckCircle className="w-4 h-4" />
-                {m.subscribed}
+            <ul className="space-y-3 mb-5">
+              {schedule.map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <Clock className="w-4 h-4 text-arctic flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-white/70 text-xs font-medium">{item.day}</p>
+                    <p className="text-white/50 text-xs">{item.hours}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="flex items-start gap-3">
+              <div className="w-4 h-4 flex-shrink-0 mt-0.5 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-arctic animate-pulse" />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={m.subscribePlaceholder}
-                  required
-                  className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/20 focus:outline-none focus:border-arctic/40 transition-colors"
-                  data-testid="input-footer-newsletter"
-                />
-                <button
-                  type="submit"
-                  disabled={mutation.isPending}
-                  className="w-full py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-2 hover:bg-xpertblue/90"
-                  data-testid="button-footer-newsletter"
-                >
-                  {mutation.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    m.subscribeButton
-                  )}
-                </button>
-                {mutation.isError && (
-                  <p className="text-red-400 text-xs">
-                    {(mutation.error as Error)?.message?.includes("409")
-                      ? m.subscribeErrorDuplicate
-                      : m.subscribeErrorGeneric}
-                  </p>
-                )}
-              </form>
-            )}
+              <div>
+                <p className="text-white/70 text-xs font-medium">{m.scheduleAgents}</p>
+                <p className="text-arctic text-xs font-semibold">24/7</p>
+              </div>
+            </div>
+            <p className="mt-4 text-white/50 text-xs leading-relaxed">
+              {m.scheduleResponse}
+            </p>
           </div>
+
         </div>
 
         {/* Barra inferior */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center justify-center gap-4 text-white/25 text-xs">
-            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-privacy">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-white/30 text-xs">
+            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-privacy">
               {m.privacy}
             </a>
             <span>|</span>
-            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-legal">
+            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-legal">
               {m.legal}
             </a>
             <span>|</span>
-            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-cookies">
+            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-cookies">
               {m.cookies}
             </a>
           </div>
-          <p className="text-white/20 text-xs text-center md:text-right">{m.aiDisclosure}</p>
+          <p className="text-white/30 text-xs text-center md:text-right">{m.aiDisclosure}</p>
         </div>
 
         <div className="mt-4 text-center">
-          <p className="text-white/15 text-xs">
+          <p className="text-white/20 text-xs">
             &copy; {new Date().getFullYear()} XpertAuth. {m.rights}
           </p>
         </div>
