@@ -222,6 +222,9 @@ const ca = {
     subscribeSuccess: "Subscrit correctament!",
     subscribeErrorDuplicate: "Aquest email ja està subscrit.",
     subscribeErrorGeneric: "Error en subscriure. Torna-ho a provar.",
+    blogSubscribeLabel: "Rep els nous articles al teu email",
+    blogSubscribeSubtitle: "Transport especial i IA per a PIMEs. Sense spam.",
+    newsletterSubscribeSubtitle: "Formació digital per a gent gran. Una entrega cada dues setmanes.",
   },
   ctaFinal: {
     title1: "Uneix-te a XpertAuth.",
