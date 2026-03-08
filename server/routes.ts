@@ -12,6 +12,15 @@ const socioSchema = z.object({
   acepta_privacidad: z.boolean().default(false),
 });
 
+const contactoSchema = z.object({
+  nombre: z.string().min(1),
+  email: z.string().email(),
+  mensaje: z.string().min(1),
+  acepta_privacidad: z.boolean().refine((val) => val === true, {
+    message: "Debes aceptar la política de privacidad.",
+  }),
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -91,6 +100,35 @@ export async function registerRoutes(
       return res.status(201).json(data);
     } catch (error) {
       console.error("[socios] Error:", error);
+      return res.status(500).json({ error: "Error interno del servidor." });
+    }
+  });
+
+  app.post("/api/contacto", async (req, res) => {
+    try {
+      const parsed = contactoSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Datos inválidos. Revisa el formulario." });
+      }
+
+      const { error } = await supabase
+        .from("contacto")
+        .insert({
+          nombre: parsed.data.nombre,
+          email: parsed.data.email,
+          mensaje: parsed.data.mensaje,
+          leido: false,
+          respondido: false,
+        });
+
+      if (error) {
+        console.error("[supabase] contacto insert error:", error);
+        return res.status(500).json({ error: "Error al enviar el mensaje. Inténtalo de nuevo." });
+      }
+
+      return res.status(201).json({ ok: true });
+    } catch (error) {
+      console.error("[contacto] Error:", error);
       return res.status(500).json({ error: "Error interno del servidor." });
     }
   });
