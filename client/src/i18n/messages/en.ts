@@ -222,6 +222,9 @@ const en = {
     subscribeSuccess: "Successfully subscribed!",
     subscribeErrorDuplicate: "This email is already subscribed.",
     subscribeErrorGeneric: "Error subscribing. Please try again.",
+    blogSubscribeLabel: "Receive new articles in your email",
+    blogSubscribeSubtitle: "Special transport and AI for SMEs. No spam.",
+    newsletterSubscribeSubtitle: "Digital training for seniors. One edition every two weeks.",
   },
   ctaFinal: {
     title1: "Join XpertAuth.",
