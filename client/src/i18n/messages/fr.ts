@@ -250,6 +250,11 @@ const fr = {
     aiDisclosure: "Contenu créé et développé avec l'aide de l'Intelligence Artificielle.",
     rights: "Tous droits réservés.",
     spain: "Figueres, Girona, Catalogne",
+    scheduleTitle: "Horaires d'ouverture",
+    scheduleMonday: "Lundi",
+    scheduleTueWedFri: "Mardi, mercredi et vendredi",
+    scheduleAgents: "Agents IA",
+    scheduleResponse: "Nous répondons aux emails sous 24h les jours ouvrables.",
   },
   waitlist: {
     titleFree: "Inscription gratuite",
