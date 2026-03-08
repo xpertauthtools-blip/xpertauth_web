@@ -7,6 +7,7 @@ import { I18nProvider } from "@/i18n/context";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
 import CustomCursor from "@/components/CustomCursor";
+import CookieBanner from "@/components/CookieBanner";
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <TooltipProvider>
         <I18nProvider>
           <CustomCursor />
+          <CookieBanner />
           <Toaster />
           <Router />
         </I18nProvider>
@@ -35,6 +37,3 @@ function App() {
 }
 
 export default App;
-import CookieBanner from "@/components/CookieBanner";
-// Y dentro del return, junto a <CustomCursor />:
-<CookieBanner />
