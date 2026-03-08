@@ -292,6 +292,8 @@ const ca = {
     successMessage: "Hem rebut el teu missatge. Ens posarem en contacte amb tu aviat.",
     close: "Tancar",
     errorGeneric: "Error en enviar. Torna-ho a provar.",
+    errorRequired: "Si us plau, omple tots els camps.",
+    errorPrivacy: "Has d'acceptar la política de privacitat.",
   },
   cookies: {
     title: "La teva privacitat importa",
