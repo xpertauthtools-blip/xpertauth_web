@@ -345,9 +345,6 @@ export default function BlogNewsletter() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-grow">
-                        <span className="inline-block px-2.5 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full mb-3 font-mono">
-                          {nl.volume}
-                        </span>
                         <h4 className="font-heading font-semibold text-pure text-base mb-2 group-hover:text-ember transition-colors">
                           {nl.title.charAt(0).toUpperCase() + nl.title.slice(1).toLowerCase()}
                         </h4>
@@ -359,7 +356,12 @@ export default function BlogNewsletter() {
                           </div>
                         )}
                       </div>
-                      <ArrowRight className="w-5 h-5 text-white/30 flex-shrink-0 mt-1 transition-all group-hover:text-ember group-hover:translate-x-1" />
+                      <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                        <span className="px-2 py-0.5 bg-ember/15 text-ember text-xs font-bold rounded-full font-mono">
+                          {nl.volume}
+                        </span>
+                        <ArrowRight className="w-5 h-5 text-white/30 transition-all group-hover:text-ember group-hover:translate-x-1" />
+                      </div>
                     </div>
                   </motion.div>
                 ))
