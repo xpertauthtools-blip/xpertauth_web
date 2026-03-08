@@ -292,6 +292,8 @@ const en = {
     successMessage: "We have received your message. We'll be in touch soon.",
     close: "Close",
     errorGeneric: "Error sending. Please try again.",
+    errorRequired: "Please fill in all fields.",
+    errorPrivacy: "You must accept the privacy policy.",
   },
   cookies: {
     title: "Your privacy matters",
