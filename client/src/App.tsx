@@ -35,3 +35,6 @@ function App() {
 }
 
 export default App;
+import CookieBanner from "@/components/CookieBanner";
+// Y dentro del return, junto a <CustomCursor />:
+<CookieBanner />
