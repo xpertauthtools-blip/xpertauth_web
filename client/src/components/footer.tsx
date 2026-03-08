@@ -13,18 +13,22 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
 
+  // Suscripción al newsletter (formación senior) — canal: newsletter
   const mutation = useMutation({
-    mutationFn: async (data: { email: string }) => {
+    mutationFn: async (data: { email: string; canal: string }) => {
       const res = await apiRequest("POST", "/api/newsletter", data);
       return res.json();
     },
-    onSuccess: () => { setSuccess(true); setEmail(""); },
+    onSuccess: () => {
+      setSuccess(true);
+      setEmail("");
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    mutation.mutate({ email });
+    mutation.mutate({ email, canal: "newsletter" });
   };
 
   const scrollTo = (href: string) => {
@@ -44,12 +48,16 @@ export default function Footer() {
     <footer id="contacto" className="bg-obsidian-deep pt-16 pb-8" data-testid="footer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-white/[0.06]">
+
+          {/* Columna 1 — Logo + descripción + LinkedIn */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-md bg-xpertblue flex items-center justify-center">
                 <span className="font-heading font-bold text-pure text-sm">X</span>
               </div>
-              <span className="font-heading font-semibold text-pure text-lg">Xpert<span className="text-arctic">Auth</span></span>
+              <span className="font-heading font-semibold text-pure text-lg">
+                Xpert<span className="text-arctic">Auth</span>
+              </span>
             </div>
             <p className="text-white/40 text-sm leading-relaxed mb-6">{m.description}</p>
             <div className="flex items-center gap-3">
@@ -66,27 +74,51 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Columna 2 — Links rápidos */}
           <div>
-            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">{m.quickLinks}</h4>
+            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">
+              {m.quickLinks}
+            </h4>
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <button onClick={() => scrollTo(link.href)} className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid={`link-footer-${link.href.replace("#", "")}`}>{link.label}</button>
+                  <button
+                    onClick={() => scrollTo(link.href)}
+                    className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                    data-testid={`link-footer-${link.href.replace("#", "")}`}
+                  >
+                    {link.label}
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Columna 3 — Contacto */}
           <div>
-            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">{m.contact}</h4>
+            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">
+              {m.contact}
+            </h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-arctic flex-shrink-0" />
-                <a href="mailto:info@xpertauth.com" className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid="link-footer-email">info@xpertauth.com</a>
+                <a
+                  href="mailto:info@xpertauth.com"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                  data-testid="link-footer-email"
+                >
+                  info@xpertauth.com
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-arctic flex-shrink-0" />
-                <a href="tel:+34625897546" className="text-white/40 text-sm hover:text-white/70 transition-colors" data-testid="link-footer-phone">+34 625 897 546</a>
+                <a
+                  href="tel:+34625897546"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors"
+                  data-testid="link-footer-phone"
+                >
+                  +34 625 897 546
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-arctic flex-shrink-0 mt-0.5" />
@@ -95,20 +127,46 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Columna 4 — Newsletter (Formación Senior) */}
           <div>
-            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">{m.newsletter}</h4>
+            <h4 className="font-heading font-semibold text-pure text-sm mb-4 uppercase tracking-wider">
+              {m.newsletter}
+            </h4>
+            {/* Subtítulo específico formación senior */}
             <p className="text-white/40 text-sm mb-4">{m.newsletterSubtitle}</p>
             {success ? (
-              <div className="flex items-center gap-2 text-arctic text-sm"><CheckCircle className="w-4 h-4" />{m.subscribed}</div>
+              <div className="flex items-center gap-2 text-arctic text-sm">
+                <CheckCircle className="w-4 h-4" />
+                {m.subscribed}
+              </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-2">
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={m.subscribePlaceholder} required className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/20 focus:outline-none focus:border-arctic/40 transition-colors" data-testid="input-footer-newsletter" />
-                <button type="submit" disabled={mutation.isPending} className="w-full py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-2" data-testid="button-footer-newsletter">
-                  {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : m.subscribeButton}
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={m.subscribePlaceholder}
+                  required
+                  className="w-full px-3 py-2.5 rounded-md bg-white/[0.05] border border-white/10 text-pure text-sm placeholder:text-white/20 focus:outline-none focus:border-arctic/40 transition-colors"
+                  data-testid="input-footer-newsletter"
+                />
+                <button
+                  type="submit"
+                  disabled={mutation.isPending}
+                  className="w-full py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-2 hover:bg-xpertblue/90"
+                  data-testid="button-footer-newsletter"
+                >
+                  {mutation.isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    m.subscribeButton
+                  )}
                 </button>
                 {mutation.isError && (
                   <p className="text-red-400 text-xs">
-                    {(mutation.error as Error)?.message?.includes("409") ? m.subscribeErrorDuplicate : m.subscribeErrorGeneric}
+                    {(mutation.error as Error)?.message?.includes("409")
+                      ? m.subscribeErrorDuplicate
+                      : m.subscribeErrorGeneric}
                   </p>
                 )}
               </form>
@@ -116,19 +174,28 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Barra inferior */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center gap-4 text-white/25 text-xs">
-            <a href="#" data-testid="link-privacy">{m.privacy}</a>
+            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-privacy">
+              {m.privacy}
+            </a>
             <span>|</span>
-            <a href="#" data-testid="link-legal">{m.legal}</a>
+            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-legal">
+              {m.legal}
+            </a>
             <span>|</span>
-            <a href="#" data-testid="link-cookies">{m.cookies}</a>
+            <a href="#" className="hover:text-white/50 transition-colors" data-testid="link-cookies">
+              {m.cookies}
+            </a>
           </div>
           <p className="text-white/20 text-xs text-center md:text-right">{m.aiDisclosure}</p>
         </div>
 
         <div className="mt-4 text-center">
-          <p className="text-white/15 text-xs">&copy; {new Date().getFullYear()} XpertAuth. {m.rights}</p>
+          <p className="text-white/15 text-xs">
+            &copy; {new Date().getFullYear()} XpertAuth. {m.rights}
+          </p>
         </div>
       </div>
     </footer>
