@@ -292,6 +292,8 @@ const fr = {
     successMessage: "Nous avons reçu votre message. Nous vous contacterons bientôt.",
     close: "Fermer",
     errorGeneric: "Erreur lors de l'envoi. Veuillez réessayer.",
+    errorRequired: "Veuillez remplir tous les champs.",
+    errorPrivacy: "Vous devez accepter la politique de confidentialité.",
   },
   cookies: {
     title: "Votre vie privée nous importe",
