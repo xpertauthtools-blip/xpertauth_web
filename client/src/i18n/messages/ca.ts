@@ -250,6 +250,11 @@ const ca = {
     aiDisclosure: "Contingut creat i desenvolupat amb l'ajuda d'Intel·ligència Artificial.",
     rights: "Tots els drets reservats.",
     spain: "Figueres, Girona, Catalunya",
+    scheduleTitle: "Horari d'atenció",
+    scheduleMonday: "Dilluns",
+    scheduleTueWedFri: "Dimarts, dimecres i divendres",
+    scheduleAgents: "Agents IA",
+    scheduleResponse: "Responem emails en menys de 24h en dies laborables.",
   },
   waitlist: {
     titleFree: "Registre gratuït",
