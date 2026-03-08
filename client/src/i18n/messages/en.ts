@@ -250,6 +250,11 @@ const en = {
     aiDisclosure: "Content created and developed with the help of Artificial Intelligence.",
     rights: "All rights reserved.",
     spain: "Figueres, Girona, Catalonia",
+    scheduleTitle: "Office hours",
+    scheduleMonday: "Monday",
+    scheduleTueWedFri: "Tuesday, Wednesday and Friday",
+    scheduleAgents: "AI Agents",
+    scheduleResponse: "We reply to emails within 24h on working days.",
   },
   waitlist: {
     titleFree: "Free registration",
