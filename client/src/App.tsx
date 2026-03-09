@@ -10,6 +10,7 @@ import CustomCursor from "@/components/CustomCursor";
 import CookieBanner from "@/components/CookieBanner";
 import { useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import Socios from "@/pages/socios";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/">
         <Redirect to="/es" />
       </Route>
+      <Route path="/:locale/socios" component={Socios} />
       <Route component={NotFound} />
     </Switch>
   );
