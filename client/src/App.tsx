@@ -16,21 +16,14 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-// Procesa el token OAuth del hash ANTES de que Wouter redirija
 function AuthCallback() {
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes("access_token")) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-          // Token procesado — limpiar hash y dejar que Wouter redirija
-          window.history.replaceState(null, "", "/es");
-          window.location.href = "/es";
-        }
+    if (window.location.hash.includes("access_token")) {
+      supabase.auth.getSession().then(() => {
+        window.history.replaceState(null, "", window.location.pathname);
       });
     }
   }, []);
-
   return null;
 }
 
