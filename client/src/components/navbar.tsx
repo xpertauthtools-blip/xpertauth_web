@@ -41,7 +41,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Detectar sesión activa al cargar
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
@@ -61,7 +60,6 @@ export default function Navbar() {
           nombre: session.user.user_metadata?.full_name ?? session.user.email ?? "",
           avatar_url: session.user.user_metadata?.avatar_url,
         });
-        // Limpiar el hash de la URL sin recargar la página
         if (window.location.hash.includes("access_token")) {
           window.history.replaceState(null, "", window.location.pathname);
         }
@@ -83,7 +81,7 @@ export default function Navbar() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: "https://xpertauth-web.vercel.app/es",
       },
     });
   };
@@ -115,7 +113,6 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
 
-          {/* Logo */}
           <button
             onClick={() => scrollTo("#hero")}
             className="flex items-center gap-2 group"
@@ -145,7 +142,6 @@ export default function Navbar() {
             </span>
           </button>
 
-          {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.slice(0, -1).map((link) => (
               <button
@@ -160,10 +156,8 @@ export default function Navbar() {
 
             <LocaleSwitcher />
 
-            {/* Auth button */}
             {!authLoading && (
               user ? (
-                // Usuario autenticado — avatar + menú
                 <div className="relative ml-3">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -209,7 +203,6 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
-                // Usuario no autenticado — botón Hazte Socio + login
                 <div className="flex items-center gap-2 ml-3">
                   <button
                     onClick={handleGoogleLogin}
@@ -236,7 +229,6 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile */}
           <div className="md:hidden flex items-center gap-2">
             <LocaleSwitcher />
             <button
@@ -251,7 +243,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -276,7 +267,6 @@ export default function Navbar() {
                 </button>
               ))}
 
-              {/* Auth mobile */}
               {!authLoading && (
                 <div className="pt-2 border-t border-white/10 mt-2">
                   {user ? (
