@@ -54,14 +54,18 @@ export default function Navbar() {
       setAuthLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
         setUser({
           email: session.user.email ?? "",
           nombre: session.user.user_metadata?.full_name ?? session.user.email ?? "",
           avatar_url: session.user.user_metadata?.avatar_url,
         });
-      } else {
+        // Limpiar el hash de la URL sin recargar la página
+        if (window.location.hash.includes("access_token")) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      } else if (event === "SIGNED_OUT") {
         setUser(null);
       }
     });
@@ -79,7 +83,7 @@ export default function Navbar() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "https://xpertauth-web.vercel.app",
+        redirectTo: window.location.origin,
       },
     });
   };
