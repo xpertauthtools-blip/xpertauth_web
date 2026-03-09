@@ -31,11 +31,11 @@ function AuthCallback() {
 function Router() {
   return (
     <Switch>
+      <Route path="/:locale/socios" component={Socios} />
       <Route path="/:locale" component={Home} />
       <Route path="/">
         <Redirect to="/es" />
       </Route>
-      <Route path="/:locale/socios" component={Socios} />
       <Route component={NotFound} />
     </Switch>
   );
