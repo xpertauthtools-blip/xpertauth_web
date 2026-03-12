@@ -1,11 +1,13 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
+import { useLocation } from "wouter";
 
 export default function Footer() {
   const { messages } = useTranslations("footer");
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
+  const [, navigate] = useLocation();
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -13,11 +15,11 @@ export default function Footer() {
   };
 
   const quickLinks = [
-    { label: navT("servicios"), href: "#servicios" },
-    { label: navT("comoFunciona"), href: "#como-funciona" },
-    { label: navT("formacionSenior"), href: "#formacion-senior" },
-    { label: navT("blog"), href: "#blog" },
-    { label: navT("hazteSocio"), href: "#hazte-socio" },
+    { label: navT("servicios"), href: "#servicios", isScroll: true },
+    { label: navT("comoFunciona"), href: "#como-funciona", isScroll: true },
+    { label: navT("formacionSenior"), href: "#formacion-senior", isScroll: true },
+    { label: navT("blog"), href: "#blog", isScroll: true },
+    { label: navT("hazteSocio"), href: "/es/socios", isScroll: false },
   ];
 
   const schedule = [
@@ -64,9 +66,9 @@ export default function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <button
-                    onClick={() => scrollTo(link.href)}
+                    onClick={() => link.isScroll ? scrollTo(link.href) : navigate(link.href)}
                     className="text-white/50 text-sm hover:text-white/80 transition-colors"
-                    data-testid={`link-footer-${link.href.replace("#", "")}`}
+                    data-testid={`link-footer-${link.href.replace("#", "").replace("/es/", "")}`}
                   >
                     {link.label}
                   </button>
