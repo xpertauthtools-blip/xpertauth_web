@@ -27,12 +27,13 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
+  const isHome = window.location.pathname === "/es" || window.location.pathname === "/es/";
+
   const navLinks = [
     { label: t("servicios"), href: "#servicios" },
     { label: t("comoFunciona"), href: "#como-funciona" },
     { label: t("formacionSenior"), href: "#formacion-senior" },
     { label: t("blog"), href: "#blog" },
-    { label: t("hazteSocio"), href: "#hazte-socio" },
   ];
 
   useEffect(() => {
@@ -71,10 +72,23 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const scrollTo = (href: string) => {
+  const handleNavLink = (href: string) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (isHome) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/es" + href;
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (isHome) {
+      const el = document.querySelector("#hero");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/es";
+    }
   };
 
   const handleGoogleLogin = async () => {
@@ -114,7 +128,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20">
 
           <button
-            onClick={() => scrollTo("#hero")}
+            onClick={handleLogoClick}
             className="flex items-center gap-2 group"
             data-testid="link-logo"
             aria-label="XpertAuth - Inicio"
@@ -143,10 +157,10 @@ export default function Navbar() {
           </button>
 
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.slice(0, -1).map((link) => (
+            {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollTo(link.href)}
+                onClick={() => handleNavLink(link.href)}
                 className="px-4 py-2 text-sm text-white/70 font-medium transition-colors duration-200 rounded-md hover:text-white"
                 data-testid={`link-${link.href.replace("#", "")}`}
               >
@@ -218,7 +232,7 @@ export default function Navbar() {
                     Entrar
                   </button>
                   <button
-                    onClick={() => scrollTo("#hazte-socio")}
+                    onClick={() => { window.location.href = "/es/socios"; }}
                     className="px-5 py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 hover:bg-blue-600"
                     data-testid="button-hazte-socio-nav"
                   >
@@ -252,20 +266,23 @@ export default function Navbar() {
             className="md:hidden bg-obsidian border-t border-white/10"
           >
             <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link, i) => (
+              {navLinks.map((link) => (
                 <button
                   key={link.href}
-                  onClick={() => scrollTo(link.href)}
-                  className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-                    i === navLinks.length - 1
-                      ? "bg-xpertblue text-pure text-center mt-3"
-                      : "text-white/70"
-                  }`}
+                  onClick={() => handleNavLink(link.href)}
+                  className="block w-full text-left px-4 py-3 rounded-md text-sm font-medium text-white/70 transition-colors"
                   data-testid={`link-mobile-${link.href.replace("#", "")}`}
                 >
                   {link.label}
                 </button>
               ))}
+              <button
+                onClick={() => { window.location.href = "/es/socios"; }}
+                className="block w-full text-left px-4 py-3 rounded-md text-sm font-medium bg-xpertblue text-pure text-center mt-3"
+                data-testid="link-mobile-hazte-socio"
+              >
+                {t("hazteSocio")}
+              </button>
 
               {!authLoading && (
                 <div className="pt-2 border-t border-white/10 mt-2">
