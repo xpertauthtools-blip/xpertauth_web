@@ -1,13 +1,12 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
-import { useLocation } from "wouter";
 
 export default function Footer() {
   const { messages } = useTranslations("footer");
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
-  const [, navigate] = useLocation();
+  
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -66,7 +65,7 @@ export default function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <button
-                    onClick={() => link.isScroll ? scrollTo(link.href) : navigate(link.href)}
+                    onClick={() => link.isScroll ? scrollTo(link.href) : window.location.href = link.href}
                     className="text-white/50 text-sm hover:text-white/80 transition-colors"
                     data-testid={`link-footer-${link.href.replace("#", "").replace("/es/", "")}`}
                   >
