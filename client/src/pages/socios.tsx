@@ -2,6 +2,8 @@ import { useState } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import { useLocation } from "wouter";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -59,6 +61,7 @@ const PLANES = [
 type FormState = "idle" | "loading" | "success" | "error";
 
 export default function Socios() {
+  const [, navigate] = useLocation();
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -83,7 +86,6 @@ export default function Socios() {
   const handlePlan = (id: string) => {
     setPlanSeleccionado(id);
     setForm(prev => ({ ...prev, tipo_socio: id }));
-    // Scroll al formulario
     document.getElementById("formulario-socio")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -129,6 +131,15 @@ export default function Socios() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            {/* CTA volver a la home */}
+            <button
+              onClick={() => navigate("/es")}
+              className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-8"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Volver al inicio
+            </button>
+
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 text-white/50 text-xs font-medium tracking-widest uppercase mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-arctic inline-block" />
               Membresía
@@ -250,9 +261,16 @@ export default function Socios() {
               <div className="bg-white/5 border border-white/10 rounded-2xl p-10 text-center">
                 <div className="text-4xl mb-4">✓</div>
                 <h3 className="font-heading text-xl font-bold text-pure mb-2">¡Solicitud recibida!</h3>
-                <p className="text-white/60 text-sm">
+                <p className="text-white/60 text-sm mb-6">
                   Gracias por tu interés en XpertAuth. Te contactaremos en menos de 24 horas.
                 </p>
+                <button
+                  onClick={() => navigate("/es")}
+                  className="inline-flex items-center gap-2 text-arctic hover:text-white transition-colors text-sm font-medium"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Volver al inicio
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -390,6 +408,18 @@ export default function Socios() {
                 <p className="text-white/30 text-xs text-center">
                   XpertAuth está en proceso de constitución. Los pagos se activarán próximamente.
                 </p>
+
+                {/* CTA volver al inicio desde el formulario */}
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/es")}
+                    className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs transition-colors"
+                  >
+                    <ArrowLeft className="w-3 h-3" />
+                    Volver al inicio
+                  </button>
+                </div>
               </form>
             )}
           </motion.div>
