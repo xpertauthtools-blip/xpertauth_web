@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import TeamSection from "@/components/TeamSection";
@@ -40,6 +41,17 @@ function HazteSocioCta() {
 }
 
 export default function Home() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    // Esperamos a que los componentes estén montados antes de hacer scroll
+    const timer = setTimeout(() => {
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Navbar />
