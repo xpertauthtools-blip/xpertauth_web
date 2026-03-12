@@ -6,20 +6,29 @@ export default function Footer() {
   const { messages } = useTranslations("footer");
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
-  
 
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const isHome = window.location.pathname === "/es" || window.location.pathname === "/es/";
 
   const quickLinks = [
-    { label: navT("servicios"), href: "#servicios", isScroll: true },
-    { label: navT("comoFunciona"), href: "#como-funciona", isScroll: true },
-    { label: navT("formacionSenior"), href: "#formacion-senior", isScroll: true },
-    { label: navT("blog"), href: "#blog", isScroll: true },
-    { label: navT("hazteSocio"), href: "/es/socios", isScroll: false },
+    { label: navT("servicios"), href: "#servicios" },
+    { label: navT("comoFunciona"), href: "#como-funciona" },
+    { label: navT("formacionSenior"), href: "#formacion-senior" },
+    { label: navT("blog"), href: "#blog" },
+    { label: navT("hazteSocio"), href: "/es/socios", isExternal: true },
   ];
+
+  const handleLink = (href: string, isExternal?: boolean) => {
+    if (isExternal) {
+      window.location.href = href;
+      return;
+    }
+    if (isHome) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/es" + href;
+    }
+  };
 
   const schedule = [
     { day: m.scheduleMonday, hours: "16:00 – 18:30" },
@@ -65,7 +74,7 @@ export default function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <button
-                    onClick={() => link.isScroll ? scrollTo(link.href) : window.location.href = link.href}
+                    onClick={() => handleLink(link.href, link.isExternal)}
                     className="text-white/50 text-sm hover:text-white/80 transition-colors"
                     data-testid={`link-footer-${link.href.replace("#", "").replace("/es/", "")}`}
                   >
