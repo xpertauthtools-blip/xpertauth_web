@@ -15,6 +15,12 @@ const testimonialAvatars = [
   `${SUPABASE_BASE}/testimonials/ana_avatar_v1.webp`,
 ];
 
+// Datos fijos para Carlos — composición reforzada
+const carlosOverride = {
+  stat: "340 km",
+  statLabel: "en un solo permiso",
+};
+
 export default function SocialProof() {
   const { messages } = useTranslations("socialProof");
   const m = messages as any;
@@ -63,15 +69,31 @@ export default function SocialProof() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
-              className="relative rounded-xl overflow-hidden min-h-[320px] flex flex-col justify-end group"
+              className="relative rounded-xl overflow-hidden min-h-[320px] flex flex-col justify-end group cursor-pointer"
               data-testid={`testimonial-${i}`}
             >
-              {/* Imagen de fondo */}
+              {/* Imagen de fondo — B&N por defecto, color en hover */}
               <div
-                className="absolute inset-0 bg-cover bg-top transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url(${testimonialBgs[i]})` }}
+                className="absolute inset-0 bg-cover bg-top transition-all duration-700 group-hover:scale-105"
+                style={{
+                  backgroundImage: `url(${testimonialBgs[i]})`,
+                  filter: "grayscale(100%)",
+                  transition: "transform 0.7s ease, filter 0.7s ease",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.filter = "grayscale(0%)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.filter = "grayscale(100%)"; }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent" />
+
+              {/* Badge especial para Carlos (tarjeta 0) */}
+              {i === 0 && (
+                <div className="absolute top-4 left-4 z-10">
+                  <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 text-center">
+                    <p className="font-heading font-bold text-arctic text-xl leading-none">{carlosOverride.stat}</p>
+                    <p className="text-white/60 text-xs mt-0.5">{carlosOverride.statLabel}</p>
+                  </div>
+                </div>
+              )}
 
               {/* Contenido */}
               <div className="relative z-10 p-6 sm:p-8">
