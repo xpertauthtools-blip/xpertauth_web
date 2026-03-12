@@ -3,7 +3,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { useLocation } from "wouter";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -61,7 +60,7 @@ const PLANES = [
 type FormState = "idle" | "loading" | "success" | "error";
 
 export default function Socios() {
-  const [, navigate] = useLocation();
+  
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -133,7 +132,7 @@ export default function Socios() {
           >
             {/* CTA volver a la home */}
             <button
-              onClick={() => navigate("/es")}
+              onClick={() => window.location.href = "/es"}
               className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -265,7 +264,7 @@ export default function Socios() {
                   Gracias por tu interés en XpertAuth. Te contactaremos en menos de 24 horas.
                 </p>
                 <button
-                  onClick={() => navigate("/es")}
+                  onClick={() => window.location.href = "/es"}
                   className="inline-flex items-center gap-2 text-arctic hover:text-white transition-colors text-sm font-medium"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -413,7 +412,7 @@ export default function Socios() {
                 <div className="text-center pt-2">
                   <button
                     type="button"
-                    onClick={() => navigate("/es")}
+                    onClick={() => window.location.href = "/es"}
                     className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs transition-colors"
                   >
                     <ArrowLeft className="w-3 h-3" />
