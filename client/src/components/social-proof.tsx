@@ -74,14 +74,8 @@ export default function SocialProof() {
             >
               {/* Imagen de fondo — B&N por defecto, color en hover */}
               <div
-                className="absolute inset-0 bg-cover bg-top transition-all duration-700 group-hover:scale-105"
-                style={{
-                  backgroundImage: `url(${testimonialBgs[i]})`,
-                  filter: "grayscale(100%)",
-                  transition: "transform 0.7s ease, filter 0.7s ease",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.filter = "grayscale(0%)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.filter = "grayscale(100%)"; }}
+                className="testimonial-bg absolute inset-0 bg-cover bg-top"
+                style={{ backgroundImage: `url(${testimonialBgs[i]})` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent" />
 
@@ -144,6 +138,17 @@ export default function SocialProof() {
           </div>
         </motion.div>
       </div>
+
+      <style>{`
+        .testimonial-bg {
+          filter: grayscale(100%);
+          transition: transform 0.7s ease, filter 0.7s ease;
+        }
+        .group:hover .testimonial-bg {
+          filter: grayscale(0%);
+          transform: scale(1.05);
+        }
+      `}</style>
     </section>
   );
 }
