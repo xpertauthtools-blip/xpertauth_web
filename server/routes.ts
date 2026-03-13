@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { insertWaitlistSchema, insertNewsletterSignupSchema } from "@shared/schema";
 import { supabase } from "./supabase";
 import { z } from "zod";
+import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 
 const socioSchema = z.object({
   nombre: z.string().min(1),
