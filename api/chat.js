@@ -309,7 +309,8 @@ export default async function handler(req, res) {
     return res.status(200).json({ agente, respuesta: respuestaTexto, model });
 
   } catch (error) {
-    console.error("[/api/chat] Error:", error);
-    return res.status(500).json({ error: "Error al procesar la consulta. Inténtalo de nuevo." });
-  }
+  const msg = error instanceof Error ? error.message : String(error);
+  const stack = error instanceof Error ? error.stack : "";
+  return res.status(500).json({ error: msg, stack });
+}
 }
