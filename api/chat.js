@@ -270,6 +270,7 @@ export default async function handler(req, res) {
       model = MODEL_LEX;
       const ultimaPregunta = messages.filter((m) => m.role === "user").at(-1)?.content ?? "";
       const ragContext = await getRagContext(ultimaPregunta);
+      console.log("[RAG] Fragmentos recuperados:", ragContext.substring(0, 500));
       systemPrompt = SYSTEM_PROMPT_LEX.replace("{{RAG_CONTEXT}}", ragContext);
     } else if (agente === "ALMA") {
       model = MODEL_ALMA;
