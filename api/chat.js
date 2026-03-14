@@ -1,19 +1,18 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
-// ─── Clientes ────────────────────────────────────────────────────────────────
+// ─── Clientes ─────────────────────────────────────────────────────────────────
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
+  process.env.VITE_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 );
 
-// ─── Modelos ─────────────────────────────────────────────────────────────────
+// ─── Modelos ──────────────────────────────────────────────────────────────────
 
 const MODEL_LEX  = "claude-sonnet-4-5-20251001";
 const MODEL_NOVA = "claude-haiku-4-5-20251001";
@@ -39,7 +38,7 @@ const ALMA_KEYWORDS = [
   "gran", "àvia", "avi",
 ];
 
-function detectAgent(messages: { role: string; content: string }[]): "LEX" | "NOVA" | "ALMA" {
+function detectAgent(messages) {
   const userText = messages
     .filter((m) => m.role === "user")
     .slice(-3)
@@ -54,9 +53,9 @@ function detectAgent(messages: { role: string; content: string }[]): "LEX" | "NO
   return "NOVA";
 }
 
-// ─── RAG ─────────────────────────────────────────────────────────────────────
+// ─── RAG ──────────────────────────────────────────────────────────────────────
 
-async function getRagContext(query: string): Promise<string> {
+async function getRagContext(query) {
   try {
     const embeddingRes = await openai.embeddings.create({
       model: "text-embedding-3-small",
@@ -75,7 +74,7 @@ async function getRagContext(query: string): Promise<string> {
     }
 
     return data
-      .map((doc: { contenido: string; fuente: string; bloque: string }, i: number) =>
+      .map((doc, i) =>
         `[Fragmento ${i + 1}] Fuente: ${doc.fuente} | Bloque: ${doc.bloque}\n${doc.contenido}`
       )
       .join("\n\n---\n\n");
@@ -218,7 +217,7 @@ const chatSchema = z.object({
 
 // ─── Verificar límite ─────────────────────────────────────────────────────────
 
-async function verificarLimite(email: string): Promise<{ permitido: boolean }> {
+async function verificarLimite(email) {
   const inicioMes = new Date();
   inicioMes.setDate(1);
   inicioMes.setHours(0, 0, 0, 0);
@@ -232,7 +231,7 @@ async function verificarLimite(email: string): Promise<{ permitido: boolean }> {
   return { permitido: (count ?? 0) < 3 };
 }
 
-async function registrarSesion(email: string, agente: string) {
+async function registrarSesion(email, agente) {
   await supabase.from("agent_sessions").insert({
     email,
     nombre: email.split("@")[0],
@@ -242,8 +241,7 @@ async function registrarSesion(email: string, agente: string) {
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -274,8 +272,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const agente = detectAgent(messages);
 
     // Construir system prompt y elegir modelo
-    let systemPrompt: string;
-    let model: string;
+    let systemPrompt;
+    let model;
 
     if (agente === "LEX") {
       model = MODEL_LEX;
@@ -300,7 +298,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       max_tokens: 1024,
       system: systemPrompt,
       messages: messages.map((m) => ({
-        role: m.role as "user" | "assistant",
+        role: m.role,
         content: m.content,
       })),
     });
