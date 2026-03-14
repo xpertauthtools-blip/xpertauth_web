@@ -14,9 +14,9 @@ const supabase = createClient(
 
 // ─── Modelos ──────────────────────────────────────────────────────────────────
 
-const MODEL_LEX  = "claude-sonnet-4-5-20251001";
-const MODEL_NOVA = "claude-haiku-4-5-20251001";
-const MODEL_ALMA = "claude-haiku-4-5-20251001";
+const MODEL_LEX  = "claude-sonnet-4-5";
+const MODEL_NOVA = "claude-haiku-4-5";
+const MODEL_ALMA = "claude-haiku-4-5";
 
 // ─── Detección de agente ──────────────────────────────────────────────────────
 
