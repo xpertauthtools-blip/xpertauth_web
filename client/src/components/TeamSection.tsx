@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useI18n } from "@/i18n/context";
+import { useAgent } from "@/App";
 
 const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images";
 const JOSE_LUIS_PHOTO = `${SUPABASE_BASE}/equipo/jose-luis_foto_v1.webp`;
@@ -31,6 +32,7 @@ const teamMembers = [
       fr: "Notre histoire",
     },
     ctaHref: "/sobre-nosotros",
+    agente: null as null,
     isHuman: true,
     accentColor: "border-arctic/30",
     numberColor: "text-arctic",
@@ -60,7 +62,8 @@ const teamMembers = [
       en: "Ask the agent",
       fr: "Interroger l'agent",
     },
-    ctaHref: "#agente",
+    ctaHref: null as null,
+    agente: "LEX" as const,
     isHuman: false,
     accentColor: "border-xpertblue/30",
     numberColor: "text-xpertblue",
@@ -90,7 +93,8 @@ const teamMembers = [
       en: "Ask the agent",
       fr: "Interroger l'agent",
     },
-    ctaHref: "#agente",
+    ctaHref: null as null,
+    agente: "NOVA" as const,
     isHuman: false,
     accentColor: "border-arctic/30",
     numberColor: "text-arctic",
@@ -120,7 +124,8 @@ const teamMembers = [
       en: "Ask the agent",
       fr: "Interroger l'agent",
     },
-    ctaHref: "#agente",
+    ctaHref: null as null,
+    agente: "ALMA" as const,
     isHuman: false,
     accentColor: "border-ember/30",
     numberColor: "text-ember",
@@ -158,11 +163,7 @@ const sectionSubtitle = {
   fr: "Expertise humaine réelle combinée à des agents IA disponibles 24h/24.",
 };
 
-function MemberAvatar({
-  member,
-}: {
-  member: (typeof teamMembers)[0];
-}) {
+function MemberAvatar({ member }: { member: (typeof teamMembers)[0] }) {
   return (
     <div className="relative w-16 h-16">
       <img
@@ -190,16 +191,18 @@ function MemberAvatar({
 
 export default function TeamSection() {
   const { locale } = useI18n();
+  const { abrirAgente } = useAgent();
   const lang = (locale as keyof typeof sectionTitle) || "es";
 
-  const handleCta = (member: (typeof teamMembers)[0]) => {
-    if (member.ctaHref === "#agente") {
-      const el = document.querySelector("#contacto");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+  function handleCta(member: (typeof teamMembers)[0]) {
+    if (member.agente) {
+      // Agentes IA → abrir modal/chat del agente correspondiente
+      abrirAgente(member.agente);
     } else {
+      // José Luis → navegar a subpágina
       window.location.href = `/${locale}${member.ctaHref}`;
     }
-  };
+  }
 
   return (
     <section id="equipo" className="py-20 sm:py-28 bg-obsidian-light" data-testid="section-equipo">
