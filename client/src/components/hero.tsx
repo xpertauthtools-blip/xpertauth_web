@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
+import { useLocation } from "wouter";
 
 function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -86,6 +87,7 @@ function ParticleField() {
 
 export default function Hero() {
   const { t, locale } = useTranslations("hero");
+  const [, navigate] = useLocation();
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -128,7 +130,7 @@ export default function Hero() {
           <p className="mt-6 sm:mt-8 text-white/60 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">{t("subtitle")}</p>
 
           <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => { window.location.href = `/${locale}/socios`; }} className="group px-8 py-3.5 bg-xpertblue text-pure font-semibold rounded-md text-sm sm:text-base transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center" data-testid="button-hero-socio">
+            <button onClick={() => navigate(`/${locale}/socios`)} className="group px-8 py-3.5 bg-xpertblue text-pure font-semibold rounded-md text-sm sm:text-base transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center" data-testid="button-hero-socio">
               {t("cta1")}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </button>
