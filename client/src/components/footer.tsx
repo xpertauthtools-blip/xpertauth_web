@@ -1,9 +1,11 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
+import { useLocation } from "wouter";
 
 export default function Footer() {
   const { messages, locale } = useTranslations("footer");
+  const [, navigate] = useLocation();
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
 
@@ -19,14 +21,14 @@ export default function Footer() {
 
   const handleLink = (href: string, isExternal?: boolean) => {
     if (isExternal) {
-      window.location.href = href;
+      navigate(href);
       return;
     }
     if (isHome) {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = `/${locale}` + href;
+      navigate(`/${locale}` + href);
     }
   };
 
