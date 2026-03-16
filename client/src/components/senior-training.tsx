@@ -7,38 +7,7 @@ const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/objec
 
 const featureIcons = [Users, MapPin, Clock, Smartphone];
 
-const marqueeItems = [
-  {
-    name: "Antonio",
-    image: `${SUPABASE_BASE}/senior-training/senior_antonio_v1.webp`,
-    quote: "Descubrió que podía identificar enfermedades de sus plantas con el móvil",
-  },
-  {
-    name: "Rosa",
-    image: `${SUPABASE_BASE}/senior-training/senior_rosa_v1.webp`,
-    quote: "Habla por videollamada con sus nietos cada domingo",
-  },
-  {
-    name: "Manuel",
-    image: `${SUPABASE_BASE}/senior-training/senior_manuel_v1.webp`,
-    quote: "Aprendió a hacer sus gestiones del banco sin salir de casa",
-  },
-  {
-    name: "Carmen",
-    image: `${SUPABASE_BASE}/senior-training/senior_carmen_v1.webp`,
-    quote: "Encontró todas sus fotos antiguas digitalizadas",
-  },
-  {
-    name: "Paco",
-    image: `${SUPABASE_BASE}/senior-training/senior_paco_v1.webp`,
-    quote: "Ya no necesita que nadie le ayude con el móvil",
-  },
-  {
-    name: "Dolores",
-    image: `${SUPABASE_BASE}/senior-training/senior_dolores_v1.webp`,
-    quote: "Aprendió a usar WhatsApp y no para de enviar audios",
-  },
-];
+// marquee items now come from i18n
 
 // — Contador animado —
 function useCountUp(target: number, duration: number, active: boolean) {
@@ -61,13 +30,9 @@ function useCountUp(target: number, duration: number, active: boolean) {
   return count;
 }
 
-const stats = [
-  { value: 100, suffix: "%", label: "Gratuito para los asistentes" },
-  { value: 3, suffix: "h", label: "Sesiones prácticas por módulo" },
-  { value: 3, suffix: "+", label: "Meses de seguimiento incluido" },
-];
+// stats se obtienen de i18n en AnimatedStats
 
-function AnimatedStats() {
+function AnimatedStats({ stats }: { stats: { value: number; suffix: string; label: string }[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
 
@@ -105,7 +70,7 @@ function AnimatedStats() {
 }
 
 // — Formulario de contacto inline —
-function SeniorContactForm() {
+function SeniorContactForm({ m }: { m: any }) {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
@@ -143,7 +108,7 @@ function SeniorContactForm() {
     return (
       <div className="flex items-center gap-2 text-ember text-sm font-medium py-2">
         <Heart className="w-4 h-4" />
-        ¡Gracias! Nos pondremos en contacto pronto.
+        {m.successMessage}
       </div>
     );
   }
@@ -152,14 +117,14 @@ function SeniorContactForm() {
     <div className="flex flex-col sm:flex-row gap-3">
       <input
         type="text"
-        placeholder="Nombre"
+        placeholder={m.namePlaceholder}
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
         className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-ember/60 transition-colors"
       />
       <input
         type="tel"
-        placeholder="Teléfono"
+        placeholder={m.phonePlaceholder}
         value={telefono}
         onChange={(e) => setTelefono(e.target.value)}
         className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-ember/60 transition-colors"
@@ -169,16 +134,16 @@ function SeniorContactForm() {
         disabled={status === "sending" || !nombre.trim() || !telefono.trim()}
         className="px-5 py-2.5 bg-xpertblue text-pure font-semibold rounded-md text-sm transition-all duration-300 whitespace-nowrap disabled:cursor-not-allowed"
       >
-        {status === "sending" ? "Enviando..." : "Solicitar info"}
+        {status === "sending" ? m.sending : m.submitButton}
       </button>
       {status === "error" && (
-        <p className="text-red-400 text-xs mt-1 w-full">Algo salió mal. Inténtalo de nuevo.</p>
+        <p className="text-red-400 text-xs mt-1 w-full">{m.errorMessage}</p>
       )}
     </div>
   );
 }
 
-function MarqueeCard({ item }: { item: (typeof marqueeItems)[0] }) {
+function MarqueeCard({ item }: { item: { name: string; image: string; quote: string } }) {
   return (
     <div
       className="flex-shrink-0 w-[300px] sm:w-[340px] bg-white/5 rounded-2xl border border-white/10 p-5 flex gap-4 items-start"
@@ -197,8 +162,12 @@ function MarqueeCard({ item }: { item: (typeof marqueeItems)[0] }) {
   );
 }
 
-function Marquee() {
-  const doubled = [...marqueeItems, ...marqueeItems];
+function Marquee({ marqueeData }: { marqueeData: { name: string; quote: string }[] }) {
+  const itemsWithImages = marqueeData.map((item) => ({
+    ...item,
+    image: `${SUPABASE_BASE}/senior-training/senior_${item.name.toLowerCase()}_v1.webp`,
+  }));
+  const doubled = [...itemsWithImages, ...itemsWithImages];
   return (
     <div className="relative overflow-hidden py-2" data-testid="senior-marquee">
       <div className="flex gap-5 animate-marquee" style={{ width: "max-content" }}>
@@ -211,7 +180,7 @@ function Marquee() {
 }
 
 export default function SeniorTraining() {
-  const { messages } = useTranslations("seniorTraining");
+  const { t, messages } = useTranslations("seniorTraining");
   const m = messages as any;
   const features = m.features || [];
 
@@ -259,8 +228,8 @@ export default function SeniorTraining() {
 
               {/* Formulario inline */}
               <div className="pt-4">
-                <p className="text-white/90 text-sm mb-3">¿Te interesa? Déjanos tu nombre y teléfono y te contamos cómo apuntarte.</p>
-                <SeniorContactForm />
+                <p className="text-white/90 text-sm mb-3">{m.contactTitle}</p>
+                <SeniorContactForm m={m} />
               </div>
             </div>
           </motion.div>
@@ -273,7 +242,7 @@ export default function SeniorTraining() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <AnimatedStats />
+            <AnimatedStats stats={m.stats ?? []} />
           </motion.div>
 
         </div>
@@ -286,7 +255,7 @@ export default function SeniorTraining() {
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6 }}
       >
-        <Marquee />
+        <Marquee marqueeData={m.marquee ?? []} />
       </motion.div>
     </section>
   );
