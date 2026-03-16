@@ -155,7 +155,7 @@ LO QUE NO HACES:
 - No afirmas ser humano si alguien te pregunta directamente.
 
 CONTEXTO DE SESIÓN:
-- Visitante anónimo: máximo 12 consultas gratuitas al mes.
+- Visitante anónimo: máximo 5 consultas gratuitas al mes.
 - Socio autenticado: acceso ilimitado.
 Si el visitante llega al límite, responde la consulta y añade al final: "Has alcanzado el límite de consultas gratuitas de este mes. Si quieres seguir consultando con LEX sin límites, hazte socio de XpertAuth." [BOTON_SOCIO:Hazte socio]
 
@@ -301,7 +301,13 @@ const chatSchema = z.object({
 
 // ─── Verificar límite ─────────────────────────────────────────────────────────
 
-async function verificarLimite(email) {
+const LIMITE_CONSULTAS = {
+  LEX:  5,
+  NOVA: 12,
+  ALMA: 12,
+};
+
+async function verificarLimite(email, agente) {
   const inicioMes = new Date();
   inicioMes.setDate(1);
   inicioMes.setHours(0, 0, 0, 0);
@@ -310,9 +316,10 @@ async function verificarLimite(email) {
     .from("agent_sessions")
     .select("*", { count: "exact", head: true })
     .eq("email", email)
+    .eq("topic", agente)
     .gte("created_at", inicioMes.toISOString());
 
-  return { permitido: (count ?? 0) < 12 };
+  return { permitido: (count ?? 0) < LIMITE_CONSULTAS[agente] };
 }
 
 async function registrarSesion(email, agente) {
@@ -341,19 +348,19 @@ export default async function handler(req, res) {
 
     const { messages, email, esAutenticado } = parsed.data;
 
-    // Control de límite para visitantes
+    // Detectar agente primero (necesario para aplicar el límite correcto)
+    const agente = detectAgent(messages);
+
+    // Control de límite para visitantes (por agente)
     let limitAlcanzado = false;
     if (!esAutenticado && email) {
-      const { permitido } = await verificarLimite(email);
+      const { permitido } = await verificarLimite(email, agente);
       if (!permitido) {
         limitAlcanzado = true;
       } else {
-        await registrarSesion(email, "pendiente");
+        await registrarSesion(email, agente);
       }
     }
-
-    // Detectar agente
-    const agente = detectAgent(messages);
 
     // Construir system prompt y elegir modelo
     let systemPrompt;
@@ -373,7 +380,8 @@ export default async function handler(req, res) {
     }
 
     if (limitAlcanzado) {
-      systemPrompt += "\n\n[CONTEXTO INTERNO: Este visitante ha alcanzado su límite de 12 consultas gratuitas este mes. Responde la consulta normalmente y añade al final el mensaje de límite con el botón BOTON_SOCIO.]";
+      const limiteAgente = LIMITE_CONSULTAS[agente];
+      systemPrompt += `\n\n[CONTEXTO INTERNO: Este visitante ha alcanzado su límite de ${limiteAgente} consultas gratuitas este mes con ${agente}. Responde la consulta normalmente y añade al final el mensaje de límite con el botón BOTON_SOCIO.]`;
     }
 
     // Llamar a Claude API
