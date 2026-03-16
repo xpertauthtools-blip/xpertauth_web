@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useI18n } from "@/i18n/context";
+import { useTranslations } from "@/i18n/context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
@@ -11,58 +11,14 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-const PLANES = [
-  {
-    id: "gratuito",
-    nombre: "Usuario abierto",
-    precio: "Gratis",
-    desc: "Para explorar XpertAuth sin compromiso.",
-    items: [
-      "Blog y recursos públicos",
-      "3 consultas/mes al agente IA",
-      "Acceso a webinars abiertos",
-    ],
-    cta: "Empezar gratis",
-    highlight: false,
-  },
-  {
-    id: "individual",
-    nombre: "Socio individual",
-    precio: "5€/mes",
-    precioAnual: "50€/año",
-    desc: "Para profesionales que quieren respuestas reales.",
-    items: [
-      "Consultas ilimitadas al agente IA",
-      "2h/año con José Luis",
-      "Comunidad privada de socios",
-      "Webinars exclusivos",
-      "Acceso anticipado a nuevos servicios",
-    ],
-    cta: "Hazte socio",
-    highlight: true,
-  },
-  {
-    id: "corporativo",
-    nombre: "Socio corporativo",
-    precio: "Desde 300€/mes",
-    desc: "Para empresas que necesitan soporte continuo.",
-    items: [
-      "Todo lo del plan individual",
-      "Planificación de rutas y permisos",
-      "Formación in-company en IA",
-      "Soporte prioritario",
-      "Factura mensual",
-    ],
-    cta: "Contactar",
-    highlight: false,
-  },
-];
-
 type FormState = "idle" | "loading" | "success" | "error";
 
 export default function Socios() {
-  const { locale } = useI18n();
-  
+  const { t, locale, messages } = useTranslations("socios");
+  const m = messages as any;
+
+  const PLANES = m?.planes ?? [];
+
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -93,7 +49,7 @@ export default function Socios() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.acepta_privacidad) {
-      setErrorMsg("Debes aceptar la política de privacidad para continuar.");
+      setErrorMsg(t("formPrivacyError"));
       return;
     }
     setFormState("loading");
@@ -114,7 +70,7 @@ export default function Socios() {
 
     if (error) {
       setFormState("error");
-      setErrorMsg("Ha ocurrido un error. Por favor inténtalo de nuevo.");
+      setErrorMsg(t("formError"));
     } else {
       setFormState("success");
     }
@@ -132,25 +88,24 @@ export default function Socios() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {/* CTA volver a la home */}
             <button
               onClick={() => window.location.href = `/${locale}`}
               className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
-              Volver al inicio
+              {t("backHome")}
             </button>
 
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 text-white/50 text-xs font-medium tracking-widest uppercase mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-arctic inline-block" />
-              Membresía
+              {t("badge")}
             </span>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-pure leading-tight mb-6">
-              El conocimiento experto<br />
-              <span className="text-xpertblue">al alcance de todos.</span>
+              {t("title")}<br />
+              <span className="text-xpertblue">{t("titleHighlight")}</span>
             </h1>
             <p className="text-white/60 text-lg max-w-2xl mx-auto">
-              Elige el plan que mejor se adapta a ti. Sin permanencias. Cancela cuando quieras.
+              {t("subtitle")}
             </p>
           </motion.div>
         </div>
@@ -159,48 +114,48 @@ export default function Socios() {
       {/* Planes */}
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PLANES.map((plan, i) => (
+          {PLANES.map((plan: any, i: number) => (
             <motion.div
               key={plan.id}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className={`relative rounded-2xl p-8 flex flex-col ${
-                plan.highlight
+                plan.id === "individual"
                   ? "bg-xpertblue border border-xpertblue shadow-2xl shadow-xpertblue/20 scale-105"
                   : "bg-white/5 border border-white/10"
               }`}
             >
-              {plan.highlight && (
+              {plan.id === "individual" && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-arctic text-obsidian text-xs font-bold px-3 py-1 rounded-full">
-                    Más popular
+                    {t("mostPopular")}
                   </span>
                 </div>
               )}
 
               <div className="mb-6">
-                <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.highlight ? "text-white/70" : "text-white/40"}`}>
+                <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
-                <p className={`font-heading text-3xl font-bold ${plan.highlight ? "text-pure" : "text-pure"}`}>
+                <p className={`font-heading text-3xl font-bold ${plan.id === "individual" ? "text-pure" : "text-pure"}`}>
                   {plan.precio}
                 </p>
                 {plan.precioAnual && (
-                  <p className="text-white/60 text-sm mt-1">o {plan.precioAnual}</p>
+                  <p className="text-white/60 text-sm mt-1">{t("orAnual")} {plan.precioAnual}</p>
                 )}
-                <p className={`text-sm mt-3 ${plan.highlight ? "text-white/80" : "text-white/50"}`}>
+                <p className={`text-sm mt-3 ${plan.id === "individual" ? "text-white/80" : "text-white/50"}`}>
                   {plan.desc}
                 </p>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
-                {plan.items.map((item) => (
+                {plan.items.map((item: string) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className={`mt-0.5 text-lg leading-none ${plan.highlight ? "text-white" : "text-arctic"}`}>
+                    <span className={`mt-0.5 text-lg leading-none ${plan.id === "individual" ? "text-white" : "text-arctic"}`}>
                       ✓
                     </span>
-                    <span className={`text-sm ${plan.highlight ? "text-white/90" : "text-white/60"}`}>
+                    <span className={`text-sm ${plan.id === "individual" ? "text-white/90" : "text-white/60"}`}>
                       {item}
                     </span>
                   </li>
@@ -210,7 +165,7 @@ export default function Socios() {
               <button
                 onClick={() => handlePlan(plan.id)}
                 className={`w-full py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
-                  plan.highlight
+                  plan.id === "individual"
                     ? "bg-pure text-obsidian hover:bg-white/90"
                     : "bg-white/10 text-pure hover:bg-white/20 border border-white/10"
                 }`}
@@ -225,14 +180,9 @@ export default function Socios() {
       {/* Distribución de la cuota */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-8">Cómo se distribuye tu cuota de 5€/mes</p>
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-8">{t("quotaTitle")}</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {[
-              { pct: "40%", label: "Programas gratuitos para mayores" },
-              { pct: "35%", label: "Infraestructura tecnológica" },
-              { pct: "15%", label: "Seguros y administración" },
-              { pct: "10%", label: "Fondo de reserva" },
-            ].map((item) => (
+            {(m?.quota ?? []).map((item: any) => (
               <div key={item.pct} className="text-center">
                 <p className="font-heading text-3xl font-bold text-arctic">{item.pct}</p>
                 <p className="text-white/50 text-xs mt-2 leading-snug">{item.label}</p>
@@ -252,25 +202,23 @@ export default function Socios() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="font-heading text-3xl font-bold text-pure text-center mb-2">
-              Solicitar membresía
+              {t("formTitle")}
             </h2>
             <p className="text-white/50 text-center text-sm mb-10">
-              Rellena el formulario y te contactaremos en menos de 24 horas.
+              {t("formSubtitle")}
             </p>
 
             {formState === "success" ? (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-10 text-center">
                 <div className="text-4xl mb-4">✓</div>
-                <h3 className="font-heading text-xl font-bold text-pure mb-2">¡Solicitud recibida!</h3>
-                <p className="text-white/60 text-sm mb-6">
-                  Gracias por tu interés en XpertAuth. Te contactaremos en menos de 24 horas.
-                </p>
+                <h3 className="font-heading text-xl font-bold text-pure mb-2">{t("successTitle")}</h3>
+                <p className="text-white/60 text-sm mb-6">{t("successMessage")}</p>
                 <button
                   onClick={() => window.location.href = `/${locale}`}
                   className="inline-flex items-center gap-2 text-arctic hover:text-white transition-colors text-sm font-medium"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  Volver al inicio
+                  {t("backHome")}
                 </button>
               </div>
             ) : (
@@ -278,7 +226,7 @@ export default function Socios() {
                 {/* Plan */}
                 <div>
                   <label className="block text-xs text-white/50 uppercase tracking-widest mb-2">
-                    Plan seleccionado
+                    {t("formPlanLabel")}
                   </label>
                   <select
                     name="tipo_socio"
@@ -286,16 +234,18 @@ export default function Socios() {
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm focus:outline-none focus:border-arctic transition-colors"
                   >
-                    <option value="gratuito">Usuario abierto — Gratis</option>
-                    <option value="individual">Socio individual — 5€/mes</option>
-                    <option value="corporativo">Socio corporativo — Desde 300€/mes</option>
+                    {PLANES.map((plan: any) => (
+                      <option key={plan.id} value={plan.id}>
+                        {plan.nombre} — {plan.precio}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 {/* Nombre */}
                 <div>
                   <label className="block text-xs text-white/50 uppercase tracking-widest mb-2">
-                    Nombre y apellidos *
+                    {t("formNameLabel")} *
                   </label>
                   <input
                     type="text"
@@ -303,7 +253,7 @@ export default function Socios() {
                     value={form.nombre}
                     onChange={handleChange}
                     required
-                    placeholder="Tu nombre completo"
+                    placeholder={t("formNamePlaceholder")}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm placeholder-white/20 focus:outline-none focus:border-arctic transition-colors"
                   />
                 </div>
@@ -319,7 +269,7 @@ export default function Socios() {
                     value={form.email}
                     onChange={handleChange}
                     required
-                    placeholder="tu@email.com"
+                    placeholder={t("formEmailPlaceholder")}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm placeholder-white/20 focus:outline-none focus:border-arctic transition-colors"
                   />
                 </div>
@@ -327,14 +277,14 @@ export default function Socios() {
                 {/* Teléfono */}
                 <div>
                   <label className="block text-xs text-white/50 uppercase tracking-widest mb-2">
-                    Teléfono <span className="normal-case text-white/30">(opcional)</span>
+                    {t("formPhoneLabel")} <span className="normal-case text-white/30">{t("formPhoneOptional")}</span>
                   </label>
                   <input
                     type="tel"
                     name="telefono"
                     value={form.telefono}
                     onChange={handleChange}
-                    placeholder="+34 600 000 000"
+                    placeholder={t("formPhonePlaceholder")}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm placeholder-white/20 focus:outline-none focus:border-arctic transition-colors"
                   />
                 </div>
@@ -343,14 +293,14 @@ export default function Socios() {
                 {form.tipo_socio === "corporativo" && (
                   <div>
                     <label className="block text-xs text-white/50 uppercase tracking-widest mb-2">
-                      Empresa
+                      {t("formCompanyLabel")}
                     </label>
                     <input
                       type="text"
                       name="empresa"
                       value={form.empresa}
                       onChange={handleChange}
-                      placeholder="Nombre de tu empresa"
+                      placeholder={t("formCompanyPlaceholder")}
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm placeholder-white/20 focus:outline-none focus:border-arctic transition-colors"
                     />
                   </div>
@@ -359,14 +309,14 @@ export default function Socios() {
                 {/* Mensaje */}
                 <div>
                   <label className="block text-xs text-white/50 uppercase tracking-widest mb-2">
-                    ¿En qué podemos ayudarte? <span className="normal-case text-white/30">(opcional)</span>
+                    {t("formMessageLabel")} <span className="normal-case text-white/30">{t("formPhoneOptional")}</span>
                   </label>
                   <textarea
                     name="mensaje"
                     value={form.mensaje}
                     onChange={handleChange}
                     rows={3}
-                    placeholder="Cuéntanos brevemente tu situación o necesidad..."
+                    placeholder={t("formMessagePlaceholder")}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-pure text-sm placeholder-white/20 focus:outline-none focus:border-arctic transition-colors resize-none"
                   />
                 </div>
@@ -382,15 +332,15 @@ export default function Socios() {
                     className="mt-1 w-4 h-4 accent-arctic"
                   />
                   <label htmlFor="acepta_privacidad" className="text-xs text-white/50 leading-relaxed">
-                    He leído y acepto la{" "}
-                    <a href="/es/privacidad" className="text-arctic underline underline-offset-2">
-                      Política de Privacidad
+                    {t("formPrivacy")}{" "}
+                    <a href={`/${locale}/privacidad`} className="text-arctic underline underline-offset-2">
+                      {t("formPrivacyLink")}
                     </a>{" "}
-                    y los{" "}
-                    <a href="/es/terminos" className="text-arctic underline underline-offset-2">
-                      Términos de Uso
+                    {t("formPrivacyAnd")}{" "}
+                    <a href={`/${locale}/terminos`} className="text-arctic underline underline-offset-2">
+                      {t("formTermsLink")}
                     </a>{" "}
-                    de XpertAuth. *
+                    {t("formPrivacyRequired")}
                   </label>
                 </div>
 
@@ -403,14 +353,13 @@ export default function Socios() {
                   disabled={formState === "loading"}
                   className="w-full py-4 bg-xpertblue text-pure font-semibold rounded-lg text-sm transition-all duration-200 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {formState === "loading" ? "Enviando..." : "Enviar solicitud"}
+                  {formState === "loading" ? t("formSending") : t("formSubmit")}
                 </button>
 
                 <p className="text-white/30 text-xs text-center">
-                  XpertAuth está en proceso de constitución. Los pagos se activarán próximamente.
+                  {t("formNote")}
                 </p>
 
-                {/* CTA volver al inicio desde el formulario */}
                 <div className="text-center pt-2">
                   <button
                     type="button"
@@ -418,7 +367,7 @@ export default function Socios() {
                     className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs transition-colors"
                   >
                     <ArrowLeft className="w-3 h-3" />
-                    Volver al inicio
+                    {t("backHome")}
                   </button>
                 </div>
               </form>
