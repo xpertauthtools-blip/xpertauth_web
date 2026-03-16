@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "@/i18n/context";
+import { useLocation } from "wouter";
 import LocaleSwitcher from "./locale-switcher";
 import { createClient } from "@supabase/supabase-js";
 
@@ -19,7 +20,8 @@ type UserProfile = {
 };
 
 export default function Navbar() {
-  const { t } = useTranslations("nav");
+  const { t, locale } = useTranslations("nav");
+  const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
@@ -27,7 +29,7 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
-  const isHome = window.location.pathname === "/es" || window.location.pathname === "/es/";
+  const isHome = window.location.pathname === `/${locale}` || window.location.pathname === `/${locale}/`;
 
   const navLinks = [
     { label: t("servicios"), href: "#servicios" },
@@ -78,7 +80,7 @@ export default function Navbar() {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "/es" + href;
+      navigate(`/${locale}` + href);
     }
   };
 
@@ -87,7 +89,7 @@ export default function Navbar() {
       const el = document.querySelector("#hero");
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "/es";
+      navigate(`/${locale}`);
     }
   };
 
@@ -232,7 +234,7 @@ export default function Navbar() {
                     Entrar
                   </button>
                   <button
-                    onClick={() => { window.location.href = "/es/socios"; }}
+                    onClick={() => navigate(`/${locale}/socios`)}
                     className="px-5 py-2.5 bg-xpertblue text-pure text-sm font-semibold rounded-md transition-all duration-200 hover:bg-blue-600"
                     data-testid="button-hazte-socio-nav"
                   >
@@ -277,7 +279,7 @@ export default function Navbar() {
                 </button>
               ))}
               <button
-                onClick={() => { window.location.href = "/es/socios"; }}
+                onClick={() => navigate(`/${locale}/socios`)}
                 className="block w-full text-left px-4 py-3 rounded-md text-sm font-medium bg-xpertblue text-pure text-center mt-3"
                 data-testid="link-mobile-hazte-socio"
               >
