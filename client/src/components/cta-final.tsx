@@ -2,10 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
+import { useLocation } from "wouter";
 import ContactModal from "./ContactModal";
 
 export default function CtaFinal() {
   const { t, locale } = useTranslations("ctaFinal");
+  const [, navigate] = useLocation();
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
@@ -29,7 +31,7 @@ export default function CtaFinal() {
 
           <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => { window.location.href = `/${locale}/socios`; }}
+              onClick={() => navigate(`/${locale}/socios`)}
               className="group px-8 py-4 bg-xpertblue text-pure font-semibold rounded-md text-sm sm:text-base transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:bg-xpertblue/90"
               data-testid="button-cta-final-socio"
             >
