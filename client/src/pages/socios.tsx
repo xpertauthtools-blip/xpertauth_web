@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useI18n } from "@/i18n/context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { motion } from "framer-motion";
@@ -60,6 +61,7 @@ const PLANES = [
 type FormState = "idle" | "loading" | "success" | "error";
 
 export default function Socios() {
+  const { locale } = useI18n();
   
   const [form, setForm] = useState({
     nombre: "",
@@ -132,7 +134,7 @@ export default function Socios() {
           >
             {/* CTA volver a la home */}
             <button
-              onClick={() => window.location.href = "/es"}
+              onClick={() => window.location.href = `/${locale}`}
               className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -264,7 +266,7 @@ export default function Socios() {
                   Gracias por tu interés en XpertAuth. Te contactaremos en menos de 24 horas.
                 </p>
                 <button
-                  onClick={() => window.location.href = "/es"}
+                  onClick={() => window.location.href = `/${locale}`}
                   className="inline-flex items-center gap-2 text-arctic hover:text-white transition-colors text-sm font-medium"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -412,7 +414,7 @@ export default function Socios() {
                 <div className="text-center pt-2">
                   <button
                     type="button"
-                    onClick={() => window.location.href = "/es"}
+                    onClick={() => window.location.href = `/${locale}`}
                     className="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs transition-colors"
                   >
                     <ArrowLeft className="w-3 h-3" />
