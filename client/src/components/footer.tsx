@@ -3,18 +3,18 @@ import { SiLinkedin } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
 
 export default function Footer() {
-  const { messages } = useTranslations("footer");
+  const { messages, locale } = useTranslations("footer");
   const m = messages as any;
   const { t: navT } = useTranslations("nav");
 
-  const isHome = window.location.pathname === "/es" || window.location.pathname === "/es/";
+  const isHome = window.location.pathname === `/${locale}` || window.location.pathname === `/${locale}/`;
 
   const quickLinks = [
     { label: navT("servicios"), href: "#servicios" },
     { label: navT("comoFunciona"), href: "#como-funciona" },
     { label: navT("formacionSenior"), href: "#formacion-senior" },
     { label: navT("blog"), href: "#blog" },
-    { label: navT("hazteSocio"), href: "/es/socios", isExternal: true },
+    { label: navT("hazteSocio"), href: `/${locale}/socios`, isExternal: true },
   ];
 
   const handleLink = (href: string, isExternal?: boolean) => {
@@ -26,7 +26,7 @@ export default function Footer() {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      window.location.href = "/es" + href;
+      window.location.href = `/${locale}` + href;
     }
   };
 
