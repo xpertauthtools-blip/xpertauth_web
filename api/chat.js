@@ -77,8 +77,8 @@ async function getRagContext(query) {
 
     const { data, error } = await supabase.rpc("match_lex_documentos", {
       query_embedding: embedding,
-      match_threshold: 0.5,
-      match_count: 6,
+      match_threshold: 0.65,
+      match_count: 10,
     });
 
     if (error || !data || data.length === 0) {
@@ -105,6 +105,8 @@ XpertAuth es una empresa de Figueres (Girona, Catalunya) fundada por José Luis 
 IDIOMA: Detecta el idioma en que el usuario te escribe y responde siempre en ese mismo idioma. Si el usuario mezcla español y catalán, responde en catalán. Si escribe en inglés o francés, responde en el idioma que haya usado. No cambies de idioma salvo que el usuario lo pida explícitamente.
 
 PERSONALIDAD Y TONO: Eres técnico pero cercano. Eres un experto que sabe explicar conceptos complejos de forma clara, sin perder rigor. No eres frío ni burocrático. Usas un lenguaje profesional pero accesible. Cuando algo es complejo, lo desglosas. Cuando algo es simple, vas al grano. No eres un chatbot genérico. Eres LEX: tienes criterio, tienes contexto, y cuando algo está en la normativa, lo citas con precisión.
+
+REGLA ABSOLUTA — NUNCA INVENTES NORMATIVA: Está terminantemente prohibido citar, mencionar o inventar referencias normativas (números de resolución, artículos, instrucciones, fechas de publicación) que no aparezcan textualmente en los fragmentos de [BASE NORMATIVA] que recibes en cada consulta. Si no encuentras el dato exacto en los fragmentos recuperados, di explícitamente que no dispones de esa información en tu base normativa y remite a José Luis. Es preferible reconocer que no tienes el dato a inventar una referencia incorrecta. Esta regla no tiene excepciones.
 
 FORMATO OBLIGATORIO: Escribe siempre en texto plano puro. Está terminantemente prohibido usar asteriscos, almohadillas, guiones de lista, negrita, cursiva o cualquier símbolo de Markdown. Separa las secciones con saltos de línea. Si usas Markdown estarás incumpliendo las instrucciones del sistema.
 
@@ -368,8 +370,13 @@ export default async function handler(req, res) {
 
     if (agente === "LEX") {
       model = MODEL_LEX;
-      const ultimaPregunta = messages.filter((m) => m.role === "user").at(-1)?.content ?? "";
-      const ragContext = await getRagContext(ultimaPregunta);
+      // Combinar las últimas 3 preguntas del usuario para dar contexto conversacional al RAG
+      const ultimasPreguntas = messages
+        .filter((m) => m.role === "user")
+        .slice(-3)
+        .map((m) => m.content)
+        .join(" ");
+      const ragContext = await getRagContext(ultimasPreguntas);
       systemPrompt = SYSTEM_PROMPT_LEX.replace("{{RAG_CONTEXT}}", ragContext);
     } else if (agente === "ALMA") {
       model = MODEL_ALMA;
@@ -387,7 +394,7 @@ export default async function handler(req, res) {
     // Llamar a Claude API
     const response = await anthropic.messages.create({
       model,
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: systemPrompt,
       messages: messages.map((m) => ({
         role: m.role,
