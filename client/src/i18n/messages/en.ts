@@ -330,8 +330,9 @@ const en = {
         precio: "Free",
         desc: "To explore XpertAuth without commitment.",
         items: [
+          "50 credits for AI queries",
+          "~10 queries to LEX or 25 to NOVA/ALMA",
           "Blog and public resources",
-          "3 queries/month to the AI agent",
           "Access to open webinars",
         ],
         cta: "Start free",
@@ -339,11 +340,11 @@ const en = {
       {
         id: "individual",
         nombre: "Individual member",
-        precio: "€5/month",
-        precioAnual: "€50/year",
+        precio: "€9/month + VAT",
         desc: "For professionals who want real answers.",
         items: [
-          "Unlimited AI agent queries",
+          "1,000 credits/month for AI queries",
+          "~200 queries to LEX or 500 to NOVA/ALMA",
           "2h/year with José Luis",
           "Private member community",
           "Exclusive webinars",
@@ -354,10 +355,10 @@ const en = {
       {
         id: "corporativo",
         nombre: "Corporate member",
-        precio: "From €300/month",
+        precio: "€150/month + VAT",
         desc: "For companies that need continuous support.",
         items: [
-          "Everything in the individual plan",
+          "Unlimited credits for AI queries",
           "Route and permit planning",
           "In-company AI training",
           "Priority support",
