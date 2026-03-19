@@ -69,7 +69,7 @@ const es = {
     steps: [
       {
         title: "Te registras como socio",
-        subtitle: "Desde 5€/mes",
+        subtitle: "Desde 8€/mes",
         description: "Elige tu plan en menos de 2 minutos. Sin permanencia, cancelable cuando quieras.",
       },
       {
@@ -110,7 +110,7 @@ const es = {
       },
       {
         name: "Socio Individual",
-        price: "5€",
+        price: "8€",
         period: "/mes",
         description: "Acceso completo a consultoría con IA y soporte experto.",
         features: [
@@ -280,8 +280,8 @@ const es = {
     titleFree: "Registro gratuito",
     subtitleFree: "Accede a contenido público y a la formación para seniors. Sin coste.",
     titleIndividual: "Unirse como Socio",
-    subtitleIndividual: "Acceso completo a consultoría con IA y soporte experto por 5€/mes.",
-    acceptFee: "Acepto la cuota de 5€/mes (sin permanencia)",
+    subtitleIndividual: "Acceso completo a consultoría con IA y soporte experto por 8€/mes.",
+    acceptFee: "Acepto la cuota de 8€/mes (sin permanencia)",
     nameLabel: "Nombre",
     namePlaceholder: "Tu nombre",
     emailLabel: "Email",
@@ -322,7 +322,7 @@ const es = {
     subtitle: "Elige el plan que mejor se adapta a ti. Sin permanencias. Cancela cuando quieras.",
     backHome: "Volver al inicio",
     mostPopular: "Más popular",
-    quotaTitle: "Cómo se distribuye tu cuota de 5€/mes",
+    quotaTitle: "Cómo se distribuye tu cuota de 8€/mes",
     planes: [
       {
         id: "gratuito",
@@ -340,7 +340,7 @@ const es = {
       {
         id: "individual",
         nombre: "Socio individual",
-        precio: "9€/mes + IVA",
+        precio: "8€/mes",
         desc: "Para profesionales que quieren respuestas reales.",
         items: [
           "1.000 créditos/mes para consultas IA",
@@ -355,7 +355,7 @@ const es = {
       {
         id: "corporativo",
         nombre: "Socio corporativo",
-        precio: "150€/mes + IVA",
+        precio: "150€/mes",
         desc: "Para empresas que necesitan soporte continuo.",
         items: [
           "Créditos ilimitados para consultas IA",
