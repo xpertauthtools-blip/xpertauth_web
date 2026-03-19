@@ -407,7 +407,12 @@ export default function AgentChat({
 
       // Actualizar créditos restantes desde el backend
       if (data.creditos !== undefined && data.creditos !== null) {
-        setCreditosRestantes(data.creditos === -1 ? null : data.creditos);
+        const nuevosCreditos = data.creditos === -1 ? null : data.creditos;
+        setCreditosRestantes(nuevosCreditos);
+        // Notificar a la navbar
+        if (nuevosCreditos !== null) {
+          window.dispatchEvent(new CustomEvent("xpertauth:creditos", { detail: { creditos: nuevosCreditos } }));
+        }
       }
 
       if (!esAutenticado) {
