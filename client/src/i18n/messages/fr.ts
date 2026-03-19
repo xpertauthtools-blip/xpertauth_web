@@ -330,8 +330,9 @@ const fr = {
         precio: "Gratuit",
         desc: "Pour explorer XpertAuth sans engagement.",
         items: [
+          "50 crédits pour les consultations IA",
+          "~10 consultations à LEX ou 25 à NOVA/ALMA",
           "Blog et ressources publiques",
-          "3 requêtes/mois à l'agent IA",
           "Accès aux webinaires ouverts",
         ],
         cta: "Commencer gratuitement",
@@ -339,11 +340,11 @@ const fr = {
       {
         id: "individual",
         nombre: "Membre individuel",
-        precio: "5€/mois",
-        precioAnual: "50€/an",
+        precio: "9€/mois + TVA",
         desc: "Pour les professionnels qui veulent de vraies réponses.",
         items: [
-          "Requêtes illimitées à l'agent IA",
+          "1 000 crédits/mois pour les consultations IA",
+          "~200 consultations à LEX ou 500 à NOVA/ALMA",
           "2h/an avec José Luis",
           "Communauté privée des membres",
           "Webinaires exclusifs",
@@ -354,10 +355,10 @@ const fr = {
       {
         id: "corporativo",
         nombre: "Membre corporatif",
-        precio: "À partir de 300€/mois",
+        precio: "150€/mois + TVA",
         desc: "Pour les entreprises qui ont besoin d'un support continu.",
         items: [
-          "Tout ce qui est dans le plan individuel",
+          "Crédits illimités pour les consultations IA",
           "Planification des itinéraires et permis",
           "Formation in-company en IA",
           "Support prioritaire",
