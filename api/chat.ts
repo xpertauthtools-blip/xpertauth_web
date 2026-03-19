@@ -309,6 +309,7 @@ const chatSchema = z.object({
   ).min(1).max(20),
   email: z.string().email().optional(),
   esAutenticado: z.boolean().default(false),
+  agenteForzado: z.enum(["LEX", "NOVA", "ALMA"]).optional(),
 });
 
 // ─── Handler principal ────────────────────────────────────────────────────────
@@ -328,10 +329,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Datos inválidos." });
     }
 
-    const { messages, email, esAutenticado } = parsed.data;
+    const { messages, email, esAutenticado, agenteForzado } = parsed.data;
 
-    // Detectar agente primero (necesitamos el coste antes de verificar créditos)
-    const agente = detectAgent(messages);
+    // Detectar agente: si viene forzado desde el frontend, usarlo directamente
+    const agente = agenteForzado ?? detectAgent(messages);
     const coste = COSTE_CREDITOS[agente];
 
     // ── Control de créditos ───────────────────────────────────────────────────
