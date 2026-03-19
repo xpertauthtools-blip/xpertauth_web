@@ -64,30 +64,6 @@ const AGENTE_CONFIG: Record<Agente, {
   },
 };
 
-// ─── Helpers localStorage (contador de consultas) ─────────────────────────────
-
-function getConsultasKey(email: string) {
-  const d = new Date();
-  return `xpertauth_consultas_${email}_${d.getFullYear()}_${d.getMonth()}`;
-}
-
-function getConsultas(email: string): number {
-  try {
-    return parseInt(localStorage.getItem(getConsultasKey(email)) || "0", 10);
-  } catch {
-    return 0;
-  }
-}
-
-function incrementarConsultas(email: string) {
-  try {
-    const key = getConsultasKey(email);
-    const actual = parseInt(localStorage.getItem(key) || "0", 10);
-    localStorage.setItem(key, String(actual + 1));
-  } catch {}
-}
-
-const LIMITE = 3;
 const LIMITE_MENSAJES_SESION = 6;
 
 // ─── Parser de botones contextuales ─────────────────────────────────────────
@@ -342,6 +318,7 @@ export default function AgentChat({
   const [input, setInput] = useState("");
   const [cargando, setCargando] = useState(false);
   const [mensajesSesion, setMensajesSesion] = useState(0);
+  const [creditosRestantes, setCreditosRestantes] = useState<number | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -366,18 +343,11 @@ export default function AgentChat({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajes, cargando]);
 
+
+
   async function enviar() {
     const texto = input.trim();
     if (!texto || cargando) return;
-
-    // Comprobar límite visitante
-    if (!esAutenticado) {
-      const consultas = getConsultas(email);
-      if (consultas >= LIMITE) {
-        onLimiteAlcanzado();
-        return;
-      }
-    }
 
     // Comprobar límite de mensajes por sesión (visitantes)
     if (!esAutenticado && mensajesSesion >= LIMITE_MENSAJES_SESION) {
@@ -410,10 +380,16 @@ export default function AgentChat({
             role: m.role,
             content: m.content,
           })),
-          email: esAutenticado ? undefined : email,
+          email,
           esAutenticado,
         }),
       });
+
+      // Sin créditos: abrir pantalla de límite
+      if (res.status === 402) {
+        onLimiteAlcanzado();
+        return;
+      }
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -428,9 +404,12 @@ export default function AgentChat({
         },
       ]);
 
-      // Incrementar contador solo para visitantes
+      // Actualizar créditos restantes desde el backend
+      if (data.creditos !== undefined && data.creditos !== null) {
+        setCreditosRestantes(data.creditos === -1 ? null : data.creditos);
+      }
+
       if (!esAutenticado) {
-        incrementarConsultas(email);
         setMensajesSesion((n) => n + 1);
       }
     } catch (err) {
@@ -462,9 +441,7 @@ export default function AgentChat({
     e.target.style.height = Math.min(e.target.scrollHeight, 120) + "px";
   }
 
-  const consultasRestantes = esAutenticado
-    ? null
-    : LIMITE - getConsultas(email);
+
 
   return (
     <>
@@ -512,10 +489,10 @@ export default function AgentChat({
             </p>
           </div>
 
-          {/* Consultas restantes (solo visitantes) */}
-          {!esAutenticado && consultasRestantes !== null && (
+          {/* Créditos restantes */}
+          {!esAutenticado && creditosRestantes !== null && (
             <span className="text-xs text-white/30 flex-shrink-0">
-              {consultasRestantes} consulta{consultasRestantes !== 1 ? "s" : ""} restante{consultasRestantes !== 1 ? "s" : ""}
+              {creditosRestantes} crédito{creditosRestantes !== 1 ? "s" : ""}
             </span>
           )}
 
@@ -598,6 +575,8 @@ export default function AgentChat({
           <p className="text-center text-white/20 text-xs mt-2">
             {esAutenticado
               ? "Acceso ilimitado como socio · XpertAuth"
+              : creditosRestantes !== null
+              ? `Te quedan ${creditosRestantes} créditos · XpertAuth`
               : "Shift+Enter para nueva línea · Enter para enviar"}
           </p>
         </div>
