@@ -69,7 +69,7 @@ const en = {
     steps: [
       {
         title: "Register as a member",
-        subtitle: "From €5/month",
+        subtitle: "From €8/month",
         description: "Choose your plan in under 2 minutes. No commitment, cancel anytime.",
       },
       {
@@ -110,7 +110,7 @@ const en = {
       },
       {
         name: "Individual Member",
-        price: "€5",
+        price: "€8",
         period: "/month",
         description: "Full access to AI consulting and expert support.",
         features: [
@@ -280,8 +280,8 @@ const en = {
     titleFree: "Free registration",
     subtitleFree: "Access public content and senior training. No cost.",
     titleIndividual: "Join as Member",
-    subtitleIndividual: "Full access to AI consulting and expert support for €5/month.",
-    acceptFee: "I accept the €5/month fee (no commitment)",
+    subtitleIndividual: "Full access to AI consulting and expert support for €8/month.",
+    acceptFee: "I accept the €8/month fee (no commitment)",
     nameLabel: "Name",
     namePlaceholder: "Your name",
     emailLabel: "Email",
@@ -322,7 +322,7 @@ const en = {
     subtitle: "Choose the plan that best suits you. No commitment. Cancel anytime.",
     backHome: "Back to home",
     mostPopular: "Most popular",
-    quotaTitle: "How your €5/month fee is distributed",
+    quotaTitle: "How your membership fee is distributed",
     planes: [
       {
         id: "gratuito",
@@ -340,7 +340,7 @@ const en = {
       {
         id: "individual",
         nombre: "Individual member",
-        precio: "€9/month + VAT",
+        precio: "€8/month",
         desc: "For professionals who want real answers.",
         items: [
           "1,000 credits/month for AI queries",
@@ -355,7 +355,7 @@ const en = {
       {
         id: "corporativo",
         nombre: "Corporate member",
-        precio: "€150/month + VAT",
+        precio: "€150/month",
         desc: "For companies that need continuous support.",
         items: [
           "Unlimited credits for AI queries",
