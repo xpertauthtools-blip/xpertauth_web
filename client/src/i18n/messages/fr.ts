@@ -69,7 +69,7 @@ const fr = {
     steps: [
       {
         title: "Vous vous inscrivez comme membre",
-        subtitle: "Dès 5€/mois",
+        subtitle: "Dès 8€/mois",
         description: "Choisissez votre plan en moins de 2 minutes. Sans engagement, annulable quand vous voulez.",
       },
       {
@@ -110,7 +110,7 @@ const fr = {
       },
       {
         name: "Membre Individuel",
-        price: "5€",
+        price: "8€",
         period: "/mois",
         description: "Accès complet au conseil IA et au support expert.",
         features: [
@@ -280,8 +280,8 @@ const fr = {
     titleFree: "Inscription gratuite",
     subtitleFree: "Accédez au contenu public et à la formation seniors. Sans frais.",
     titleIndividual: "Devenir membre",
-    subtitleIndividual: "Accès complet au conseil IA et support expert pour 5€/mois.",
-    acceptFee: "J'accepte la cotisation de 5€/mois (sans engagement)",
+    subtitleIndividual: "Accès complet au conseil IA et support expert pour 8€/mois.",
+    acceptFee: "J'accepte la cotisation de 8€/mois (sans engagement)",
     nameLabel: "Nom",
     namePlaceholder: "Votre nom",
     emailLabel: "Email",
@@ -322,7 +322,7 @@ const fr = {
     subtitle: "Choisissez le plan qui vous convient le mieux. Sans engagement. Annulez quand vous voulez.",
     backHome: "Retour à l'accueil",
     mostPopular: "Le plus populaire",
-    quotaTitle: "Comment votre cotisation de 5€/mois est distribuée",
+    quotaTitle: "Comment votre cotisation de 8€/mois est distribuée",
     planes: [
       {
         id: "gratuito",
@@ -340,7 +340,7 @@ const fr = {
       {
         id: "individual",
         nombre: "Membre individuel",
-        precio: "9€/mois + TVA",
+        precio: "8€/mois",
         desc: "Pour les professionnels qui veulent de vraies réponses.",
         items: [
           "1 000 crédits/mois pour les consultations IA",
@@ -355,7 +355,7 @@ const fr = {
       {
         id: "corporativo",
         nombre: "Membre corporatif",
-        precio: "150€/mois + TVA",
+        precio: "150€/mois",
         desc: "Pour les entreprises qui ont besoin d'un support continu.",
         items: [
           "Crédits illimités pour les consultations IA",
