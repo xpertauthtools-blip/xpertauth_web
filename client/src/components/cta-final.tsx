@@ -26,7 +26,8 @@ export default function CtaFinal() {
         >
           <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl md:text-5xl leading-tight">
             {t("title1")}<br />
-            <span className="text-white/50">{t("title2")}<br />{t("title3")}</span>
+            {t("title2")}<br />
+            <span className="text-xpertblue">{t("title3")}</span>
           </h2>
 
           <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
