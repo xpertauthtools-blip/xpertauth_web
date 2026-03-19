@@ -382,6 +382,7 @@ export default function AgentChat({
           })),
           email,
           esAutenticado,
+          agenteForzado: agente, // el agente seleccionado al abrir el chat tiene prioridad
         }),
       });
 
