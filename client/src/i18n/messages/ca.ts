@@ -69,7 +69,7 @@ const ca = {
     steps: [
       {
         title: "Et registres com a soci",
-        subtitle: "Des de 5€/mes",
+        subtitle: "Des de 8€/mes",
         description: "Tria el teu pla en menys de 2 minuts. Sense permanència, cancel·lable quan vulguis.",
       },
       {
@@ -110,7 +110,7 @@ const ca = {
       },
       {
         name: "Soci Individual",
-        price: "5€",
+        price: "8€",
         period: "/mes",
         description: "Accés complet a consultoria amb IA i suport expert.",
         features: [
@@ -280,8 +280,8 @@ const ca = {
     titleFree: "Registre gratuït",
     subtitleFree: "Accedeix a contingut públic i a la formació per a gent gran. Sense cost.",
     titleIndividual: "Unir-se com a Soci",
-    subtitleIndividual: "Accés complet a consultoria amb IA i suport expert per 5€/mes.",
-    acceptFee: "Accepto la quota de 5€/mes (sense permanència)",
+    subtitleIndividual: "Accés complet a consultoria amb IA i suport expert per 8€/mes.",
+    acceptFee: "Accepto la quota de 8€/mes (sense permanència)",
     nameLabel: "Nom",
     namePlaceholder: "El teu nom",
     emailLabel: "Email",
@@ -322,7 +322,7 @@ const ca = {
     subtitle: "Tria el pla que millor s'adapta a tu. Sense permanències. Cancel·la quan vulguis.",
     backHome: "Tornar a l'inici",
     mostPopular: "Més popular",
-    quotaTitle: "Com es distribueix la teva quota de 5€/mes",
+    quotaTitle: "Com es distribueix la teva quota de 8€/mes",
     planes: [
       {
         id: "gratuito",
@@ -340,7 +340,7 @@ const ca = {
       {
         id: "individual",
         nombre: "Soci individual",
-        precio: "9€/mes + IVA",
+        precio: "8€/mes",
         desc: "Per a professionals que volen respostes reals.",
         items: [
           "1.000 crèdits/mes per a consultes IA",
@@ -355,7 +355,7 @@ const ca = {
       {
         id: "corporativo",
         nombre: "Soci corporatiu",
-        precio: "150€/mes + IVA",
+        precio: "150€/mes",
         desc: "Per a empreses que necessiten suport continu.",
         items: [
           "Crèdits il·limitats per a consultes IA",
