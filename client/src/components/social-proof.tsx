@@ -15,10 +15,18 @@ const testimonialAvatars = [
   `${SUPABASE_BASE}/testimonials/ana_avatar_v1.webp`,
 ];
 
-// Datos fijos para Carlos — composición reforzada
 const carlosOverride = {
   stat: "340 km",
   statLabel: "en un solo permiso",
+};
+
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
 };
 
 export default function SocialProof() {
@@ -38,7 +46,12 @@ export default function SocialProof() {
           className="text-center mb-16"
         >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
+          <h2
+            className="font-heading font-bold text-3xl sm:text-4xl mt-4"
+            style={gradientStyle}
+          >
+            {m.title}
+          </h2>
           <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
@@ -72,14 +85,12 @@ export default function SocialProof() {
               className="relative rounded-xl overflow-hidden min-h-[320px] flex flex-col justify-end group cursor-pointer"
               data-testid={`testimonial-${i}`}
             >
-              {/* Imagen de fondo — B&N por defecto, color en hover */}
               <div
                 className="testimonial-bg absolute inset-0 bg-cover bg-top"
                 style={{ backgroundImage: `url(${testimonialBgs[i]})` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent" />
 
-              {/* Badge especial para Carlos (tarjeta 0) */}
               {i === 0 && (
                 <div className="absolute top-4 left-4 z-10">
                   <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 text-center">
@@ -89,7 +100,6 @@ export default function SocialProof() {
                 </div>
               )}
 
-              {/* Contenido */}
               <div className="relative z-10 p-6 sm:p-8">
                 <p className="text-white/90 text-sm leading-relaxed italic mb-5">"{t.quote}"</p>
                 <div className="flex items-center gap-3">
