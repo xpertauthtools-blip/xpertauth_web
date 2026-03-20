@@ -5,6 +5,15 @@ import { useTranslations } from "@/i18n/context";
 import { useLocation } from "wouter";
 import ContactModal from "./ContactModal";
 
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 export default function CtaFinal() {
   const { t, locale } = useTranslations("ctaFinal");
   const [, navigate] = useLocation();
@@ -24,10 +33,13 @@ export default function CtaFinal() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl md:text-5xl leading-tight">
+          <h2
+            className="font-heading font-bold text-3xl sm:text-4xl md:text-5xl leading-tight"
+            style={gradientStyle}
+          >
             {t("title1")}<br />
             {t("title2")}<br />
-            <span className="bg-gradient-to-r from-arctic via-xpertblue to-arctic bg-clip-text text-transparent">{t("title3")}</span>
+            {t("title3")}
           </h2>
 
           <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
