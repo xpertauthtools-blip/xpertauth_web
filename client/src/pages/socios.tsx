@@ -14,6 +14,15 @@ const supabase = createClient(
 
 type FormState = "idle" | "loading" | "success" | "error";
 
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 export default function Socios() {
   const { t, locale, messages } = useTranslations("socios");
   const [, navigate] = useLocation();
@@ -102,10 +111,13 @@ export default function Socios() {
               <span className="w-1.5 h-1.5 rounded-full bg-arctic inline-block" />
               {t("badge")}
             </span>
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-pure leading-tight mb-6">
-              {t("title")}<br />
-              <span className="text-xpertblue">{t("titleHighlight")}</span>
+
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              <span className="text-pure">{t("title")}</span>
+              <br />
+              <span style={gradientStyle}>{t("titleHighlight")}</span>
             </h1>
+
             <p className="text-white/60 text-lg max-w-2xl mx-auto">
               {t("subtitle")}
             </p>
@@ -122,11 +134,17 @@ export default function Socios() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`relative rounded-2xl p-8 flex flex-col ${
+              whileHover={
+                plan.id === "individual"
+                  ? { y: -6, scale: 1.07, transition: { duration: 0.25, ease: "easeOut" } }
+                  : { y: -8, scale: 1.03, transition: { duration: 0.25, ease: "easeOut" } }
+              }
+              className={`relative rounded-2xl p-8 flex flex-col cursor-pointer ${
                 plan.id === "individual"
                   ? "bg-xpertblue border border-xpertblue shadow-2xl shadow-xpertblue/20 scale-105"
                   : "bg-white/5 border border-white/10"
               }`}
+              style={{ willChange: "transform" }}
             >
               {plan.id === "individual" && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -140,7 +158,7 @@ export default function Socios() {
                 <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
-                <p className={`font-heading text-3xl font-bold ${plan.id === "individual" ? "text-pure" : "text-pure"}`}>
+                <p className="font-heading text-3xl font-bold text-pure">
                   {plan.precio}
                 </p>
                 {plan.precioAnual && (
