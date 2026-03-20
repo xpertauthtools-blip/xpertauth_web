@@ -8,6 +8,15 @@ const LEX_AVATAR = `${SUPABASE_BASE}/equipo/lex_avatar_v1.webp`;
 const NOVA_AVATAR = `${SUPABASE_BASE}/equipo/nova_avatar_v1.webp`;
 const ALMA_AVATAR = `${SUPABASE_BASE}/equipo/alma_avatar_v1.webp`;
 
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 const teamMembers = [
   {
     id: "jose-luis",
@@ -196,10 +205,8 @@ export default function TeamSection() {
 
   function handleCta(member: (typeof teamMembers)[0]) {
     if (member.agente) {
-      // Agentes IA → abrir modal/chat del agente correspondiente
       abrirAgente(member.agente);
     } else {
-      // José Luis → navegar a subpágina
       window.location.href = `/${locale}${member.ctaHref}`;
     }
   }
@@ -217,7 +224,10 @@ export default function TeamSection() {
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
             {sectionLabel[lang]}
           </span>
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">
+          <h2
+            className="font-heading font-bold text-3xl sm:text-4xl mt-4"
+            style={gradientStyle}
+          >
             {sectionTitle[lang]}
           </h2>
           <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">
@@ -236,12 +246,10 @@ export default function TeamSection() {
               className={`relative flex flex-col rounded-xl border ${member.accentColor} bg-white/[0.02] p-6 transition-all duration-300 hover:bg-white/[0.04]`}
               data-testid={`card-team-${member.id}`}
             >
-              {/* Avatar */}
               <div className="mb-5">
                 <MemberAvatar member={member} />
               </div>
 
-              {/* Badge IA */}
               {!member.isHuman && (
                 <span
                   className={`inline-flex self-start px-2.5 py-1 rounded-full text-xs font-semibold border mb-3 ${member.numberBg} ${member.numberColor}`}
@@ -251,7 +259,6 @@ export default function TeamSection() {
                 </span>
               )}
 
-              {/* Nombre y rol */}
               <h3 className="font-heading font-bold text-pure text-base leading-tight mb-1">
                 {member.name}
               </h3>
@@ -259,12 +266,10 @@ export default function TeamSection() {
                 {member.role[lang]}
               </p>
 
-              {/* Descripción */}
               <p className="text-white/80 text-sm leading-relaxed flex-grow mb-6">
                 {member.description[lang]}
               </p>
 
-              {/* CTA */}
               <button
                 onClick={() => handleCta(member)}
                 className={`w-full py-2.5 rounded-md text-sm font-semibold transition-all duration-200 ${member.ctaStyle}`}
