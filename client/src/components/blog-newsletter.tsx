@@ -6,7 +6,15 @@ import { useTranslations } from "@/i18n/context";
 const SUPABASE_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co";
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// — Fetch helpers —
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 async function fetchPosts() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,slug,created_at&is_published=eq.true&order=created_at.desc&limit=2`,
@@ -45,7 +53,6 @@ function formatDate(dateStr: string) {
   });
 }
 
-// — Formulario suscripción Blog —
 function BlogSignupInline() {
   const { t } = useTranslations("blog");
   const [email, setEmail] = useState("");
@@ -127,7 +134,6 @@ function BlogSignupInline() {
   );
 }
 
-// — Formulario suscripción Newsletter —
 function NewsletterSignupInline() {
   const { t } = useTranslations("blog");
   const [email, setEmail] = useState("");
@@ -209,7 +215,6 @@ function NewsletterSignupInline() {
   );
 }
 
-// — Skeleton loader —
 function SkeletonCard() {
   return (
     <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] animate-pulse">
@@ -250,7 +255,12 @@ export default function BlogNewsletter() {
           className="text-center mb-16"
         >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">{m.title}</h2>
+          <h2
+            className="font-heading font-bold text-3xl sm:text-4xl mt-4"
+            style={gradientStyle}
+          >
+            {m.title}
+          </h2>
           <p className="mt-4 text-white/60 text-base max-w-xl mx-auto">{m.subtitle}</p>
         </motion.div>
 
@@ -306,7 +316,6 @@ export default function BlogNewsletter() {
               )}
             </div>
 
-            {/* CTA suscripción Blog */}
             <div className="mt-6">
               <BlogSignupInline />
             </div>
@@ -368,7 +377,6 @@ export default function BlogNewsletter() {
               )}
             </div>
 
-            {/* CTA suscripción Newsletter */}
             <div className="mt-6">
               <NewsletterSignupInline />
             </div>
