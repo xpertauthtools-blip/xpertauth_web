@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "../i18n/context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ContactModal from "@/components/ContactModal";
 import { cn } from "@/lib/utils";
 
 // ─── TRADUCCIONES ─────────────────────────────────────────────────────────────
@@ -35,26 +36,27 @@ const translations = {
     valores: {
       etiqueta: "Valores",
       titulo: "Lo que nos define",
+      hint: "Haz clic en una tarjeta para leerla",
       items: [
         {
           num: "01",
           titulo: "La formación senior, siempre gratuita",
-          texto: "No es una decisión económica ni una estrategia de captación. Es un compromiso fundacional.",
+          texto: "No es una decisión económica ni una estrategia de captación. Es un compromiso fundacional. Las personas seniors no deberían pagar por aprender a usar las herramientas que el resto del mundo ya da por sentadas.",
         },
         {
           num: "02",
           titulo: "Transparencia radical",
-          texto: "Usamos inteligencia artificial y lo decimos abiertamente. Cuando no sabemos algo, también lo decimos.",
+          texto: "Usamos inteligencia artificial y lo decimos abiertamente. Sabemos lo que la IA puede hacer y lo que no puede hacer. Y cuando no sabemos algo, también lo decimos.",
         },
         {
           num: "03",
           titulo: "La IA como herramienta, el humano como criterio",
-          texto: "Los agentes no trabajan solos. Cada respuesta está respaldada por experiencia real.",
+          texto: "Los agentes de XpertAuth no trabajan solos. Cada respuesta está respaldada por experiencia real. La tecnología amplifica el conocimiento humano; no lo sustituye.",
         },
         {
           num: "04",
           titulo: "Empatía tecnológica",
-          texto: "No juzgamos desde dónde empieza cada persona. Empezamos desde ahí.",
+          texto: "No todo el mundo llegó a la tecnología al mismo tiempo ni de la misma manera. En XpertAuth no juzgamos desde dónde empieza cada persona. Empezamos desde ahí.",
         },
       ],
     },
@@ -95,26 +97,27 @@ const translations = {
     valores: {
       etiqueta: "Valors",
       titulo: "El que ens defineix",
+      hint: "Fes clic en una targeta per llegir-la",
       items: [
         {
           num: "01",
           titulo: "La formació senior, sempre gratuïta",
-          texto: "No és una decisió econòmica ni una estratègia de captació. És un compromís fundacional.",
+          texto: "No és una decisió econòmica ni una estratègia de captació. És un compromís fundacional. Les persones seniors no haurien de pagar per aprendre a usar les eines que la resta del món ja dona per descomptades.",
         },
         {
           num: "02",
           titulo: "Transparència radical",
-          texto: "Usem intel·ligència artificial i ho diem obertament. Quan no sabem alguna cosa, també ho diem.",
+          texto: "Usem intel·ligència artificial i ho diem obertament. Sabem el que la IA pot fer i el que no pot fer. I quan no sabem alguna cosa, també ho diem.",
         },
         {
           num: "03",
           titulo: "La IA com a eina, l'humà com a criteri",
-          texto: "Els agents no treballen sols. Cada resposta està avalada per experiència real.",
+          texto: "Els agents de XpertAuth no treballen sols. Cada resposta està avalada per experiència real. La tecnologia amplifica el coneixement humà; no el substitueix.",
         },
         {
           num: "04",
           titulo: "Empatia tecnològica",
-          texto: "No jutgem des d'on comença cada persona. Comencem des d'allà.",
+          texto: "No tothom va arribar a la tecnologia al mateix temps ni de la mateixa manera. A XpertAuth no jutgem des d'on comença cada persona. Comencem des d'allà.",
         },
       ],
     },
@@ -155,26 +158,27 @@ const translations = {
     valores: {
       etiqueta: "Values",
       titulo: "What defines us",
+      hint: "Click a card to read it",
       items: [
         {
           num: "01",
           titulo: "Senior training, always free",
-          texto: "This is not an economic decision or a marketing strategy. It's a founding commitment.",
+          texto: "This is not an economic decision or a marketing strategy. It's a founding commitment. Senior people shouldn't have to pay to learn to use tools that the rest of the world already takes for granted.",
         },
         {
           num: "02",
           titulo: "Radical transparency",
-          texto: "We use artificial intelligence and we say so openly. When we don't know something, we say that too.",
+          texto: "We use artificial intelligence and we say so openly. We know what AI can do and what it can't. And when we don't know something, we say that too.",
         },
         {
           num: "03",
           titulo: "AI as a tool, humans as the judge",
-          texto: "Agents don't work alone. Every answer is backed by real experience.",
+          texto: "XpertAuth's agents don't work alone. Every answer is backed by real experience. Technology amplifies human knowledge; it doesn't replace it.",
         },
         {
           num: "04",
           titulo: "Technological empathy",
-          texto: "We don't judge where each person starts from. We start from there.",
+          texto: "Not everyone arrived at technology at the same time or in the same way. At XpertAuth we don't judge where each person starts from. We start from there.",
         },
       ],
     },
@@ -215,26 +219,27 @@ const translations = {
     valores: {
       etiqueta: "Valeurs",
       titulo: "Ce qui nous définit",
+      hint: "Cliquez sur une carte pour la lire",
       items: [
         {
           num: "01",
           titulo: "La formation senior, toujours gratuite",
-          texto: "Ce n'est pas une décision économique ni une stratégie de marketing. C'est un engagement fondateur.",
+          texto: "Ce n'est pas une décision économique ni une stratégie de marketing. C'est un engagement fondateur. Les personnes seniors ne devraient pas payer pour apprendre à utiliser des outils que le reste du monde considère déjà comme acquis.",
         },
         {
           num: "02",
           titulo: "Transparence radicale",
-          texto: "Nous utilisons l'IA et nous le disons ouvertement. Quand nous ne savons pas, nous le disons aussi.",
+          texto: "Nous utilisons l'intelligence artificielle et nous le disons ouvertement. Nous savons ce que l'IA peut faire et ce qu'elle ne peut pas faire. Et quand nous ne savons pas quelque chose, nous le disons aussi.",
         },
         {
           num: "03",
           titulo: "L'IA comme outil, l'humain comme critère",
-          texto: "Les agents ne travaillent pas seuls. Chaque réponse est soutenue par une expérience réelle.",
+          texto: "Les agents de XpertAuth ne travaillent pas seuls. Chaque réponse est soutenue par une expérience réelle. La technologie amplifie la connaissance humaine ; elle ne la remplace pas.",
         },
         {
           num: "04",
           titulo: "Empathie technologique",
-          texto: "Nous ne jugeons pas le point de départ de chaque personne. Nous partons de là.",
+          texto: "Tout le monde n'est pas arrivé à la technologie au même moment ni de la même façon. Chez XpertAuth, nous ne jugeons pas le point de départ de chaque personne. Nous partons de là.",
         },
       ],
     },
@@ -248,84 +253,158 @@ const translations = {
   },
 };
 
-// ─── PLACEHOLDER foto — sustituir por foto real cuando esté disponible ────────
+// ─── PLACEHOLDER foto — sustituir por foto real cuando esté disponible ─────────
 const FOTO_URL =
   "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/equipo/jose-luis_foto_v1.webp";
 
-// ─── DISPLAY CARD individual ──────────────────────────────────────────────────
+// ─── DISPLAY CARDS CON CLIC AL FRENTE ────────────────────────────────────────
 
-interface ValorCardProps {
+interface ValorItem {
   num: string;
   titulo: string;
   texto: string;
-  className?: string;
 }
 
-function ValorCard({ num, titulo, texto, className }: ValorCardProps) {
+function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
+  // orden[0] = índice de la tarjeta que está al frente
+  // Empezamos con [0,1,2,3] → tarjeta 01 al frente
+  const [order, setOrder] = useState([0, 1, 2, 3]);
+
+  // Al hacer clic en una tarjeta, la trae al frente
+  function traerAlFrente(idx: number) {
+    setOrder((prev) => {
+      const rest = prev.filter((i) => i !== idx);
+      return [idx, ...rest];
+    });
+  }
+
+  // Posiciones de cada slot en la pila (de atrás hacia delante)
+  const slotStyle = (slot: number): React.CSSProperties => {
+    // slot 0 = frente, slot 3 = fondo
+    const offsetX = (3 - slot) * 28;
+    const offsetY = (3 - slot) * 20;
+    return {
+      position: "absolute",
+      transform: `translateX(${offsetX}px) translateY(${offsetY}px) skewY(-6deg)`,
+      zIndex: slot + 1,
+      transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), z-index 0s",
+      cursor: slot === 0 ? "default" : "pointer",
+    };
+  };
+
   return (
-    <div
-      className={cn(
-        // Base
-        "relative flex h-44 w-[24rem] -skew-y-[6deg] select-none flex-col justify-between",
-        "rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-6 py-5",
-        "transition-all duration-700",
-        // Overlay oscuro que desaparece en hover
-        "before:absolute before:inset-0 before:rounded-xl before:bg-[#0A0E1A]/55",
-        "before:transition-opacity before:duration-700 before:content-['']",
-        "hover:before:opacity-0 hover:border-white/25 hover:bg-white/10",
-        className
-      )}
-    >
-      {/* Número */}
-      <span
-        className="relative z-10 text-xs font-bold tracking-widest uppercase"
-        style={{ color: "#4D9FEC" }}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
+      {/* Pila de tarjetas */}
+      <div
+        style={{
+          position: "relative",
+          width: "26rem",
+          height: "13rem",
+          marginBottom: "3rem",
+        }}
       >
-        {num}
-      </span>
+        {/* Renderizamos de atrás hacia delante: order[3] primero, order[0] último */}
+        {[...order].reverse().map((itemIdx, renderPos) => {
+          const slot = order.length - 1 - renderPos; // slot real (0=frente)
+          const item = items[itemIdx];
+          const isFrente = slot === 0;
 
-      {/* Título */}
-      <p className="relative z-10 text-sm font-semibold leading-snug text-white">
-        {titulo}
+          return (
+            <div
+              key={itemIdx}
+              style={slotStyle(slot)}
+              onClick={() => !isFrente && traerAlFrente(itemIdx)}
+            >
+              <div
+                style={{
+                  width: "24rem",
+                  height: "11rem",
+                  borderRadius: "0.875rem",
+                  border: isFrente
+                    ? "1px solid rgba(77,159,236,0.4)"
+                    : "1px solid rgba(255,255,255,0.08)",
+                  background: isFrente
+                    ? "rgba(27,79,216,0.12)"
+                    : "rgba(255,255,255,0.04)",
+                  backdropFilter: "blur(8px)",
+                  padding: "1.25rem 1.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  boxShadow: isFrente
+                    ? "0 8px 32px rgba(27,79,216,0.2)"
+                    : "none",
+                  transition: "border 0.3s, background 0.3s, box-shadow 0.3s",
+                  filter: isFrente ? "none" : "brightness(0.6)",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
+                    color: "#4D9FEC",
+                  }}
+                >
+                  {item.num}
+                </span>
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    fontWeight: 700,
+                    color: "#fff",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {item.titulo}
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "rgba(255,255,255,0.6)",
+                    lineHeight: 1.65,
+                  }}
+                >
+                  {item.texto}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Indicadores de navegación */}
+      <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
+        {items.map((item, idx) => (
+          <button
+            key={idx}
+            onClick={() => traerAlFrente(idx)}
+            style={{
+              width: order[0] === idx ? "2rem" : "0.5rem",
+              height: "0.5rem",
+              borderRadius: "9999px",
+              background: order[0] === idx ? "#1B4FD8" : "rgba(255,255,255,0.2)",
+              border: "none",
+              cursor: "pointer",
+              transition: "width 0.3s, background 0.3s",
+              padding: 0,
+            }}
+            title={item.num}
+          />
+        ))}
+      </div>
+
+      {/* Hint */}
+      <p
+        style={{
+          fontSize: "0.72rem",
+          color: "rgba(255,255,255,0.3)",
+          letterSpacing: "0.05em",
+          marginTop: "0.25rem",
+        }}
+      >
+        {hint}
       </p>
-
-      {/* Descripción */}
-      <p className="relative z-10 text-xs leading-relaxed text-white/55">
-        {texto}
-      </p>
-    </div>
-  );
-}
-
-// ─── STACK DE 4 TARJETAS ──────────────────────────────────────────────────────
-
-function ValoresStack({
-  items,
-}: {
-  items: { num: string; titulo: string; texto: string }[];
-}) {
-  const stackClasses = [
-    // Tarjeta 1 — frente, sube mucho en hover
-    "[grid-area:stack] hover:-translate-y-14 grayscale hover:grayscale-0 transition-all duration-700",
-    // Tarjeta 2
-    "[grid-area:stack] translate-x-8 translate-y-7 hover:-translate-y-5 grayscale hover:grayscale-0 transition-all duration-700",
-    // Tarjeta 3
-    "[grid-area:stack] translate-x-16 translate-y-14 hover:translate-y-4 grayscale hover:grayscale-0 transition-all duration-700",
-    // Tarjeta 4 — fondo
-    "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-12 transition-all duration-700",
-  ];
-
-  return (
-    <div className="grid [grid-template-areas:'stack'] place-items-center animate-in fade-in-0 duration-700">
-      {items.map((item, i) => (
-        <ValorCard
-          key={item.num}
-          num={item.num}
-          titulo={item.titulo}
-          texto={item.texto}
-          className={stackClasses[i]}
-        />
-      ))}
     </div>
   );
 }
@@ -337,24 +416,25 @@ export default function SobreNosotros() {
   const lang = locale as keyof typeof translations;
   const t = translations[lang] ?? translations.es;
 
+  // ContactModal propio
+  const [contactOpen, setContactOpen] = useState(false);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   // Animaciones entrada
-  const heroRef = useRef<HTMLElement>(null);
+  const heroRef    = useRef<HTMLElement>(null);
   const historiaRef = useRef<HTMLElement>(null);
-  const misionRef = useRef<HTMLElement>(null);
+  const misionRef  = useRef<HTMLElement>(null);
   const valoresRef = useRef<HTMLElement>(null);
-  const ctaRef = useRef<HTMLElement>(null);
+  const ctaRef     = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("sn-visible");
-        });
-      },
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("sn-visible");
+      }),
       { threshold: 0.1 }
     );
     [heroRef, historiaRef, misionRef, valoresRef, ctaRef].forEach(
@@ -363,15 +443,9 @@ export default function SobreNosotros() {
     return () => observer.disconnect();
   }, []);
 
-  const handleContacto = () => {
-    const btn = document.querySelector<HTMLElement>("[data-open-contact]");
-    if (btn) btn.click();
-  };
-
   return (
     <>
       <style>{`
-        /* Entrada */
         .sn-fade { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
         .sn-fade.sn-visible { opacity:1; transform:translateY(0); }
 
@@ -392,11 +466,11 @@ export default function SobreNosotros() {
 
         /* Foto B&N → color en hover */
         .sn-foto {
-          width:100%; max-width:340px; aspect-ratio:3/4; object-fit:cover;
+          width:100%; max-width:320px; aspect-ratio:3/4; object-fit:cover;
           border-radius:1rem;
           filter:grayscale(100%);
-          transition:filter .6s ease, transform .6s ease;
-          box-shadow:0 20px 60px rgba(0,0,0,.22);
+          transition:filter .6s ease,transform .6s ease;
+          box-shadow:0 20px 60px rgba(0,0,0,.35);
           display:block;
           cursor:pointer;
         }
@@ -412,7 +486,7 @@ export default function SobreNosotros() {
         /* Párrafos historia */
         .sn-p + .sn-p { margin-top:1.25rem; }
 
-        /* Botones — igual que cta-final */
+        /* Botones */
         .sn-btn-1 {
           background:#1B4FD8; color:#fff; border:none;
           border-radius:.5rem; padding:.875rem 2rem;
@@ -430,53 +504,54 @@ export default function SobreNosotros() {
         }
         .sn-btn-2:hover { border-color:#fff; background:rgba(255,255,255,.07); transform:translateY(-2px); }
 
+        /* Separador secciones */
+        .sn-sep { border:none; border-top:1px solid rgba(255,255,255,.07); margin:0; }
+
         /* Responsive */
         @media(max-width:768px){
           .sn-grid-historia { grid-template-columns:1fr !important; }
-          .sn-foto { max-width:220px !important; margin:0 auto; }
-          .sn-valores-outer { transform:scale(.7); transform-origin:top center; min-height:340px; }
+          .sn-foto { max-width:200px !important; margin:0 auto; }
+          .sn-stack-wrap { transform:scale(.65) !important; transform-origin:top center; }
         }
       `}</style>
 
-      {/* ── NAVBAR ── */}
+      {/* NAVBAR */}
       <Navbar />
 
-      <main style={{ fontFamily: "'Sora','Inter',sans-serif" }}>
+      <main style={{ fontFamily:"'Sora','Inter',sans-serif" }}>
 
         {/* ══ HERO ══════════════════════════════════════════════════════ */}
         <section
           ref={heroRef}
           className="sn-fade"
           style={{
-            background: "#0A0E1A",
-            minHeight: "55vh",
-            display: "flex",
-            alignItems: "center",
-            padding: "140px 24px 80px",
+            background:"#0A0E1A",
+            minHeight:"55vh",
+            display:"flex",
+            alignItems:"center",
+            padding:"140px 24px 80px",
           }}
         >
-          <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center" }}>
             <h1
               className="sn-grad"
               style={{
-                fontSize: "clamp(2rem,5vw,3.4rem)",
-                fontWeight: 800,
-                lineHeight: 1.15,
-                marginBottom: "1.5rem",
-                whiteSpace: "pre-line",
+                fontSize:"clamp(2rem,5vw,3.4rem)",
+                fontWeight:800,
+                lineHeight:1.15,
+                marginBottom:"1.5rem",
+                whiteSpace:"pre-line",
               }}
             >
               {t.hero.titulo}
             </h1>
-            <p
-              style={{
-                color: "rgba(255,255,255,.6)",
-                fontSize: "clamp(.95rem,2vw,1.15rem)",
-                lineHeight: 1.8,
-                maxWidth: 620,
-                margin: "0 auto",
-              }}
-            >
+            <p style={{
+              color:"rgba(255,255,255,.6)",
+              fontSize:"clamp(.95rem,2vw,1.15rem)",
+              lineHeight:1.8,
+              maxWidth:620,
+              margin:"0 auto",
+            }}>
               {t.hero.subtitulo}
             </p>
           </div>
@@ -486,21 +561,23 @@ export default function SobreNosotros() {
         <section
           ref={historiaRef}
           className="sn-fade"
-          style={{ background: "#F4F6FA", padding: "80px 24px" }}
+          style={{ background:"#0A0E1A", padding:"80px 24px" }}
         >
+          <hr className="sn-sep" />
+          <div style={{ height:"80px" }} />
           <div
             className="sn-grid-historia"
             style={{
-              maxWidth: 1100,
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "1fr 1.4fr",
-              gap: "4rem",
-              alignItems: "start",
+              maxWidth:1100,
+              margin:"0 auto",
+              display:"grid",
+              gridTemplateColumns:"1fr 1.4fr",
+              gap:"4rem",
+              alignItems:"start",
             }}
           >
-            {/* Columna foto */}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            {/* Foto */}
+            <div style={{ display:"flex", justifyContent:"center" }}>
               <img
                 src={FOTO_URL}
                 alt={t.historia.fotoAlt}
@@ -513,45 +590,24 @@ export default function SobreNosotros() {
                 }}
               />
               {/* Fallback iniciales */}
-              <div
-                style={{
-                  display: "none",
-                  width: 280,
-                  height: 373,
-                  borderRadius: "1rem",
-                  background: "#1B4FD8",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "3rem",
-                  fontWeight: 800,
-                  color: "#fff",
-                }}
-              >
+              <div style={{
+                display:"none", width:280, height:373, borderRadius:"1rem",
+                background:"#1B4FD8", alignItems:"center", justifyContent:"center",
+                fontSize:"3rem", fontWeight:800, color:"#fff",
+              }}>
                 JL
               </div>
             </div>
 
-            {/* Columna texto */}
+            {/* Texto */}
             <div>
               <span className="sn-label">{t.historia.etiqueta}</span>
               {t.historia.parrafos.map((p, i) => (
-                <p
-                  key={i}
-                  className="sn-p"
-                  style={{ color: "#2d3748", fontSize: ".97rem", lineHeight: 1.85 }}
-                >
+                <p key={i} className="sn-p" style={{ color:"rgba(255,255,255,.75)", fontSize:".97rem", lineHeight:1.85 }}>
                   {p}
                 </p>
               ))}
-              <p
-                style={{
-                  marginTop: "2rem",
-                  color: "#1B4FD8",
-                  fontWeight: 700,
-                  fontSize: ".88rem",
-                  fontStyle: "italic",
-                }}
-              >
+              <p style={{ marginTop:"2rem", color:"#4D9FEC", fontWeight:700, fontSize:".88rem", fontStyle:"italic" }}>
                 {t.historia.firma}
               </p>
             </div>
@@ -562,42 +618,44 @@ export default function SobreNosotros() {
         <section
           ref={misionRef}
           className="sn-fade"
-          style={{ background: "#ffffff", padding: "80px 24px" }}
+          style={{ background:"#0F1628", padding:"80px 24px" }}
         >
-          <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ maxWidth:720, margin:"0 auto", textAlign:"center" }}>
             <span className="sn-label">{t.mision.etiqueta}</span>
             <h2
               className="sn-grad"
               style={{
-                fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
-                fontWeight: 800,
-                lineHeight: 1.2,
-                marginBottom: "1.5rem",
+                fontSize:"clamp(1.7rem,3.5vw,2.6rem)",
+                fontWeight:800,
+                lineHeight:1.2,
+                marginBottom:"1.5rem",
               }}
             >
               {t.mision.titulo}
             </h2>
-            <p style={{ color: "#4a5568", fontSize: "1.02rem", lineHeight: 1.9 }}>
+            <p style={{ color:"rgba(255,255,255,.6)", fontSize:"1.02rem", lineHeight:1.9 }}>
               {t.mision.texto}
             </p>
           </div>
         </section>
 
-        {/* ══ VALORES — Display Cards apiladas ══════════════════════════ */}
+        {/* ══ VALORES — Display Cards clicables ═════════════════════════ */}
         <section
           ref={valoresRef}
           className="sn-fade"
-          style={{ background: "#0A0E1A", padding: "80px 24px 160px" }}
+          style={{ background:"#0A0E1A", padding:"80px 24px 140px" }}
         >
-          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <hr className="sn-sep" />
+          <div style={{ height:"80px" }} />
+          <div style={{ maxWidth:1100, margin:"0 auto" }}>
+            <div style={{ textAlign:"center", marginBottom:"4rem" }}>
               <span className="sn-label">{t.valores.etiqueta}</span>
               <h2
                 className="sn-grad"
                 style={{
-                  fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
-                  fontWeight: 800,
-                  lineHeight: 1.2,
+                  fontSize:"clamp(1.7rem,3.5vw,2.6rem)",
+                  fontWeight:800,
+                  lineHeight:1.2,
                 }}
               >
                 {t.valores.titulo}
@@ -605,10 +663,10 @@ export default function SobreNosotros() {
             </div>
 
             <div
-              className="sn-valores-outer"
-              style={{ display: "flex", justifyContent: "center" }}
+              className="sn-stack-wrap"
+              style={{ display:"flex", justifyContent:"center" }}
             >
-              <ValoresStack items={t.valores.items} />
+              <ValoresStack items={t.valores.items} hint={t.valores.hint} />
             </div>
           </div>
         </section>
@@ -618,49 +676,43 @@ export default function SobreNosotros() {
           ref={ctaRef}
           className="sn-fade"
           style={{
-            background: "#070A12",
-            padding: "80px 24px",
-            textAlign: "center",
-            borderTop: "1px solid rgba(255,255,255,.06)",
+            background:"#070A12",
+            padding:"80px 24px",
+            textAlign:"center",
+            borderTop:"1px solid rgba(255,255,255,.06)",
           }}
         >
-          <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div style={{ maxWidth:600, margin:"0 auto" }}>
             <h2
               className="sn-grad"
               style={{
-                fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
-                fontWeight: 800,
-                lineHeight: 1.2,
-                marginBottom: "1.25rem",
+                fontSize:"clamp(1.7rem,3.5vw,2.6rem)",
+                fontWeight:800,
+                lineHeight:1.2,
+                marginBottom:"1.25rem",
               }}
             >
               {t.cta.titulo}
             </h2>
-            <p
-              style={{
-                color: "rgba(255,255,255,.55)",
-                fontSize: "1rem",
-                lineHeight: 1.8,
-                marginBottom: "2.5rem",
-              }}
-            >
+            <p style={{
+              color:"rgba(255,255,255,.55)",
+              fontSize:"1rem",
+              lineHeight:1.8,
+              marginBottom:"2.5rem",
+            }}>
               {t.cta.subtitulo}
             </p>
-            <div
-              style={{
-                display: "flex",
-                gap: "1rem",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
+            <div style={{ display:"flex", gap:"1rem", justifyContent:"center", flexWrap:"wrap" }}>
               <button
                 className="sn-btn-1"
                 onClick={() => { window.location.href = `/${locale}/socios`; }}
               >
                 {t.cta.boton1}
               </button>
-              <button className="sn-btn-2" onClick={handleContacto}>
+              <button
+                className="sn-btn-2"
+                onClick={() => setContactOpen(true)}
+              >
                 {t.cta.boton2}
               </button>
             </div>
@@ -669,8 +721,14 @@ export default function SobreNosotros() {
 
       </main>
 
-      {/* ── FOOTER ── */}
+      {/* FOOTER */}
       <Footer />
+
+      {/* ContactModal — instancia propia de esta página */}
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+      />
     </>
   );
 }
