@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useI18n } from "../i18n/context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -326,14 +326,12 @@ function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
                 filter: slot === 0 ? "none" : `brightness(${1 - slot * 0.12})`,
               }}
             >
-              <span style={{ fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", color: "#4D9FEC", textTransform: "uppercase" }}>
+              <span style={{ fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", color: "#4D9FEC", textTransform: "uppercase" as const }}>
                 {item.num}
               </span>
-              {/* TÍTULO — blanco puro */}
               <p style={{ fontSize: "1rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.4 }}>
                 {item.titulo}
               </p>
-              {/* TEXTO — blanco puro */}
               <p style={{ fontSize: "0.85rem", color: "#ffffff", lineHeight: 1.7 }}>
                 {item.texto}
               </p>
@@ -378,105 +376,30 @@ export default function SobreNosotros() {
 
   const [contactOpen, setContactOpen] = useState(false);
 
-  useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
-
-  const heroRef     = useRef<HTMLElement>(null);
-  const historiaRef = useRef<HTMLElement>(null);
-  const misionRef   = useRef<HTMLElement>(null);
-  const valoresRef  = useRef<HTMLElement>(null);
-  const ctaRef      = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("sn-visible"); }),
-      { threshold: 0.1 }
-    );
-    [heroRef, historiaRef, misionRef, valoresRef, ctaRef].forEach(
-      (r) => r.current && obs.observe(r.current)
-    );
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <>
-      <style>{`
-        /* ── Animación solo opacidad — sin translateY para evitar el efecto de línea ── */
-        .sn-fade { opacity: 0; transition: opacity 0.7s ease; }
-        .sn-fade.sn-visible { opacity: 1; }
-
-        /* Degradado animado en títulos */
-        .sn-grad {
-          background: linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%);
-          background-size: 300% 300%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: snGrad 6s ease infinite;
-        }
-        @keyframes snGrad {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
-        /* Foto B&N → color en hover */
-        .sn-foto {
-          width: 100%; max-width: 320px; aspect-ratio: 3/4; object-fit: cover;
-          border-radius: 1rem; filter: grayscale(100%);
-          transition: filter .6s ease, transform .6s ease;
-          box-shadow: 0 20px 60px rgba(0,0,0,.45);
-          display: block; cursor: pointer;
-        }
-        .sn-foto:hover { filter: grayscale(0%); transform: scale(1.02); }
-
-        /* Etiqueta sección */
-        .sn-label {
-          display: block; font-size: .7rem; font-weight: 700;
-          letter-spacing: .15em; text-transform: uppercase;
-          color: #4D9FEC; margin-bottom: .75rem;
-        }
-
-        /* Párrafos historia */
-        .sn-p + .sn-p { margin-top: 1.25rem; }
-
-        /* Separador */
-        .sn-sep { border: none; border-top: 1px solid rgba(255,255,255,.07); margin: 0; }
-
-        /* Botones */
-        .sn-btn-1 {
-          background: #1B4FD8; color: #fff; border: none; border-radius: .5rem;
-          padding: .875rem 2rem; font-family: 'Sora',sans-serif; font-weight: 600;
-          font-size: .95rem; cursor: pointer; transition: background .2s, transform .2s;
-        }
-        .sn-btn-1:hover { background: #1641b0; transform: translateY(-2px); }
-
-        .sn-btn-2 {
-          background: transparent; color: #fff;
-          border: 1.5px solid rgba(255,255,255,.4); border-radius: .5rem;
-          padding: .875rem 2rem; font-family: 'Sora',sans-serif; font-weight: 600;
-          font-size: .95rem; cursor: pointer;
-          transition: border-color .2s, background .2s, transform .2s;
-        }
-        .sn-btn-2:hover { border-color: #fff; background: rgba(255,255,255,.07); transform: translateY(-2px); }
-
-        /* Responsive */
-        @media(max-width: 768px){
-          .sn-grid-historia { grid-template-columns: 1fr !important; }
-          .sn-foto { max-width: 200px !important; margin: 0 auto; }
-          .sn-stack-scale { transform: scale(.58) !important; transform-origin: top center; }
-        }
-      `}</style>
-
+    <div className="min-h-screen">
       <Navbar />
 
       <main style={{ fontFamily: "'Sora','Inter',sans-serif" }}>
 
         {/* ══ HERO ══════════════════════════════════════════════════════ */}
-        <section ref={heroRef} className="sn-fade"
-          style={{ background: "#0A0E1A", minHeight: "55vh", display: "flex", alignItems: "center", padding: "140px 24px 80px" }}>
+        <section style={{ background: "#0A0E1A", minHeight: "55vh", display: "flex", alignItems: "center", padding: "140px 24px 80px" }}>
           <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-            <h1 className="sn-grad"
-              style={{ fontSize: "clamp(2rem,5vw,3.4rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: "1.5rem", whiteSpace: "pre-line" }}>
+            <h1
+              style={{
+                background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+                backgroundSize: "300% 300%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                animation: "snGrad 6s ease infinite",
+                fontSize: "clamp(2rem,5vw,3.4rem)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                marginBottom: "1.5rem",
+                whiteSpace: "pre-line",
+              }}
+            >
               {t.hero.titulo}
             </h1>
             <p style={{ color: "rgba(255,255,255,.6)", fontSize: "clamp(.95rem,2vw,1.15rem)", lineHeight: 1.8, maxWidth: 620, margin: "0 auto" }}>
@@ -486,13 +409,23 @@ export default function SobreNosotros() {
         </section>
 
         {/* ══ HISTORIA ══════════════════════════════════════════════════ */}
-        <section ref={historiaRef} className="sn-fade"
-          style={{ background: "#0A0E1A", padding: "0 24px 80px" }}>
-          <hr className="sn-sep" style={{ maxWidth: 1100, margin: "0 auto 80px" }} />
-          <div className="sn-grid-historia"
-            style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "4rem", alignItems: "start" }}>
+        <section style={{ background: "#0A0E1A", padding: "80px 24px" }}>
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              display: "grid",
+              gridTemplateColumns: "1fr 1.4fr",
+              gap: "4rem",
+              alignItems: "start",
+            }}
+            className="sn-grid-historia"
+          >
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src={FOTO_URL} alt={t.historia.fotoAlt} className="sn-foto"
+              <img
+                src={FOTO_URL}
+                alt={t.historia.fotoAlt}
+                className="sn-foto"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   const fb = e.currentTarget.nextElementSibling as HTMLElement;
@@ -504,9 +437,11 @@ export default function SobreNosotros() {
               </div>
             </div>
             <div>
-              <span className="sn-label">{t.historia.etiqueta}</span>
+              <span style={{ display: "block", fontSize: ".7rem", fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase" as const, color: "#4D9FEC", marginBottom: ".75rem" }}>
+                {t.historia.etiqueta}
+              </span>
               {t.historia.parrafos.map((p, i) => (
-                <p key={i} className="sn-p" style={{ color: "rgba(255,255,255,.75)", fontSize: ".97rem", lineHeight: 1.85 }}>{p}</p>
+                <p key={i} style={{ color: "rgba(255,255,255,.75)", fontSize: ".97rem", lineHeight: 1.85, marginTop: i > 0 ? "1.25rem" : 0 }}>{p}</p>
               ))}
               <p style={{ marginTop: "2rem", color: "#4D9FEC", fontWeight: 700, fontSize: ".88rem", fontStyle: "italic" }}>
                 {t.historia.firma}
@@ -516,12 +451,25 @@ export default function SobreNosotros() {
         </section>
 
         {/* ══ MISIÓN ════════════════════════════════════════════════════ */}
-        <section ref={misionRef} className="sn-fade"
-          style={{ background: "#0F1628", padding: "80px 24px" }}>
+        <section style={{ background: "#0F1628", padding: "80px 24px" }}>
           <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
-            <span className="sn-label">{t.mision.etiqueta}</span>
-            <h2 className="sn-grad"
-              style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1.5rem" }}>
+            <span style={{ display: "block", fontSize: ".7rem", fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase" as const, color: "#4D9FEC", marginBottom: ".75rem" }}>
+              {t.mision.etiqueta}
+            </span>
+            <h2
+              style={{
+                background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+                backgroundSize: "300% 300%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                animation: "snGrad 6s ease infinite",
+                fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
+                fontWeight: 800,
+                lineHeight: 1.2,
+                marginBottom: "1.5rem",
+              }}
+            >
               {t.mision.titulo}
             </h2>
             <p style={{ color: "rgba(255,255,255,.65)", fontSize: "1.02rem", lineHeight: 1.9 }}>
@@ -531,14 +479,25 @@ export default function SobreNosotros() {
         </section>
 
         {/* ══ VALORES ═══════════════════════════════════════════════════ */}
-        <section ref={valoresRef} className="sn-fade"
-          style={{ background: "#0A0E1A", padding: "80px 24px 160px" }}>
-          <hr className="sn-sep" style={{ maxWidth: 1100, margin: "0 auto 80px" }} />
+        <section style={{ background: "#0A0E1A", padding: "80px 24px 160px" }}>
           <div style={{ maxWidth: 1100, margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-              <span className="sn-label">{t.valores.etiqueta}</span>
-              <h2 className="sn-grad"
-                style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2 }}>
+              <span style={{ display: "block", fontSize: ".7rem", fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase" as const, color: "#4D9FEC", marginBottom: ".75rem" }}>
+                {t.valores.etiqueta}
+              </span>
+              <h2
+                style={{
+                  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+                  backgroundSize: "300% 300%",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  animation: "snGrad 6s ease infinite",
+                  fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
+                  fontWeight: 800,
+                  lineHeight: 1.2,
+                }}
+              >
                 {t.valores.titulo}
               </h2>
             </div>
@@ -549,21 +508,42 @@ export default function SobreNosotros() {
         </section>
 
         {/* ══ CTA FINAL ═════════════════════════════════════════════════ */}
-        <section ref={ctaRef} className="sn-fade"
-          style={{ background: "#070A12", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(255,255,255,.06)" }}>
+        <section style={{ background: "#070A12", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(255,255,255,.06)" }}>
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
-            <h2 className="sn-grad"
-              style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1.25rem" }}>
+            <h2
+              style={{
+                background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+                backgroundSize: "300% 300%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                animation: "snGrad 6s ease infinite",
+                fontSize: "clamp(1.7rem,3.5vw,2.6rem)",
+                fontWeight: 800,
+                lineHeight: 1.2,
+                marginBottom: "1.25rem",
+              }}
+            >
               {t.cta.titulo}
             </h2>
             <p style={{ color: "rgba(255,255,255,.55)", fontSize: "1rem", lineHeight: 1.8, marginBottom: "2.5rem" }}>
               {t.cta.subtitulo}
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <button className="sn-btn-1" onClick={() => { window.location.href = `/${locale}/socios`; }}>
+              <button
+                onClick={() => { window.location.href = `/${locale}/socios`; }}
+                style={{ background: "#1B4FD8", color: "#fff", border: "none", borderRadius: ".5rem", padding: ".875rem 2rem", fontFamily: "'Sora',sans-serif", fontWeight: 600, fontSize: ".95rem", cursor: "pointer", transition: "background .2s,transform .2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "#1641b0"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "#1B4FD8"; e.currentTarget.style.transform = "translateY(0)"; }}
+              >
                 {t.cta.boton1}
               </button>
-              <button className="sn-btn-2" onClick={() => setContactOpen(true)}>
+              <button
+                onClick={() => setContactOpen(true)}
+                style={{ background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,.4)", borderRadius: ".5rem", padding: ".875rem 2rem", fontFamily: "'Sora',sans-serif", fontWeight: 600, fontSize: ".95rem", cursor: "pointer", transition: "border-color .2s,background .2s,transform .2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,.07)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,.4)"; e.currentTarget.style.background = "transparent"; e.currentTarget.style.transform = "translateY(0)"; }}
+              >
                 {t.cta.boton2}
               </button>
             </div>
@@ -575,6 +555,28 @@ export default function SobreNosotros() {
       <Footer />
 
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
-    </>
+
+      {/* Keyframe animación degradado — inyectado una sola vez */}
+      <style>{`
+        @keyframes snGrad {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .sn-foto {
+          width: 100%; max-width: 320px; aspect-ratio: 3/4; object-fit: cover;
+          border-radius: 1rem; filter: grayscale(100%);
+          transition: filter .6s ease, transform .6s ease;
+          box-shadow: 0 20px 60px rgba(0,0,0,.45);
+          display: block; cursor: pointer;
+        }
+        .sn-foto:hover { filter: grayscale(0%); transform: scale(1.02); }
+        @media(max-width: 768px){
+          .sn-grid-historia { grid-template-columns: 1fr !important; }
+          .sn-foto { max-width: 200px !important; margin: 0 auto; }
+          .sn-stack-scale { transform: scale(.58) !important; transform-origin: top center; }
+        }
+      `}</style>
+    </div>
   );
 }
