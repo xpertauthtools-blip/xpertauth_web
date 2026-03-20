@@ -124,7 +124,18 @@ export default function Hero() {
           <h1 className="font-heading font-bold text-pure text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight">
             {t("title1")}
             <br />
-            <span className="bg-gradient-to-r from-arctic via-xpertblue to-arctic bg-clip-text text-transparent">{t("title2")}</span>
+            <span
+              style={{
+                background: "linear-gradient(135deg,#4D9FEC 0%,#ffffff 35%,#4D9FEC 55%,#1B4FD8 75%,#4D9FEC 100%)",
+                backgroundSize: "400% 400%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                animation: "heroTitleGrad 10s ease-in-out infinite",
+              }}
+            >
+              {t("title2")}
+            </span>
           </h1>
 
           <p className="mt-6 sm:mt-8 text-white/60 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">{t("subtitle")}</p>
@@ -173,6 +184,12 @@ export default function Hero() {
               radial-gradient(ellipse 60% 80% at 80% 30%, rgba(77, 159, 236, 0.08) 0%, transparent 55%),
               radial-gradient(ellipse 50% 50% at 50% 80%, rgba(27, 79, 216, 0.06) 0%, transparent 50%);
           }
+        }
+
+        @keyframes heroTitleGrad {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
       `}</style>
     </section>
