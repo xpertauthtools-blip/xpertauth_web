@@ -7,9 +7,15 @@ const SUPABASE_BASE = "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/objec
 
 const featureIcons = [Users, MapPin, Clock, Smartphone];
 
-// marquee items now come from i18n
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
 
-// — Contador animado —
 function useCountUp(target: number, duration: number, active: boolean) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -29,8 +35,6 @@ function useCountUp(target: number, duration: number, active: boolean) {
   }, [active, target, duration]);
   return count;
 }
-
-// stats se obtienen de i18n en AnimatedStats
 
 function AnimatedStats({ stats }: { stats: { value: number; suffix: string; label: string }[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -54,13 +58,10 @@ function AnimatedStats({ stats }: { stats: { value: number; suffix: string; labe
             key={i}
             className={`flex items-center gap-6 px-8 py-6 ${i < stats.length - 1 ? "border-b border-white/10" : ""}`}
           >
-            {/* Número */}
             <div className="font-heading font-bold text-5xl sm:text-6xl text-ember w-36 text-right flex-shrink-0 tabular-nums">
               {count}{s.suffix}
             </div>
-            {/* Separador vertical */}
             <div className="w-px h-12 bg-white/10 flex-shrink-0" />
-            {/* Label */}
             <p className="text-white/60 text-sm sm:text-base leading-snug">{s.label}</p>
           </div>
         );
@@ -69,7 +70,6 @@ function AnimatedStats({ stats }: { stats: { value: number; suffix: string; labe
   );
 }
 
-// — Formulario de contacto inline —
 function SeniorContactForm({ m }: { m: any }) {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -89,10 +89,7 @@ function SeniorContactForm({ m }: { m: any }) {
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
             Prefer: "return=minimal",
           },
-          body: JSON.stringify({
-            nombre,
-            telefono,
-          }),
+          body: JSON.stringify({ nombre, telefono }),
         }
       );
       if (!res.ok) throw new Error();
@@ -201,8 +198,10 @@ export default function SeniorTraining() {
               <span className="text-ember text-xs font-bold tracking-wide uppercase">{m.badge}</span>
             </div>
 
-            <h2 className="font-heading font-bold text-white text-3xl sm:text-4xl lg:text-5xl leading-tight">
-              {m.title1}<br /><span className="text-ember">{m.title2}</span>
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight">
+              <span style={gradientStyle}>{m.title1}</span>
+              <br />
+              <span className="text-ember">{m.title2}</span>
             </h2>
 
             <p className="mt-6 text-white/60 text-lg leading-relaxed">{m.description}</p>
@@ -226,7 +225,6 @@ export default function SeniorTraining() {
                 {m.free}
               </span>
 
-              {/* Formulario inline */}
               <div className="pt-4">
                 <p className="text-white/90 text-sm mb-3">{m.contactTitle}</p>
                 <SeniorContactForm m={m} />
