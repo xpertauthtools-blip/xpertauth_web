@@ -256,36 +256,29 @@ const translations = {
 const FOTO_URL =
   "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/equipo/jose-luis_foto_v1.webp";
 
-// ─── DISPLAY CARDS ────────────────────────────────────────────────────────────
-
-interface ValorItem {
-  num: string;
-  titulo: string;
-  texto: string;
-}
-
-// Colores de fondo para cada slot (0=frente … 3=fondo)
-// Cuanto más atrás, más oscuro — así se distinguen bien del fondo Obsidian
+// ─── COLORES TARJETAS POR SLOT ────────────────────────────────────────────────
 const SLOT_BG = [
-  "rgba(30, 58, 138, 0.55)",   // frente — azul oscuro suave
-  "rgba(22, 40, 100, 0.50)",   // 2ª
-  "rgba(18, 28, 72, 0.50)",    // 3ª
-  "rgba(14, 20, 52, 0.48)",    // fondo
+  "rgba(30,58,138,0.55)",
+  "rgba(22,40,100,0.50)",
+  "rgba(18,28,72,0.50)",
+  "rgba(14,20,52,0.48)",
 ];
-
 const SLOT_BORDER = [
-  "rgba(77,159,236,0.55)",     // frente — borde Arctic visible
+  "rgba(77,159,236,0.55)",
   "rgba(77,159,236,0.25)",
   "rgba(77,159,236,0.12)",
   "rgba(77,159,236,0.06)",
 ];
-
 const SLOT_SHADOW = [
-  "0 12px 48px rgba(27,79,216,0.45), 0 0 0 1px rgba(77,159,236,0.2)", // frente — glow azul
+  "0 12px 48px rgba(27,79,216,0.45), 0 0 0 1px rgba(77,159,236,0.2)",
   "0 6px 24px rgba(0,0,0,0.4)",
   "0 4px 16px rgba(0,0,0,0.35)",
   "0 2px 8px rgba(0,0,0,0.3)",
 ];
+
+// ─── DISPLAY CARDS ────────────────────────────────────────────────────────────
+
+interface ValorItem { num: string; titulo: string; texto: string; }
 
 function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
   const [order, setOrder] = useState([0, 1, 2, 3]);
@@ -294,24 +287,16 @@ function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
     setOrder((prev) => [idx, ...prev.filter((i) => i !== idx)]);
   }
 
-  // Tarjeta: 28rem × 13rem
-  const CARD_W = 448; // px
-  const CARD_H = 210; // px
-  const OFFSET_X = 32; // px por slot hacia la derecha
-  const OFFSET_Y = 22; // px por slot hacia abajo
+  const CARD_W = 448;
+  const CARD_H = 210;
+  const OFFSET_X = 32;
+  const OFFSET_Y = 22;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
-
-      {/* Contenedor con altura fija para la pila */}
-      <div style={{
-        position: "relative",
-        width: CARD_W + OFFSET_X * 3 + 16,
-        height: CARD_H + OFFSET_Y * 3 + 16,
-      }}>
-        {/* Renderizar de atrás (slot 3) hacia delante (slot 0) */}
+      <div style={{ position: "relative", width: CARD_W + OFFSET_X * 3 + 16, height: CARD_H + OFFSET_Y * 3 + 16 }}>
         {[...order].reverse().map((itemIdx) => {
-          const slot = order.indexOf(itemIdx); // 0=frente
+          const slot = order.indexOf(itemIdx);
           const isFrente = slot === 0;
           const item = items[itemIdx];
 
@@ -338,39 +323,18 @@ function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                // Las tarjetas de detrás se muestran con menos brillo
                 filter: slot === 0 ? "none" : `brightness(${1 - slot * 0.12})`,
               }}
             >
-              {/* Número */}
-              <span style={{
-                fontSize: "0.72rem",
-                fontWeight: 800,
-                letterSpacing: "0.18em",
-                color: "#4D9FEC",
-                textTransform: "uppercase",
-              }}>
+              <span style={{ fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", color: "#4D9FEC", textTransform: "uppercase" }}>
                 {item.num}
               </span>
-
-              {/* Título */}
-              <p style={{
-                fontSize: "1rem",
-                fontWeight: 700,
-                color: "#ffffff",
-                lineHeight: 1.4,
-                textShadow: isFrente ? "0 1px 8px rgba(0,0,0,0.4)" : "none",
-              }}>
+              {/* TÍTULO — blanco puro */}
+              <p style={{ fontSize: "1rem", fontWeight: 700, color: "#ffffff", lineHeight: 1.4 }}>
                 {item.titulo}
               </p>
-
-              {/* Texto */}
-              <p style={{
-                fontSize: "0.85rem",
-                color: isFrente ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.45)",
-                lineHeight: 1.7,
-                transition: "color 0.3s",
-              }}>
+              {/* TEXTO — blanco puro */}
+              <p style={{ fontSize: "0.85rem", color: "#ffffff", lineHeight: 1.7 }}>
                 {item.texto}
               </p>
             </div>
@@ -380,11 +344,10 @@ function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
 
       {/* Indicadores */}
       <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-        {items.map((item, idx) => (
+        {items.map((_, idx) => (
           <button
             key={idx}
             onClick={() => traerAlFrente(idx)}
-            title={item.num}
             style={{
               width: order[0] === idx ? "2.25rem" : "0.5rem",
               height: "0.5rem",
@@ -399,13 +362,7 @@ function ValoresStack({ items, hint }: { items: ValorItem[]; hint: string }) {
         ))}
       </div>
 
-      {/* Hint */}
-      <p style={{
-        fontSize: "0.72rem",
-        color: "rgba(255,255,255,0.28)",
-        letterSpacing: "0.06em",
-        marginTop: "0.1rem",
-      }}>
+      <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.28)", letterSpacing: "0.06em", marginTop: "0.1rem" }}>
         {hint}
       </p>
     </div>
@@ -443,73 +400,86 @@ export default function SobreNosotros() {
   return (
     <>
       <style>{`
-        .sn-fade { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
-        .sn-fade.sn-visible { opacity:1; transform:translateY(0); }
+        /* ── Animación solo opacidad — sin translateY para evitar el efecto de línea ── */
+        .sn-fade { opacity: 0; transition: opacity 0.7s ease; }
+        .sn-fade.sn-visible { opacity: 1; }
 
+        /* Degradado animado en títulos */
         .sn-grad {
           background: linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%);
-          background-size:300% 300%;
-          -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-          animation:snGrad 6s ease infinite;
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: snGrad 6s ease infinite;
         }
         @keyframes snGrad {
-          0%   { background-position:0% 50%; }
-          50%  { background-position:100% 50%; }
-          100% { background-position:0% 50%; }
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
 
+        /* Foto B&N → color en hover */
         .sn-foto {
-          width:100%; max-width:320px; aspect-ratio:3/4; object-fit:cover;
-          border-radius:1rem; filter:grayscale(100%);
-          transition:filter .6s ease,transform .6s ease;
-          box-shadow:0 20px 60px rgba(0,0,0,.45); display:block; cursor:pointer;
+          width: 100%; max-width: 320px; aspect-ratio: 3/4; object-fit: cover;
+          border-radius: 1rem; filter: grayscale(100%);
+          transition: filter .6s ease, transform .6s ease;
+          box-shadow: 0 20px 60px rgba(0,0,0,.45);
+          display: block; cursor: pointer;
         }
-        .sn-foto:hover { filter:grayscale(0%); transform:scale(1.02); }
+        .sn-foto:hover { filter: grayscale(0%); transform: scale(1.02); }
 
+        /* Etiqueta sección */
         .sn-label {
-          display:block; font-size:.7rem; font-weight:700;
-          letter-spacing:.15em; text-transform:uppercase;
-          color:#4D9FEC; margin-bottom:.75rem;
+          display: block; font-size: .7rem; font-weight: 700;
+          letter-spacing: .15em; text-transform: uppercase;
+          color: #4D9FEC; margin-bottom: .75rem;
         }
-        .sn-p + .sn-p { margin-top:1.25rem; }
-        .sn-sep { border:none; border-top:1px solid rgba(255,255,255,.07); margin:0; }
 
+        /* Párrafos historia */
+        .sn-p + .sn-p { margin-top: 1.25rem; }
+
+        /* Separador */
+        .sn-sep { border: none; border-top: 1px solid rgba(255,255,255,.07); margin: 0; }
+
+        /* Botones */
         .sn-btn-1 {
-          background:#1B4FD8; color:#fff; border:none; border-radius:.5rem;
-          padding:.875rem 2rem; font-family:'Sora',sans-serif; font-weight:600;
-          font-size:.95rem; cursor:pointer; transition:background .2s,transform .2s;
+          background: #1B4FD8; color: #fff; border: none; border-radius: .5rem;
+          padding: .875rem 2rem; font-family: 'Sora',sans-serif; font-weight: 600;
+          font-size: .95rem; cursor: pointer; transition: background .2s, transform .2s;
         }
-        .sn-btn-1:hover { background:#1641b0; transform:translateY(-2px); }
+        .sn-btn-1:hover { background: #1641b0; transform: translateY(-2px); }
 
         .sn-btn-2 {
-          background:transparent; color:#fff;
-          border:1.5px solid rgba(255,255,255,.4); border-radius:.5rem;
-          padding:.875rem 2rem; font-family:'Sora',sans-serif; font-weight:600;
-          font-size:.95rem; cursor:pointer;
-          transition:border-color .2s,background .2s,transform .2s;
+          background: transparent; color: #fff;
+          border: 1.5px solid rgba(255,255,255,.4); border-radius: .5rem;
+          padding: .875rem 2rem; font-family: 'Sora',sans-serif; font-weight: 600;
+          font-size: .95rem; cursor: pointer;
+          transition: border-color .2s, background .2s, transform .2s;
         }
-        .sn-btn-2:hover { border-color:#fff; background:rgba(255,255,255,.07); transform:translateY(-2px); }
+        .sn-btn-2:hover { border-color: #fff; background: rgba(255,255,255,.07); transform: translateY(-2px); }
 
-        @media(max-width:768px){
-          .sn-grid-historia { grid-template-columns:1fr !important; }
-          .sn-foto { max-width:200px !important; margin:0 auto; }
-          .sn-stack-scale { transform:scale(.58) !important; transform-origin:top center; }
+        /* Responsive */
+        @media(max-width: 768px){
+          .sn-grid-historia { grid-template-columns: 1fr !important; }
+          .sn-foto { max-width: 200px !important; margin: 0 auto; }
+          .sn-stack-scale { transform: scale(.58) !important; transform-origin: top center; }
         }
       `}</style>
 
       <Navbar />
 
-      <main style={{ fontFamily:"'Sora','Inter',sans-serif" }}>
+      <main style={{ fontFamily: "'Sora','Inter',sans-serif" }}>
 
         {/* ══ HERO ══════════════════════════════════════════════════════ */}
         <section ref={heroRef} className="sn-fade"
-          style={{ background:"#0A0E1A", minHeight:"55vh", display:"flex", alignItems:"center", padding:"140px 24px 80px" }}>
-          <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center" }}>
+          style={{ background: "#0A0E1A", minHeight: "55vh", display: "flex", alignItems: "center", padding: "140px 24px 80px" }}>
+          <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
             <h1 className="sn-grad"
-              style={{ fontSize:"clamp(2rem,5vw,3.4rem)", fontWeight:800, lineHeight:1.15, marginBottom:"1.5rem", whiteSpace:"pre-line" }}>
+              style={{ fontSize: "clamp(2rem,5vw,3.4rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: "1.5rem", whiteSpace: "pre-line" }}>
               {t.hero.titulo}
             </h1>
-            <p style={{ color:"rgba(255,255,255,.6)", fontSize:"clamp(.95rem,2vw,1.15rem)", lineHeight:1.8, maxWidth:620, margin:"0 auto" }}>
+            <p style={{ color: "rgba(255,255,255,.6)", fontSize: "clamp(.95rem,2vw,1.15rem)", lineHeight: 1.8, maxWidth: 620, margin: "0 auto" }}>
               {t.hero.subtitulo}
             </p>
           </div>
@@ -517,11 +487,11 @@ export default function SobreNosotros() {
 
         {/* ══ HISTORIA ══════════════════════════════════════════════════ */}
         <section ref={historiaRef} className="sn-fade"
-          style={{ background:"#0A0E1A", padding:"0 24px 80px" }}>
-          <hr className="sn-sep" style={{ maxWidth:1100, margin:"0 auto 80px" }} />
+          style={{ background: "#0A0E1A", padding: "0 24px 80px" }}>
+          <hr className="sn-sep" style={{ maxWidth: 1100, margin: "0 auto 80px" }} />
           <div className="sn-grid-historia"
-            style={{ maxWidth:1100, margin:"0 auto", display:"grid", gridTemplateColumns:"1fr 1.4fr", gap:"4rem", alignItems:"start" }}>
-            <div style={{ display:"flex", justifyContent:"center" }}>
+            style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "4rem", alignItems: "start" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <img src={FOTO_URL} alt={t.historia.fotoAlt} className="sn-foto"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
@@ -529,16 +499,16 @@ export default function SobreNosotros() {
                   if (fb) fb.style.display = "flex";
                 }}
               />
-              <div style={{ display:"none", width:280, height:373, borderRadius:"1rem", background:"#1B4FD8", alignItems:"center", justifyContent:"center", fontSize:"3rem", fontWeight:800, color:"#fff" }}>
+              <div style={{ display: "none", width: 280, height: 373, borderRadius: "1rem", background: "#1B4FD8", alignItems: "center", justifyContent: "center", fontSize: "3rem", fontWeight: 800, color: "#fff" }}>
                 JL
               </div>
             </div>
             <div>
               <span className="sn-label">{t.historia.etiqueta}</span>
               {t.historia.parrafos.map((p, i) => (
-                <p key={i} className="sn-p" style={{ color:"rgba(255,255,255,.75)", fontSize:".97rem", lineHeight:1.85 }}>{p}</p>
+                <p key={i} className="sn-p" style={{ color: "rgba(255,255,255,.75)", fontSize: ".97rem", lineHeight: 1.85 }}>{p}</p>
               ))}
-              <p style={{ marginTop:"2rem", color:"#4D9FEC", fontWeight:700, fontSize:".88rem", fontStyle:"italic" }}>
+              <p style={{ marginTop: "2rem", color: "#4D9FEC", fontWeight: 700, fontSize: ".88rem", fontStyle: "italic" }}>
                 {t.historia.firma}
               </p>
             </div>
@@ -547,14 +517,14 @@ export default function SobreNosotros() {
 
         {/* ══ MISIÓN ════════════════════════════════════════════════════ */}
         <section ref={misionRef} className="sn-fade"
-          style={{ background:"#0F1628", padding:"80px 24px" }}>
-          <div style={{ maxWidth:720, margin:"0 auto", textAlign:"center" }}>
+          style={{ background: "#0F1628", padding: "80px 24px" }}>
+          <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
             <span className="sn-label">{t.mision.etiqueta}</span>
             <h2 className="sn-grad"
-              style={{ fontSize:"clamp(1.7rem,3.5vw,2.6rem)", fontWeight:800, lineHeight:1.2, marginBottom:"1.5rem" }}>
+              style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1.5rem" }}>
               {t.mision.titulo}
             </h2>
-            <p style={{ color:"rgba(255,255,255,.65)", fontSize:"1.02rem", lineHeight:1.9 }}>
+            <p style={{ color: "rgba(255,255,255,.65)", fontSize: "1.02rem", lineHeight: 1.9 }}>
               {t.mision.texto}
             </p>
           </div>
@@ -562,17 +532,17 @@ export default function SobreNosotros() {
 
         {/* ══ VALORES ═══════════════════════════════════════════════════ */}
         <section ref={valoresRef} className="sn-fade"
-          style={{ background:"#0A0E1A", padding:"80px 24px 160px" }}>
-          <hr className="sn-sep" style={{ maxWidth:1100, margin:"0 auto 80px" }} />
-          <div style={{ maxWidth:1100, margin:"0 auto" }}>
-            <div style={{ textAlign:"center", marginBottom:"4rem" }}>
+          style={{ background: "#0A0E1A", padding: "80px 24px 160px" }}>
+          <hr className="sn-sep" style={{ maxWidth: 1100, margin: "0 auto 80px" }} />
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
               <span className="sn-label">{t.valores.etiqueta}</span>
               <h2 className="sn-grad"
-                style={{ fontSize:"clamp(1.7rem,3.5vw,2.6rem)", fontWeight:800, lineHeight:1.2 }}>
+                style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2 }}>
                 {t.valores.titulo}
               </h2>
             </div>
-            <div className="sn-stack-scale" style={{ display:"flex", justifyContent:"center" }}>
+            <div className="sn-stack-scale" style={{ display: "flex", justifyContent: "center" }}>
               <ValoresStack items={t.valores.items} hint={t.valores.hint} />
             </div>
           </div>
@@ -580,16 +550,16 @@ export default function SobreNosotros() {
 
         {/* ══ CTA FINAL ═════════════════════════════════════════════════ */}
         <section ref={ctaRef} className="sn-fade"
-          style={{ background:"#070A12", padding:"80px 24px", textAlign:"center", borderTop:"1px solid rgba(255,255,255,.06)" }}>
-          <div style={{ maxWidth:600, margin:"0 auto" }}>
+          style={{ background: "#070A12", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(255,255,255,.06)" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2 className="sn-grad"
-              style={{ fontSize:"clamp(1.7rem,3.5vw,2.6rem)", fontWeight:800, lineHeight:1.2, marginBottom:"1.25rem" }}>
+              style={{ fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1.25rem" }}>
               {t.cta.titulo}
             </h2>
-            <p style={{ color:"rgba(255,255,255,.55)", fontSize:"1rem", lineHeight:1.8, marginBottom:"2.5rem" }}>
+            <p style={{ color: "rgba(255,255,255,.55)", fontSize: "1rem", lineHeight: 1.8, marginBottom: "2.5rem" }}>
               {t.cta.subtitulo}
             </p>
-            <div style={{ display:"flex", gap:"1rem", justifyContent:"center", flexWrap:"wrap" }}>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button className="sn-btn-1" onClick={() => { window.location.href = `/${locale}/socios`; }}>
                 {t.cta.boton1}
               </button>
