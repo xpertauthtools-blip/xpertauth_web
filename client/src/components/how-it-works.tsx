@@ -15,6 +15,15 @@ const SCROLL_PER_STEP = 600;
 const HEADER_SPACE = 220;
 const STICKY_TOP = 0;
 
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 export default function HowItWorks() {
   const { messages } = useTranslations("howItWorks");
   const m = messages as any;
@@ -73,12 +82,15 @@ export default function HowItWorks() {
         <div className="absolute inset-0 bg-gradient-to-b from-obsidian-light via-obsidian to-obsidian pointer-events-none" />
 
         <div className="relative z-10 h-full flex flex-col">
-          {/* Header — padding reducido en pantallas pequeñas */}
+          {/* Header */}
           <div className="pt-10 sm:pt-16 lg:pt-20 pb-3 sm:pb-6 text-center px-4 sm:px-6 lg:px-8">
             <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
               {m.label}
             </span>
-            <h2 className="font-heading font-bold text-pure text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-3">
+            <h2
+              className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-3"
+              style={gradientStyle}
+            >
               {m.title}
             </h2>
             <p className="mt-2 sm:mt-3 text-white/50 text-xs sm:text-sm lg:text-base max-w-xl mx-auto">
@@ -86,9 +98,9 @@ export default function HowItWorks() {
             </p>
           </div>
 
-          {/* Contenido principal — flex-grow para ocupar el espacio restante */}
+          {/* Contenido principal */}
           <div className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 min-h-0">
-            {/* Imagen: proporción 16:9 exacta, ancho limitado para que quepa en pantallas pequeñas */}
+            {/* Imagen */}
             <div
               className="relative w-full overflow-hidden rounded-2xl border border-white/10 flex-shrink-0"
               style={{ aspectRatio: "16/9", maxHeight: "clamp(180px, 40vh, 420px)", maxWidth: "calc(clamp(180px, 40vh, 420px) * 16 / 9)" }}
@@ -160,7 +172,7 @@ export default function HowItWorks() {
               ))}
             </div>
 
-            {/* Texto del paso — siempre visible */}
+            {/* Texto del paso */}
             <div className="w-[85%] sm:w-[80%] max-w-5xl">
               <AnimatePresence mode="wait">
                 <motion.div
