@@ -11,6 +11,15 @@ const OFFSCREEN = CARD_HEIGHT + 200;
 const HEADER_SPACE = 250;
 const PAUSE = 150;
 
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
 const serviceMeta = [
   {
     number: "01",
@@ -48,46 +57,32 @@ const serviceMeta = [
   },
 ];
 
-// Ilustración 01 — Transporte Especial
 function IllustrationTransporte({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
-      {/* Carretera */}
       <line x1="10" y1="148" x2="230" y2="148" stroke={color} strokeWidth="2" strokeLinecap="round" />
       <line x1="10" y1="158" x2="230" y2="158" stroke={color} strokeWidth="2" strokeLinecap="round" />
       <line x1="40" y1="153" x2="65" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
       <line x1="105" y1="153" x2="130" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
       <line x1="170" y1="153" x2="195" y2="153" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="6 10" />
-
-      {/* Remolque */}
       <rect x="28" y="98" width="118" height="50" rx="3" stroke={color} strokeWidth="2.5" />
-      {/* Carga excepcional */}
       <rect x="38" y="58" width="98" height="42" rx="3" stroke={color} strokeWidth="2" strokeDasharray="6 4" />
-      {/* Flejes */}
       <line x1="62" y1="58" x2="62" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="95" y1="58" x2="95" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="128" y1="58" x2="128" y2="148" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
-
-      {/* Cabina */}
       <rect x="146" y="106" width="60" height="42" rx="4" stroke={color} strokeWidth="2.5" />
       <rect x="168" y="112" width="28" height="18" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.7" />
       <circle cx="204" cy="126" r="4" stroke={color} strokeWidth="1.5" />
-
-      {/* Ruedas remolque */}
       <circle cx="55" cy="148" r="13" stroke={color} strokeWidth="2.5" />
       <circle cx="55" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <circle cx="90" cy="148" r="13" stroke={color} strokeWidth="2.5" />
       <circle cx="90" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <circle cx="128" cy="148" r="13" stroke={color} strokeWidth="2.5" />
       <circle cx="128" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
-
-      {/* Ruedas cabina */}
       <circle cx="162" cy="148" r="13" stroke={color} strokeWidth="2.5" />
       <circle cx="162" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <circle cx="196" cy="148" r="13" stroke={color} strokeWidth="2.5" />
       <circle cx="196" cy="148" r="5" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
-
-      {/* Señal de advertencia */}
       <polygon points="18,82 6,106 30,106" stroke={color} strokeWidth="2" strokeLinejoin="round" />
       <line x1="18" y1="90" x2="18" y2="100" stroke={color} strokeWidth="2" strokeLinecap="round" />
       <circle cx="18" cy="103" r="2" fill={color} />
@@ -95,86 +90,55 @@ function IllustrationTransporte({ color }: { color: string }) {
   );
 }
 
-// Ilustración 02 — IA para PYMEs
 function IllustrationIA({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
-      {/* Nodo central */}
       <circle cx="120" cy="100" r="24" stroke={color} strokeWidth="2.5" />
       <circle cx="120" cy="100" r="10" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
       <circle cx="120" cy="100" r="4" fill={color} />
-
-      {/* Nodo superior izquierdo */}
       <circle cx="42" cy="42" r="16" stroke={color} strokeWidth="2.5" />
       <circle cx="42" cy="42" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="56" y1="53" x2="98" y2="82" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Nodo superior derecho */}
       <circle cx="198" cy="42" r="16" stroke={color} strokeWidth="2.5" />
       <circle cx="198" cy="42" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="184" y1="53" x2="142" y2="82" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Nodo inferior izquierdo */}
       <circle cx="42" cy="158" r="16" stroke={color} strokeWidth="2.5" />
       <circle cx="42" cy="158" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="56" y1="149" x2="98" y2="118" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Nodo inferior derecho */}
       <circle cx="198" cy="158" r="16" stroke={color} strokeWidth="2.5" />
       <circle cx="198" cy="158" r="6" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
       <line x1="184" y1="149" x2="142" y2="118" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Nodo izquierdo */}
       <circle cx="18" cy="100" r="11" stroke={color} strokeWidth="2.5" />
       <line x1="29" y1="100" x2="96" y2="100" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Nodo derecho */}
       <circle cx="222" cy="100" r="11" stroke={color} strokeWidth="2.5" />
       <line x1="211" y1="100" x2="144" y2="100" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Anillos de pulso */}
       <circle cx="120" cy="100" r="38" stroke={color} strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 6" />
       <circle cx="120" cy="100" r="54" stroke={color} strokeWidth="0.75" strokeOpacity="0.15" strokeDasharray="3 7" />
     </svg>
   );
 }
 
-// Ilustración 03 — Formación Senior
 function IllustrationSenior({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" style={{ opacity: 0.35 }}>
-      {/* Cabeza */}
       <circle cx="100" cy="44" r="22" stroke={color} strokeWidth="2.5" />
-      {/* Cuerpo */}
       <path d="M78 66 C72 82 68 108 70 132 L130 132 C132 108 128 82 122 66 Z" stroke={color} strokeWidth="2.5" strokeLinejoin="round" />
-      {/* Piernas */}
       <line x1="85" y1="132" x2="80" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
       <line x1="115" y1="132" x2="120" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      {/* Pies */}
       <line x1="80" y1="172" x2="68" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
       <line x1="120" y1="172" x2="132" y2="172" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-
-      {/* Brazo extendido */}
       <path d="M122 88 C138 86 150 84 160 83" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-
-      {/* Smartphone */}
       <rect x="160" y="68" width="42" height="70" rx="6" stroke={color} strokeWidth="2.5" />
       <rect x="166" y="78" width="30" height="44" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
       <circle cx="181" cy="130" r="4" stroke={color} strokeWidth="1.5" strokeOpacity="0.7" />
       <rect x="175" y="72" width="12" height="4" rx="2" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
-
-      {/* Iconos en pantalla */}
       <rect x="169" y="83" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
       <rect x="183" y="83" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
       <rect x="169" y="98" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
       <rect x="183" y="98" width="10" height="10" rx="2" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
-
-      {/* Ondas WiFi */}
       <path d="M208 84 C218 76 218 70 208 62" stroke={color} strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
       <path d="M214 90 C230 78 230 64 214 52" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeOpacity="0.45" />
       <path d="M219 96 C240 80 240 58 219 42" stroke={color} strokeWidth="1" strokeLinecap="round" strokeOpacity="0.25" />
-
-      {/* Corazón */}
       <path d="M100 24 C100 21 97 18 94 21 C91 24 100 31 100 31 C100 31 109 24 106 21 C103 18 100 21 100 24Z" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
     </svg>
   );
@@ -252,7 +216,7 @@ function ServiceCard({
           </div>
         </div>
 
-        {/* Columna derecha — ilustración centrada */}
+        {/* Columna derecha — ilustración */}
         <div className="hidden md:flex items-center justify-center w-56 lg:w-72 flex-shrink-0 pr-10 pl-0">
           <div className="w-full max-w-[220px] -translate-x-8">
             <Illustration color={illColor} />
@@ -280,10 +244,10 @@ export default function Services() {
     offsets[0] = 0;
 
     const card2Start = PAUSE;
-    const card2End = card2Start + SCROLL_PER_CARD;
     const card2Progress = Math.max(0, Math.min(1, (scrolled - card2Start) / SCROLL_PER_CARD));
     offsets[1] = OFFSCREEN * (1 - card2Progress);
 
+    const card2End = card2Start + SCROLL_PER_CARD;
     const card3Start = card2End + PAUSE;
     const card3Progress = Math.max(0, Math.min(1, (scrolled - card3Start) / SCROLL_PER_CARD));
     offsets[2] = OFFSCREEN * (1 - card3Progress);
@@ -328,7 +292,10 @@ export default function Services() {
             <span className="text-arctic text-xs font-semibold tracking-widest uppercase">
               {m.label}
             </span>
-            <h2 className="font-heading font-bold text-pure text-3xl sm:text-4xl mt-4">
+            <h2
+              className="font-heading font-bold text-3xl sm:text-4xl mt-4"
+              style={gradientStyle}
+            >
               {m.title}
             </h2>
             <p className="mt-4 text-white/50 text-base max-w-xl mx-auto">
