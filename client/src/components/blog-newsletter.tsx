@@ -4,7 +4,6 @@ import { FileText, Mail, ArrowRight, Calendar, Loader2, CheckCircle } from "luci
 import { useTranslations } from "@/i18n/context";
 
 const SUPABASE_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co";
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const gradientStyle: React.CSSProperties = {
   background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
@@ -16,12 +15,15 @@ const gradientStyle: React.CSSProperties = {
 };
 
 async function fetchPosts() {
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const now = new Date().toISOString();
+  // Solo posts con published_at <= ahora, ordenados por published_at desc
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,slug,created_at&is_published=eq.true&order=created_at.desc&limit=2`,
+    `${SUPABASE_URL}/rest/v1/posts?select=id,title,excerpt,slug,published_at&published_at=not.is.null&published_at=lte.${now}&order=published_at.desc&limit=2`,
     {
       headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        apikey: key,
+        Authorization: `Bearer ${key}`,
       },
     }
   );
@@ -30,13 +32,14 @@ async function fetchPosts() {
 }
 
 async function fetchNewsletters() {
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
   const now = new Date().toISOString();
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,scheduled_at&scheduled_at=lte.${now}&order=scheduled_at.desc&limit=2`,
     {
       headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        apikey: key,
+        Authorization: `Bearer ${key}`,
       },
     }
   );
@@ -61,15 +64,11 @@ function BlogSignupInline() {
   const handleSubmit = async () => {
     if (!email.trim()) return;
     setStatus("sending");
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
     try {
       const check = await fetch(
         `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&canal=eq.blog&select=id`,
-        {
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          },
-        }
+        { headers: { apikey: key, Authorization: `Bearer ${key}` } }
       );
       const existing = await check.json();
       if (existing.length > 0) { setStatus("duplicate"); return; }
@@ -78,8 +77,8 @@ function BlogSignupInline() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: key,
+          Authorization: `Bearer ${key}`,
           Prefer: "return=minimal",
         },
         body: JSON.stringify({ email, canal: "blog" }),
@@ -124,12 +123,8 @@ function BlogSignupInline() {
           {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
         </button>
       </div>
-      {status === "duplicate" && (
-        <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>
-      )}
-      {status === "error" && (
-        <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>
-      )}
+      {status === "duplicate" && <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>}
+      {status === "error" && <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>}
     </div>
   );
 }
@@ -142,15 +137,11 @@ function NewsletterSignupInline() {
   const handleSubmit = async () => {
     if (!email.trim()) return;
     setStatus("sending");
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
     try {
       const check = await fetch(
         `${SUPABASE_URL}/rest/v1/suscriptores?email=eq.${encodeURIComponent(email)}&canal=eq.newsletter&select=id`,
-        {
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          },
-        }
+        { headers: { apikey: key, Authorization: `Bearer ${key}` } }
       );
       const existing = await check.json();
       if (existing.length > 0) { setStatus("duplicate"); return; }
@@ -159,8 +150,8 @@ function NewsletterSignupInline() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: key,
+          Authorization: `Bearer ${key}`,
           Prefer: "return=minimal",
         },
         body: JSON.stringify({ email, canal: "newsletter" }),
@@ -205,12 +196,8 @@ function NewsletterSignupInline() {
           {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("subscribeButton")}
         </button>
       </div>
-      {status === "duplicate" && (
-        <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>
-      )}
-      {status === "error" && (
-        <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>
-      )}
+      {status === "duplicate" && <p className="mt-2 text-amber-400 text-xs">{t("subscribeErrorDuplicate")}</p>}
+      {status === "error" && <p className="mt-2 text-red-400 text-xs">{t("subscribeErrorGeneric")}</p>}
     </div>
   );
 }
@@ -237,9 +224,11 @@ export default function BlogNewsletter() {
   useEffect(() => {
     fetchPosts()
       .then(setPosts)
+      .catch(() => setPosts([]))
       .finally(() => setLoadingPosts(false));
     fetchNewsletters()
       .then(setNewsletters)
+      .catch(() => setNewsletters([]))
       .finally(() => setLoadingNL(false));
   }, []);
 
@@ -255,10 +244,7 @@ export default function BlogNewsletter() {
           className="text-center mb-16"
         >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2
-            className="font-heading font-bold text-3xl sm:text-4xl mt-4"
-            style={gradientStyle}
-          >
+          <h2className="font-heading font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
             {m.title}
           </h2>
           <p className="mt-4 text-white/60 text-base max-w-xl mx-auto">{m.subtitle}</p>
@@ -306,7 +292,7 @@ export default function BlogNewsletter() {
                         <p className="text-white/60 text-sm leading-relaxed">{post.excerpt}</p>
                         <div className="mt-3 flex items-center gap-2">
                           <Calendar className="w-3.5 h-3.5 text-white/40" />
-                          <span className="text-white/40 text-xs">{formatDate(post.created_at)}</span>
+                          <span className="text-white/40 text-xs">{formatDate(post.published_at)}</span>
                         </div>
                       </div>
                       <ArrowRight className="w-5 h-5 text-white/30 flex-shrink-0 mt-1 transition-all group-hover:text-arctic group-hover:translate-x-1" />
