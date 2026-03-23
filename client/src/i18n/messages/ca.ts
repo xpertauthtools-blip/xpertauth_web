@@ -42,7 +42,7 @@ const ca = {
         description: "30 anys d'experiència en càrregues excepcionals. Permisos AE, AEG i AET, interpretació normativa DGT/SCT i planificació d'itineraris. Sense sorpreses legals.",
         features: ["Consultes normatives", "Assessoria en permisos", "Actualització legal"],
         cta: "Explorar Transport",
-        href: "/servicios/transporte",
+        href: "/servicios/transporte-especial",
       },
       {
         title: "IA per a PIMEs",
