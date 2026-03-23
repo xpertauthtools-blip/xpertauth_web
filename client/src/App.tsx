@@ -14,6 +14,7 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Socios from "@/pages/socios";
 import SobreNosotros from "@/pages/SobreNosotros";
+import TransporteEspecial from "@/pages/TransporteEspecial";
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
 
@@ -56,6 +57,7 @@ function AuthCallback() {
 function Router() {
   return (
     <Switch>
+      <Route path="/:locale/servicios/transporte-especial" component={TransporteEspecial} />
       <Route path="/:locale/sobre-nosotros" component={SobreNosotros} />
       <Route path="/:locale/socios" component={Socios} />
       <Route path="/:locale" component={Home} />
