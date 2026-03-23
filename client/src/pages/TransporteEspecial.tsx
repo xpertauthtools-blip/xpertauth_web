@@ -300,7 +300,7 @@ function ServiceCard({
       {/* Claim que aparece al hover */}
       <div
         style={{
-          maxHeight: hovered ? "40px" : "0px",
+          maxHeight: hovered ? "56px" : "0px",
           opacity: hovered ? 1 : 0,
           transition: "max-height 0.3s ease, opacity 0.3s ease 0.05s",
           overflow: "hidden",
