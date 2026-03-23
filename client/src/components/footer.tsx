@@ -45,13 +45,13 @@ export default function Footer() {
           {/* Columna 1 — Logo + descripción + LinkedIn */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              {/* Logo SVG — igual que navbar */}
-              <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="40" height="40" rx="8" fill="#1B4FD8" />
-                <path d="M10 12 L20 12 L28 24 L20 24" stroke="#4D9FEC" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                <path d="M10 28 L20 28 L28 16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                <circle cx="28" cy="24" r="3" fill="#4D9FEC" />
-              </svg>
+              <img
+                src="https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo/logo_xpertauth_icon_v1.png"
+                alt="XpertAuth"
+                width={32}
+                height={32}
+                className="rounded-md"
+              />
               <span className="font-heading font-semibold text-pure text-lg">
                 Xpert<span className="text-arctic">Auth</span>
               </span>
