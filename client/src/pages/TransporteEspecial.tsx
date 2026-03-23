@@ -248,12 +248,33 @@ function TiltCard({
   );
 }
 
-// ─── Tarjeta de servicio ───────────────────────────────────────────────────────
-function ServiceCard({ number, title, description, icon }: { number: string; title: string; description: string; icon: React.ReactNode }) {
+// ─── Tarjeta de servicio con Expand ───────────────────────────────────────────
+function ServiceCard({
+  number, title, description, icon, lexCta, onLexClick,
+}: {
+  number: string; title: string; description: string;
+  icon: React.ReactNode; lexCta: string; onLexClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="p-6 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-xpertblue/30 transition-all duration-300">
-      <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-lg bg-xpertblue/10 border border-xpertblue/20 flex items-center justify-center flex-shrink-0">
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        transition: "all 0.35s cubic-bezier(0.34,1.2,0.64,1)",
+        transform: hovered ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
+      }}
+      className={`p-6 rounded-xl border transition-colors duration-300 overflow-hidden ${
+        hovered
+          ? "bg-xpertblue/10 border-xpertblue/40 shadow-lg shadow-xpertblue/10"
+          : "bg-white/[0.03] border-white/[0.08]"
+      }`}
+    >
+      <div className="flex items-start gap-4 mb-4">
+        <div className={`w-10 h-10 rounded-lg border flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+          hovered ? "bg-xpertblue/20 border-xpertblue/40" : "bg-xpertblue/10 border-xpertblue/20"
+        }`}>
           {icon}
         </div>
         <div>
@@ -261,6 +282,24 @@ function ServiceCard({ number, title, description, icon }: { number: string; tit
           <h3 className="font-heading font-semibold text-pure text-base mt-1 mb-2">{title}</h3>
           <p className="text-white/60 text-sm leading-relaxed">{description}</p>
         </div>
+      </div>
+
+      {/* Botón que aparece al hover */}
+      <div
+        style={{
+          maxHeight: hovered ? "60px" : "0px",
+          opacity: hovered ? 1 : 0,
+          transition: "max-height 0.3s ease, opacity 0.25s ease",
+          overflow: "hidden",
+        }}
+      >
+        <button
+          onClick={onLexClick}
+          className="mt-2 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-xpertblue hover:bg-xpertblue/90 text-pure text-sm font-semibold rounded-lg transition-colors duration-200"
+        >
+          <MessageSquare className="w-4 h-4" />
+          {lexCta}
+        </button>
       </div>
     </div>
   );
@@ -326,9 +365,9 @@ export default function TransporteEspecial() {
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.servicesSubtitle}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ServiceCard number="01" icon={<FileCheck className="w-5 h-5 text-xpertblue" />} title={t.s01title} description={t.s01desc} />
-            <ServiceCard number="02" icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />} title={t.s02title} description={t.s02desc} />
-            <ServiceCard number="03" icon={<BookOpen className="w-5 h-5 text-xpertblue" />} title={t.s03title} description={t.s03desc} />
+            <ServiceCard number="01" icon={<FileCheck className="w-5 h-5 text-xpertblue" />} title={t.s01title} description={t.s01desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
+            <ServiceCard number="02" icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />} title={t.s02title} description={t.s02desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
+            <ServiceCard number="03" icon={<BookOpen className="w-5 h-5 text-xpertblue" />} title={t.s03title} description={t.s03desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
           </div>
         </div>
       </section>
