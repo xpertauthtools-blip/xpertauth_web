@@ -2,7 +2,9 @@ import { useState, useRef, useCallback } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
-import { ArrowRight, ExternalLink, FileCheck, Map, MessageSquare, ShieldCheck } from "lucide-react";
+import { useAgent } from "@/App";
+import { useI18n } from "@/i18n/context";
+import { ArrowRight, ExternalLink, FileCheck, Map, MessageSquare, ShieldCheck, BookOpen } from "lucide-react";
 
 // ─── Paleta ───────────────────────────────────────────────────────────────────
 const gradientStyle: React.CSSProperties = {
@@ -14,22 +16,189 @@ const gradientStyle: React.CSSProperties = {
   animation: "snGrad 6s ease infinite",
 };
 
+// ─── Textos por idioma ────────────────────────────────────────────────────────
+const texts: Record<string, {
+  badge: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  ctaSocio: string;
+  ctaContacta: string;
+  servicesLabel: string;
+  servicesTitle: string;
+  servicesSubtitle: string;
+  s01title: string; s01desc: string;
+  s02title: string; s02desc: string;
+  s03title: string; s03desc: string;
+  sctLabel: string;
+  sctTitle: string;
+  sctSubtitle: string;
+  sctOpen: string;
+  visorTitle: string; visorDesc: string;
+  mctTitle: string; mctDesc: string;
+  lexLabel: string;
+  lexTitle: string;
+  lexDesc1: string;
+  lexDesc2: string;
+  lexCta: string;
+  lexSamples: string[];
+  ctaTitle: string;
+  ctaSubtitle: string;
+}> = {
+  es: {
+    badge: "Servicios · Transporte Especial",
+    heroTitle: "30 años acompañando cargas excepcionales.",
+    heroSubtitle: "Consultas normativas DGT y SCT. Asesoría en permisos AE, AEG y AET. Apoyo en la planificación de itinerarios. Sin sorpresas legales.",
+    ctaSocio: "Hazte socio",
+    ctaContacta: "Contacta con nosotros",
+    servicesLabel: "Lo que hacemos",
+    servicesTitle: "Experiencia que se traduce en orientación real",
+    servicesSubtitle: "No tramitamos ni planificamos por ti, pero sabemos exactamente cómo acompañarte en cada paso.",
+    s01title: "Asesoría en permisos AE, AEG y AET",
+    s01desc: "Te orientamos en la gestión de autorizaciones especiales, especiales genéricas y excepcionales ante DGT y SCT. Plazos, documentación y requisitos sin sorpresas.",
+    s02title: "Interpretación normativa",
+    s02desc: "Lectura experta de la normativa DGT y SCT Catalunya. Instrucciones TV, resoluciones de restricción, catálogo de prescripciones. Criterio humano donde la IA no llega.",
+    s03title: "Apoyo en planificación de itinerarios",
+    s03desc: "Te ayudamos a entender restricciones horarias, pasos especiales y condiciones específicas por ruta en Catalunya y el resto de España.",
+    sctLabel: "SCT Catalunya",
+    sctTitle: "Herramientas oficiales de la Generalitat",
+    sctSubtitle: "Consulta itinerarios y el estado del tráfico en tiempo real directamente desde las plataformas oficiales de la SCT.",
+    sctOpen: "Abrir herramienta",
+    visorTitle: "Visor d'Itineraris SCT",
+    visorDesc: "Consulta y planifica itinerarios de transporte especial en Catalunya. Verifica rutas, restricciones de paso y condiciones específicas por tramo.",
+    mctTitle: "Mapa Continu de Trànsit",
+    mctDesc: "Estado del tráfico en tiempo real en la red viaria de Catalunya. Incidencias, obras, restricciones activas y cámaras de tráfico.",
+    lexLabel: "Agente IA",
+    lexTitle: "LEX — Tu experto normativo 24/7",
+    lexDesc1: "LEX tiene acceso a más de 7.400 fragmentos de normativa de transporte especial: leyes marco, instrucciones DGT, resoluciones SCT, mercancías peligrosas y jornadas de conducción.",
+    lexDesc2: "Pregunta sobre permisos, restricciones horarias, velocidades máximas o trámites con la SCT. LEX cita siempre la fuente exacta.",
+    lexCta: "Pregunta a LEX",
+    lexSamples: [
+      "¿Qué velocidad máxima tiene un VERTE genérico en autopista?",
+      "¿Cuáles son las restricciones horarias SCT en agosto?",
+      "¿Qué documentación necesito para un AET en Catalunya?",
+    ],
+    ctaTitle: "¿Tienes una carga que gestionar?",
+    ctaSubtitle: "Hazte socio y accede a LEX sin límites. O contáctanos directamente y te orientamos sin compromiso.",
+  },
+  ca: {
+    badge: "Serveis · Transport Especial",
+    heroTitle: "30 anys acompanyant càrregues excepcionals.",
+    heroSubtitle: "Consultes normatives DGT i SCT. Assessoria en permisos AE, AEG i AET. Suport en la planificació d'itineraris. Sense sorpreses legals.",
+    ctaSocio: "Fes-te soci",
+    ctaContacta: "Contacta amb nosaltres",
+    servicesLabel: "El que fem",
+    servicesTitle: "Experiència que es tradueix en orientació real",
+    servicesSubtitle: "No tramitem ni planifiquem per tu, però sabem exactament com acompanyar-te a cada pas.",
+    s01title: "Assessoria en permisos AE, AEG i AET",
+    s01desc: "T'orientem en la gestió d'autoritzacions especials, especials genèriques i excepcionals davant DGT i SCT. Terminis, documentació i requisits sense sorpreses.",
+    s02title: "Interpretació normativa",
+    s02desc: "Lectura experta de la normativa DGT i SCT Catalunya. Instruccions TV, resolucions de restricció, catàleg de prescripcions. Criteri humà on la IA no arriba.",
+    s03title: "Suport en planificació d'itineraris",
+    s03desc: "T'ajudem a entendre restriccions horàries, passos especials i condicions específiques per ruta a Catalunya i la resta d'Espanya.",
+    sctLabel: "SCT Catalunya",
+    sctTitle: "Eines oficials de la Generalitat",
+    sctSubtitle: "Consulta itineraris i l'estat del trànsit en temps real directament des de les plataformes oficials de la SCT.",
+    sctOpen: "Obrir eina",
+    visorTitle: "Visor d'Itineraris SCT",
+    visorDesc: "Consulta i planifica itineraris de transport especial a Catalunya. Verifica rutes, restriccions de pas i condicions específiques per tram.",
+    mctTitle: "Mapa Continu de Trànsit",
+    mctDesc: "Estat del trànsit en temps real a la xarxa viària de Catalunya. Incidències, obres, restriccions actives i càmeres de trànsit.",
+    lexLabel: "Agent IA",
+    lexTitle: "LEX — El teu expert normatiu 24/7",
+    lexDesc1: "LEX té accés a més de 7.400 fragments de normativa de transport especial: lleis marc, instruccions DGT, resolucions SCT, mercaderies perilloses i jornades de conducció.",
+    lexDesc2: "Pregunta sobre permisos, restriccions horàries, velocitats màximes o tràmits amb la SCT. LEX cita sempre la font exacta.",
+    lexCta: "Pregunta a LEX",
+    lexSamples: [
+      "Quina velocitat màxima té un VERTE genèric a l'autopista?",
+      "Quines són les restriccions horàries SCT a l'agost?",
+      "Quina documentació necessito per a un AET a Catalunya?",
+    ],
+    ctaTitle: "Tens una càrrega que gestionar?",
+    ctaSubtitle: "Fes-te soci i accedeix a LEX sense límits. O contacta'ns directament i t'orientem sense compromís.",
+  },
+  en: {
+    badge: "Services · Special Transport",
+    heroTitle: "30 years supporting exceptional loads.",
+    heroSubtitle: "DGT and SCT regulatory advice. Guidance on AE, AEG and AET permits. Support in route planning. No legal surprises.",
+    ctaSocio: "Become a member",
+    ctaContacta: "Contact us",
+    servicesLabel: "What we do",
+    servicesTitle: "Experience that translates into real guidance",
+    servicesSubtitle: "We don't process or plan for you, but we know exactly how to guide you every step of the way.",
+    s01title: "AE, AEG and AET permit advisory",
+    s01desc: "We guide you through managing special, generic special and exceptional authorisations with DGT and SCT. Deadlines, documentation and requirements — no surprises.",
+    s02title: "Regulatory interpretation",
+    s02desc: "Expert reading of DGT and SCT Catalunya regulations. TV instructions, restriction resolutions, prescription catalogue. Human judgement where AI falls short.",
+    s03title: "Route planning support",
+    s03desc: "We help you understand time restrictions, special passages and route-specific conditions in Catalunya and the rest of Spain.",
+    sctLabel: "SCT Catalunya",
+    sctTitle: "Official Generalitat tools",
+    sctSubtitle: "Check itineraries and live traffic conditions directly from the official SCT platforms.",
+    sctOpen: "Open tool",
+    visorTitle: "SCT Itinerary Viewer",
+    visorDesc: "Check and plan special transport itineraries in Catalunya. Verify routes, passage restrictions and specific conditions by section.",
+    mctTitle: "Continuous Traffic Map",
+    mctDesc: "Real-time traffic conditions on Catalunya's road network. Incidents, roadworks, active restrictions and traffic cameras.",
+    lexLabel: "AI Agent",
+    lexTitle: "LEX — Your regulatory expert 24/7",
+    lexDesc1: "LEX has access to over 7,400 fragments of special transport regulations: framework laws, DGT instructions, SCT resolutions, dangerous goods and driving hours.",
+    lexDesc2: "Ask about permits, time restrictions, maximum speeds or SCT procedures. LEX always cites the exact source.",
+    lexCta: "Ask LEX",
+    lexSamples: [
+      "What is the maximum speed for a generic VERTE on a motorway?",
+      "What are the SCT time restrictions in August?",
+      "What documents do I need for an AET in Catalunya?",
+    ],
+    ctaTitle: "Do you have a load to manage?",
+    ctaSubtitle: "Become a member and access LEX without limits. Or contact us directly for no-obligation guidance.",
+  },
+  fr: {
+    badge: "Services · Transport Spécial",
+    heroTitle: "30 ans à accompagner les charges exceptionnelles.",
+    heroSubtitle: "Conseils réglementaires DGT et SCT. Accompagnement pour les permis AE, AEG et AET. Soutien à la planification des itinéraires. Sans mauvaises surprises légales.",
+    ctaSocio: "Devenir membre",
+    ctaContacta: "Nous contacter",
+    servicesLabel: "Ce que nous faisons",
+    servicesTitle: "Une expérience qui se traduit par un accompagnement réel",
+    servicesSubtitle: "Nous ne traitons pas à votre place, mais nous savons exactement comment vous guider à chaque étape.",
+    s01title: "Conseil en permis AE, AEG et AET",
+    s01desc: "Nous vous orientons dans la gestion des autorisations spéciales, génériques et exceptionnelles auprès de la DGT et de la SCT. Délais, documents et exigences sans surprise.",
+    s02title: "Interprétation réglementaire",
+    s02desc: "Lecture experte de la réglementation DGT et SCT Catalunya. Instructions TV, résolutions de restriction, catalogue de prescriptions. Jugement humain là où l'IA ne suffit pas.",
+    s03title: "Soutien à la planification des itinéraires",
+    s03desc: "Nous vous aidons à comprendre les restrictions horaires, les passages spéciaux et les conditions spécifiques par itinéraire en Catalogne et dans le reste de l'Espagne.",
+    sctLabel: "SCT Catalunya",
+    sctTitle: "Outils officiels de la Generalitat",
+    sctSubtitle: "Consultez les itinéraires et l'état du trafic en temps réel directement depuis les plateformes officielles de la SCT.",
+    sctOpen: "Ouvrir l'outil",
+    visorTitle: "Visionneuse d'itinéraires SCT",
+    visorDesc: "Consultez et planifiez des itinéraires de transport spécial en Catalogne. Vérifiez les routes, les restrictions de passage et les conditions spécifiques par tronçon.",
+    mctTitle: "Carte Continue de Trafic",
+    mctDesc: "État du trafic en temps réel sur le réseau routier de Catalogne. Incidents, travaux, restrictions actives et caméras de trafic.",
+    lexLabel: "Agent IA",
+    lexTitle: "LEX — Votre expert réglementaire 24h/24",
+    lexDesc1: "LEX a accès à plus de 7 400 fragments de réglementation sur le transport spécial : lois cadres, instructions DGT, résolutions SCT, matières dangereuses et temps de conduite.",
+    lexDesc2: "Posez des questions sur les permis, les restrictions horaires, les vitesses maximales ou les démarches SCT. LEX cite toujours la source exacte.",
+    lexCta: "Demandez à LEX",
+    lexSamples: [
+      "Quelle est la vitesse maximale d'un VERTE générique sur autoroute ?",
+      "Quelles sont les restrictions horaires SCT en août ?",
+      "Quels documents sont nécessaires pour un AET en Catalogne ?",
+    ],
+    ctaTitle: "Vous avez une charge à gérer ?",
+    ctaSubtitle: "Devenez membre et accédez à LEX sans limites. Ou contactez-nous directement pour un accompagnement sans engagement.",
+  },
+};
+
 // ─── Tilt 3D Card ─────────────────────────────────────────────────────────────
 function TiltCard({
-  title,
-  description,
-  url,
-  icon,
-  accentColor,
+  title, description, url, icon, accentColor, openLabel,
 }: {
-  title: string;
-  description: string;
-  url: string;
-  icon: React.ReactNode;
-  accentColor: string;
+  title: string; description: string; url: string;
+  icon: React.ReactNode; accentColor: string; openLabel: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState("rotateX(0deg) rotateY(0deg)");
+  const [transform, setTransform] = useState("perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)");
   const [shine, setShine] = useState({ x: 50, y: 50, opacity: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -38,12 +207,10 @@ function TiltCard({
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateY = ((x - centerX) / centerX) * 12;
-    const rotateX = -((y - centerY) / centerY) * 12;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
+    const rotateX = -((y - rect.height / 2) / (rect.height / 2)) * 12;
     setTransform(`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04,1.04,1.04)`);
-    setShine({ x: (x / rect.width) * 100, y: (y / rect.height) * 100, opacity: 0.15 });
+    setShine({ x: (x / rect.width) * 100, y: (y / rect.height) * 100, opacity: 0.18 });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -56,53 +223,24 @@ function TiltCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        transform,
-        transition: "transform 0.15s ease-out",
-        transformStyle: "preserve-3d",
-      }}
-      className="relative flex flex-col justify-between p-8 rounded-2xl overflow-hidden cursor-pointer"
       onClick={() => window.open(url, "_blank", "noopener noreferrer")}
+      style={{ transform, transition: "transform 0.15s ease-out", transformStyle: "preserve-3d" }}
+      className="relative flex flex-col justify-between p-8 rounded-2xl overflow-hidden cursor-pointer"
     >
-      {/* Borde degradado */}
-      <div
-        className="absolute inset-0 rounded-2xl"
-        style={{
-          background: `linear-gradient(135deg, ${accentColor}55 0%, transparent 60%)`,
-          border: `1px solid ${accentColor}40`,
-        }}
-      />
-      {/* Fondo base */}
+      <div className="absolute inset-0 rounded-2xl" style={{ background: `linear-gradient(135deg, ${accentColor}40 0%, transparent 60%)`, border: `1px solid ${accentColor}35` }} />
       <div className="absolute inset-0 rounded-2xl bg-white/[0.03]" />
+      <div className="absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300" style={{ background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(255,255,255,0.2) 0%, transparent 60%)`, opacity: shine.opacity }} />
 
-      {/* Brillo que sigue el cursor */}
-      <div
-        className="absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(255,255,255,0.18) 0%, transparent 60%)`,
-          opacity: shine.opacity,
-        }}
-      />
-
-      {/* Contenido */}
       <div className="relative z-10 flex flex-col h-full gap-6">
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center"
-          style={{ background: `${accentColor}20`, border: `1px solid ${accentColor}40` }}
-        >
+        <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: `${accentColor}20`, border: `1px solid ${accentColor}40` }}>
           {icon}
         </div>
-
         <div className="flex-grow">
           <h3 className="font-heading font-bold text-pure text-xl mb-3">{title}</h3>
           <p className="text-white/60 text-sm leading-relaxed">{description}</p>
         </div>
-
-        <div
-          className="flex items-center gap-2 text-sm font-semibold mt-2 transition-all duration-200 group-hover:gap-3"
-          style={{ color: accentColor }}
-        >
-          <span>Abrir herramienta</span>
+        <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: accentColor }}>
+          <span>{openLabel}</span>
           <ExternalLink className="w-4 h-4" />
         </div>
       </div>
@@ -111,17 +249,7 @@ function TiltCard({
 }
 
 // ─── Tarjeta de servicio ───────────────────────────────────────────────────────
-function ServiceCard({
-  number,
-  title,
-  description,
-  icon,
-}: {
-  number: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}) {
+function ServiceCard({ number, title, description, icon }: { number: string; title: string; description: string; icon: React.ReactNode }) {
   return (
     <div className="p-6 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-xpertblue/30 transition-all duration-300">
       <div className="flex items-start gap-4">
@@ -141,6 +269,9 @@ function ServiceCard({
 // ─── Página principal ──────────────────────────────────────────────────────────
 export default function TransporteEspecial() {
   const [contactOpen, setContactOpen] = useState(false);
+  const { abrirAgente } = useAgent();
+  const { locale } = useI18n();
+  const t = texts[locale] ?? texts.es;
 
   return (
     <div className="min-h-screen bg-obsidian text-pure font-sans">
@@ -159,129 +290,97 @@ export default function TransporteEspecial() {
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-obsidian">
         <div className="max-w-4xl mx-auto text-center">
           <span className="inline-block text-arctic text-xs font-semibold tracking-widest uppercase mb-6">
-            Servicios · Transporte Especial
+            {t.badge}
           </span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight mb-6" style={gradientStyle}>
-            30 años desactivando problemas en carretera.
+            {t.heroTitle}
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
-            Permisos AE, AEG y AET. Interpretación normativa DGT y SCT. Planificación de itinerarios.
-            Sin sorpresas legales, sin demoras innecesarias.
+            {t.heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => window.location.href = "/es/socios"}
+              onClick={() => window.location.href = `/${locale}/socios`}
               className="px-7 py-3.5 bg-xpertblue hover:bg-xpertblue/90 text-pure font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
-              Hazte socio <ArrowRight className="w-4 h-4" />
+              {t.ctaSocio} <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => setContactOpen(true)}
               className="px-7 py-3.5 bg-white/[0.06] hover:bg-white/[0.10] border border-white/10 text-pure font-semibold rounded-lg transition-all duration-200"
             >
-              Contacta con nosotros
+              {t.ctaContacta}
             </button>
           </div>
         </div>
       </section>
 
       {/* ── SERVICIOS ────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: "#0F1628" }}>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-obsidian border-t border-white/[0.05]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">Lo que hacemos</span>
+            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{t.servicesLabel}</span>
             <h2 className="font-heading font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
-              Experiencia que se traduce en resultados
+              {t.servicesTitle}
             </h2>
-            <p className="mt-4 text-white/60 max-w-xl mx-auto">
-              Cada carga excepcional tiene su propia normativa, su propio itinerario y su propio riesgo.
-              Nosotros los conocemos todos.
-            </p>
+            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.servicesSubtitle}</p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ServiceCard
-              number="01"
-              icon={<FileCheck className="w-5 h-5 text-xpertblue" />}
-              title="Permisos AE, AEG y AET"
-              description="Tramitación completa ante DGT y SCT. Autorizaciones especiales, especiales de carácter genérico y excepcionales. Plazos reales, sin sorpresas."
-            />
-            <ServiceCard
-              number="02"
-              icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />}
-              title="Interpretación normativa"
-              description="Lectura experta de la normativa DGT y SCT Catalunya. Instrucciones TV, resoluciones de restricción, catálogo de prescripciones. Criterio humano donde la IA no llega."
-            />
-            <ServiceCard
-              number="03"
-              icon={<Map className="w-5 h-5 text-xpertblue" />}
-              title="Planificación de itinerarios"
-              description="Rutas adaptadas a las dimensiones y peso de cada vehículo. Restricciones horarias, pasos especiales, coordinación con Guardia Civil y Mossos d'Esquadra."
-            />
+            <ServiceCard number="01" icon={<FileCheck className="w-5 h-5 text-xpertblue" />} title={t.s01title} description={t.s01desc} />
+            <ServiceCard number="02" icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />} title={t.s02title} description={t.s02desc} />
+            <ServiceCard number="03" icon={<BookOpen className="w-5 h-5 text-xpertblue" />} title={t.s03title} description={t.s03desc} />
           </div>
         </div>
       </section>
 
       {/* ── HERRAMIENTAS SCT ─────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-obsidian">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-obsidian border-t border-white/[0.05]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">SCT Catalunya</span>
+            <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{t.sctLabel}</span>
             <h2 className="font-heading font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
-              Herramientas oficiales de la Generalitat
+              {t.sctTitle}
             </h2>
-            <p className="mt-4 text-white/60 max-w-xl mx-auto">
-              Consulta itinerarios y el estado del tráfico en tiempo real directamente
-              desde las plataformas oficiales de la SCT.
-            </p>
+            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.sctSubtitle}</p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ perspective: "1200px" }}>
             <TiltCard
-              title="Visor d'Itineraris SCT"
-              description="Consulta y planifica itinerarios de transporte especial en Catalunya. Verifica rutas, restricciones de paso y condiciones específicas por tramo."
+              title={t.visorTitle}
+              description={t.visorDesc}
               url="https://visoritineraris.transit.gencat.cat/visorte/"
               accentColor="#1B4FD8"
               icon={<Map className="w-6 h-6 text-xpertblue" />}
+              openLabel={t.sctOpen}
             />
             <TiltCard
-              title="Mapa Continu de Trànsit"
-              description="Estado del tráfico en tiempo real en la red viaria de Catalunya. Incidencias, obras, restricciones activas y cámaras de tráfico."
+              title={t.mctTitle}
+              description={t.mctDesc}
               url="https://mct.gencat.cat/"
               accentColor="#4D9FEC"
               icon={<ExternalLink className="w-6 h-6 text-arctic" />}
+              openLabel={t.sctOpen}
             />
           </div>
         </div>
       </section>
 
       {/* ── LEX ──────────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: "#0F1628" }}>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-obsidian border-t border-white/[0.05]">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-10 items-center">
             <div className="flex-1">
-              <span className="text-arctic text-xs font-semibold tracking-widest uppercase">Agente IA</span>
+              <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{t.lexLabel}</span>
               <h2 className="font-heading font-bold text-3xl sm:text-4xl mt-4 mb-5" style={gradientStyle}>
-                LEX — Tu experto normativo 24/7
+                {t.lexTitle}
               </h2>
-              <p className="text-white/60 leading-relaxed mb-4">
-                LEX tiene acceso a más de 7.400 fragmentos de normativa de transporte especial:
-                leyes marco, instrucciones DGT, resoluciones SCT, mercancías peligrosas y jornadas de conducción.
-              </p>
-              <p className="text-white/60 leading-relaxed mb-8">
-                Pregunta sobre permisos, restricciones horarias, velocidades máximas o trámites
-                con la SCT. LEX cita siempre la fuente exacta.
-              </p>
+              <p className="text-white/60 leading-relaxed mb-4">{t.lexDesc1}</p>
+              <p className="text-white/60 leading-relaxed mb-8">{t.lexDesc2}</p>
               <button
-                onClick={() => {
-                  const btn = document.querySelector("[data-open-agent]") as HTMLElement | null;
-                  if (btn) btn.click();
-                  else window.location.href = "/es#agente";
-                }}
+                onClick={() => abrirAgente("LEX")}
                 className="px-7 py-3.5 bg-xpertblue hover:bg-xpertblue/90 text-pure font-semibold rounded-lg transition-all duration-200 flex items-center gap-2"
               >
                 <MessageSquare className="w-4 h-4" />
-                Pregunta a LEX
+                {t.lexCta}
               </button>
             </div>
 
@@ -296,17 +395,17 @@ export default function TransporteEspecial() {
                   <span className="ml-auto px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Activo</span>
                 </div>
                 <div className="space-y-3">
-                  {[
-                    "¿Qué velocidad máxima tiene un VERTE genérico en autopista?",
-                    "¿Cuáles son las restricciones horarias SCT en agosto?",
-                    "¿Qué formulario necesito para un AET en Catalunya?",
-                  ].map((q, i) => (
-                    <div key={i} className="px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm">
+                  {t.lexSamples.map((q, i) => (
+                    <button
+                      key={i}
+                      onClick={() => abrirAgente("LEX")}
+                      className="w-full text-left px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm hover:border-xpertblue/30 hover:text-white/80 transition-all duration-200"
+                    >
                       {q}
-                    </div>
+                    </button>
                   ))}
                 </div>
-                <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas a LEX</p>
+                <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
               </div>
             </div>
           </div>
@@ -314,27 +413,24 @@ export default function TransporteEspecial() {
       </section>
 
       {/* ── CTA FINAL ────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ background: "#070A12" }}>
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-obsidian border-t border-white/[0.05]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl mb-5" style={gradientStyle}>
-            ¿Tienes una carga que gestionar?
+            {t.ctaTitle}
           </h2>
-          <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">
-            Hazte socio y accede a LEX sin límites. O contáctanos directamente
-            y te orientamos sin compromiso.
-          </p>
+          <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">{t.ctaSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => window.location.href = "/es/socios"}
+              onClick={() => window.location.href = `/${locale}/socios`}
               className="px-7 py-3.5 bg-xpertblue hover:bg-xpertblue/90 text-pure font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
-              Hazte socio <ArrowRight className="w-4 h-4" />
+              {t.ctaSocio} <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => setContactOpen(true)}
               className="px-7 py-3.5 bg-white/[0.06] hover:bg-white/[0.10] border border-white/10 text-pure font-semibold rounded-lg transition-all duration-200"
             >
-              Contacta con nosotros
+              {t.ctaContacta}
             </button>
           </div>
         </div>
