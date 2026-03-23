@@ -244,7 +244,7 @@ export default function BlogNewsletter() {
           className="text-center mb-16"
         >
           <span className="text-arctic text-xs font-semibold tracking-widest uppercase">{m.label}</span>
-          <h2className="font-heading font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
             {m.title}
           </h2>
           <p className="mt-4 text-white/60 text-base max-w-xl mx-auto">{m.subtitle}</p>
