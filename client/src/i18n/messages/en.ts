@@ -42,7 +42,7 @@ const en = {
         description: "30 years of experience in exceptional loads. AE, AEG and AET permits, DGT/SCT regulatory interpretation and route planning. No legal surprises.",
         features: ["Regulatory queries", "Permit advisory", "Legal updates"],
         cta: "Explore Transport",
-        href: "/servicios/transporte",
+        href: "/servicios/transporte-especial",
       },
       {
         title: "AI for SMEs",
