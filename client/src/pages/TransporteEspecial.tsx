@@ -29,6 +29,7 @@ const texts: Record<string, {
   s01title: string; s01desc: string;
   s02title: string; s02desc: string;
   s03title: string; s03desc: string;
+  s01claim: string; s02claim: string; s03claim: string;
   sctLabel: string;
   sctTitle: string;
   sctSubtitle: string;
@@ -59,6 +60,9 @@ const texts: Record<string, {
     s02desc: "Lectura experta de la normativa DGT y SCT Catalunya. Instrucciones TV, resoluciones de restricción, catálogo de prescripciones. Criterio humano donde la IA no llega.",
     s03title: "Apoyo en planificación de itinerarios",
     s03desc: "Te ayudamos a entender restricciones horarias, pasos especiales y condiciones específicas por ruta en Catalunya y el resto de España.",
+    s01claim: "LEX conoce esta normativa al detalle.",
+    s02claim: "Criterio humano, respaldado por inteligencia artificial.",
+    s03claim: "Trabajamos siempre con herramientas y fuentes oficiales.",
     sctLabel: "SCT Catalunya",
     sctTitle: "Herramientas oficiales de la Generalitat",
     sctSubtitle: "Consulta itinerarios y el estado del tráfico en tiempo real directamente desde las plataformas oficiales de la SCT.",
@@ -95,6 +99,9 @@ const texts: Record<string, {
     s02desc: "Lectura experta de la normativa DGT i SCT Catalunya. Instruccions TV, resolucions de restricció, catàleg de prescripcions. Criteri humà on la IA no arriba.",
     s03title: "Suport en planificació d'itineraris",
     s03desc: "T'ajudem a entendre restriccions horàries, passos especials i condicions específiques per ruta a Catalunya i la resta d'Espanya.",
+    s01claim: "LEX coneix aquesta normativa al detall.",
+    s02claim: "Criteri humà, recolzat per intel·ligència artificial.",
+    s03claim: "Treballem sempre amb eines i fonts oficials.",
     sctLabel: "SCT Catalunya",
     sctTitle: "Eines oficials de la Generalitat",
     sctSubtitle: "Consulta itineraris i l'estat del trànsit en temps real directament des de les plataformes oficials de la SCT.",
@@ -131,6 +138,9 @@ const texts: Record<string, {
     s02desc: "Expert reading of DGT and SCT Catalunya regulations. TV instructions, restriction resolutions, prescription catalogue. Human judgement where AI falls short.",
     s03title: "Route planning support",
     s03desc: "We help you understand time restrictions, special passages and route-specific conditions in Catalunya and the rest of Spain.",
+    s01claim: "LEX knows this regulation in detail.",
+    s02claim: "Human judgement, backed by artificial intelligence.",
+    s03claim: "We always work with official tools and sources.",
     sctLabel: "SCT Catalunya",
     sctTitle: "Official Generalitat tools",
     sctSubtitle: "Check itineraries and live traffic conditions directly from the official SCT platforms.",
@@ -167,6 +177,9 @@ const texts: Record<string, {
     s02desc: "Lecture experte de la réglementation DGT et SCT Catalunya. Instructions TV, résolutions de restriction, catalogue de prescriptions. Jugement humain là où l'IA ne suffit pas.",
     s03title: "Soutien à la planification des itinéraires",
     s03desc: "Nous vous aidons à comprendre les restrictions horaires, les passages spéciaux et les conditions spécifiques par itinéraire en Catalogne et dans le reste de l'Espagne.",
+    s01claim: "LEX connaît cette réglementation en détail.",
+    s02claim: "Jugement humain, soutenu par l'intelligence artificielle.",
+    s03claim: "Nous travaillons toujours avec des outils et des sources officiels.",
     sctLabel: "SCT Catalunya",
     sctTitle: "Outils officiels de la Generalitat",
     sctSubtitle: "Consultez les itinéraires et l'état du trafic en temps réel directement depuis les plateformes officielles de la SCT.",
@@ -248,12 +261,12 @@ function TiltCard({
   );
 }
 
-// ─── Tarjeta de servicio con Expand ───────────────────────────────────────────
+// ─── Tarjeta de servicio con claim en hover ────────────────────────────────────
 function ServiceCard({
-  number, title, description, icon, lexCta, onLexClick,
+  number, title, description, icon, claim,
 }: {
   number: string; title: string; description: string;
-  icon: React.ReactNode; lexCta: string; onLexClick: () => void;
+  icon: React.ReactNode; claim: string;
 }) {
   const [hovered, setHovered] = useState(false);
 
@@ -284,22 +297,18 @@ function ServiceCard({
         </div>
       </div>
 
-      {/* Botón que aparece al hover */}
+      {/* Claim que aparece al hover */}
       <div
         style={{
-          maxHeight: hovered ? "60px" : "0px",
+          maxHeight: hovered ? "40px" : "0px",
           opacity: hovered ? 1 : 0,
-          transition: "max-height 0.3s ease, opacity 0.25s ease",
+          transition: "max-height 0.3s ease, opacity 0.3s ease 0.05s",
           overflow: "hidden",
         }}
       >
-        <button
-          onClick={onLexClick}
-          className="mt-2 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-xpertblue hover:bg-xpertblue/90 text-pure text-sm font-semibold rounded-lg transition-colors duration-200"
-        >
-          <MessageSquare className="w-4 h-4" />
-          {lexCta}
-        </button>
+        <p className="text-arctic text-xs italic leading-relaxed pt-2 border-t border-arctic/20">
+          — {claim}
+        </p>
       </div>
     </div>
   );
@@ -365,9 +374,9 @@ export default function TransporteEspecial() {
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.servicesSubtitle}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ServiceCard number="01" icon={<FileCheck className="w-5 h-5 text-xpertblue" />} title={t.s01title} description={t.s01desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
-            <ServiceCard number="02" icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />} title={t.s02title} description={t.s02desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
-            <ServiceCard number="03" icon={<BookOpen className="w-5 h-5 text-xpertblue" />} title={t.s03title} description={t.s03desc} lexCta={t.lexCta} onLexClick={() => abrirAgente("LEX")} />
+            <ServiceCard number="01" icon={<FileCheck className="w-5 h-5 text-xpertblue" />} title={t.s01title} description={t.s01desc} claim={t.s01claim} />
+            <ServiceCard number="02" icon={<ShieldCheck className="w-5 h-5 text-xpertblue" />} title={t.s02title} description={t.s02desc} claim={t.s02claim} />
+            <ServiceCard number="03" icon={<BookOpen className="w-5 h-5 text-xpertblue" />} title={t.s03title} description={t.s03desc} claim={t.s03claim} />
           </div>
         </div>
       </section>
