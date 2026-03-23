@@ -39,10 +39,10 @@ const es = {
     items: [
       {
         title: "Transporte Especial",
-        description: "30 años de experiencia en cargas excepcionales. Permisos AE, AEG y AET, interpretación normativa DGT/SCT y planificación de itinerarios. Sin sorpresas legales.",
+        description: "30 años de experiencia en cargas excepcionales. Te acompañamos en la gestión de permisos AE, AEG y AET, interpretación normativa DGT/SCT y planificación de itinerarios. Sin sorpresas legales.",
         features: ["Consultas normativas", "Asesoría en permisos", "Actualización legal"],
         cta: "Explorar Transporte",
-        href: "/servicios/transporte",
+        href: "/servicios/transporte-especial",
       },
       {
         title: "IA para PYMEs",
