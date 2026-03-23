@@ -42,7 +42,7 @@ const fr = {
         description: "30 ans d'expérience dans les charges exceptionnelles. Permis AE, AEG et AET, interprétation réglementaire DGT/SCT et planification d'itinéraires. Sans mauvaises surprises légales.",
         features: ["Consultations réglementaires", "Conseil en permis", "Mises à jour légales"],
         cta: "Explorer le Transport",
-        href: "/servicios/transporte",
+        href: "/servicios/transporte-especial",
       },
       {
         title: "IA pour PME",
