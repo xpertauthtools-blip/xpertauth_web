@@ -15,6 +15,7 @@ import { createClient } from "@supabase/supabase-js";
 import Socios from "@/pages/socios";
 import SobreNosotros from "@/pages/SobreNosotros";
 import TransporteEspecial from "@/pages/TransporteEspecial";
+import IaPymes from "@/pages/IaPymes";
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
 
@@ -57,6 +58,7 @@ function AuthCallback() {
 function Router() {
   return (
     <Switch>
+      <Route path="/:locale/servicios/ia-pymes" component={IaPymes} />
       <Route path="/:locale/servicios/transporte-especial" component={TransporteEspecial} />
       <Route path="/:locale/sobre-nosotros" component={SobreNosotros} />
       <Route path="/:locale/socios" component={Socios} />
@@ -72,7 +74,6 @@ function Router() {
 // ─── App ─────────────────────────────────────────────────────────────────────
 
 function App() {
-  // Estado del agente
   const [agenteModal, setAgenteModal] = useState<Agente | null>(null);
   const [chatAbierto, setChatAbierto] = useState(false);
   const [agenteChat, setAgenteChat] = useState<Agente>("LEX");
@@ -80,7 +81,6 @@ function App() {
   const [emailUsuario, setEmailUsuario] = useState("");
   const [esAutenticado, setEsAutenticado] = useState(false);
 
-  // Comprobar sesión de Supabase al cargar
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session?.user) {
@@ -105,8 +105,6 @@ function App() {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // Abrir agente: si está autenticado salta directamente al chat,
-  // si no muestra el modal de identificación
   function abrirAgente(agente: Agente) {
     setAgenteChat(agente);
     if (esAutenticado) {
@@ -116,7 +114,6 @@ function App() {
     }
   }
 
-  // El usuario confirma nombre + email en el modal → abrir chat
   function handleModalConfirm(nombre: string, email: string) {
     setNombreUsuario(nombre);
     setEmailUsuario(email);
@@ -124,7 +121,6 @@ function App() {
     setChatAbierto(true);
   }
 
-  // El agente avisa de que se alcanzó el límite → volver al modal (pantalla límite)
   function handleLimiteAlcanzado() {
     setChatAbierto(false);
     setAgenteModal(agenteChat);
@@ -141,14 +137,12 @@ function App() {
             <Toaster />
             <Router />
 
-            {/* Modal de identificación (visitantes) */}
             <AgentModal
               agente={agenteModal}
               onConfirm={handleModalConfirm}
               onClose={() => setAgenteModal(null)}
             />
 
-            {/* Panel de chat */}
             <AgentChat
               abierto={chatAbierto}
               agente={agenteChat}
