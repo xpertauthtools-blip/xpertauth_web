@@ -1,10 +1,70 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
-import ContactModal from "../components/ContactModal";
-import { useAgent } from "../App";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import ContactModal from "@/components/ContactModal";
+import { useAgent } from "@/App";
 
+// ─── Gradiente animado ────────────────────────────────────────────────────────
+const gradientStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
+  backgroundSize: "300% 300%",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "snGrad 6s ease infinite",
+};
+
+// ─── Tarjeta de servicio (igual que TransporteEspecial) ───────────────────────
+function ServiceCard({
+  number, title, description, claim, badge,
+}: {
+  number: string; title: string; description: string; claim: string; badge?: string;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        transition: "all 0.35s cubic-bezier(0.34,1.2,0.64,1)",
+        transform: hovered ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
+      }}
+      className={`p-6 rounded-xl border transition-colors duration-300 overflow-hidden ${
+        hovered
+          ? "bg-[#1B4FD8]/10 border-[#1B4FD8]/40 shadow-lg shadow-[#1B4FD8]/10"
+          : "bg-white/[0.03] border-white/[0.08]"
+      }`}
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono">{number}</span>
+        {badge && (
+          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC]">
+            {badge}
+          </span>
+        )}
+      </div>
+      <h3 className="text-white font-semibold text-base mb-2">{title}</h3>
+      <p className="text-white/60 text-sm leading-relaxed">{description}</p>
+
+      <div
+        style={{
+          maxHeight: hovered ? "56px" : "0px",
+          opacity: hovered ? 1 : 0,
+          transition: "max-height 0.3s ease, opacity 0.3s ease 0.05s",
+          overflow: "hidden",
+        }}
+      >
+        <p className="text-[#4D9FEC] text-xs italic leading-relaxed pt-2 border-t border-[#4D9FEC]/20">
+          — {claim}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Textos por idioma ────────────────────────────────────────────────────────
 const texts: Record<string, {
   heroTitle1: string; heroTitle2: string; heroSubtitle: string;
   heroCtaSocio: string; heroCtaContacto: string;
@@ -21,12 +81,12 @@ const texts: Record<string, {
     heroTitle2: "grandes empresas.",
     heroSubtitle: "Automatizamos tus procesos, formamos a tu equipo y resolvemos los cuellos de botella reales de tu negocio. Sin vender tecnologia. Sin humo.",
     heroCtaSocio: "Hazte socio",
-    heroCtaContacto: "Contacta",
+    heroCtaContacto: "Contacta con nosotros",
     serviciosLabel: "Lo que hacemos",
     serviciosTitle: "No vendemos soluciones. Resolvemos problemas.",
     serviciosSubtitle: "Antes de proponer nada, entendemos como trabajas.",
     s: [
-      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Antes de proponer nada, escuchamos. Mapeamos como trabajas, donde se acumula la friccion y que tareas te quitan tiempo sin aportarte valor. Sin compromiso, sin coste.", claim: "No vendemos soluciones. Diagnosticamos problemas reales." },
+      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Antes de proponer nada, escuchamos. Mapeamos como trabajas, donde se acumula la friccion y que tareas te quitan tiempo sin aportarte valor. Sin compromiso, sin coste.", claim: "Diagnosticamos problemas reales y ofrecemos soluciones." },
       { num: "02", title: "Consultoria de implementacion", body: "Te ayudamos a elegir que herramienta encaja con tu empresa, como integrarla y como medir si realmente resuelve el problema. El equipo humano revisa cada caso antes de recomendar nada.", claim: "Criterio humano, respaldado por IA." },
       { num: "03", title: "Automatizacion de procesos", body: "Automatizamos las tareas repetitivas que identificamos en la auditoria. Sin cambiar tu forma de trabajar de golpe, sin grandes inversiones. Los resultados se notan desde el primer mes.", claim: "NOVA analiza tu flujo de trabajo y propone soluciones concretas." },
       { num: "04", title: "Formacion practica del equipo", body: "Tres sesiones para que tu equipo entienda y use la IA sin miedo. Sin jerga, sin teoria vacia. Solo herramientas reales aplicadas a tu sector, desde el primer dia.", claim: "Maximo 6 personas por grupo. A vuestro ritmo." },
@@ -58,12 +118,12 @@ const texts: Record<string, {
     heroTitle2: "grans empreses.",
     heroSubtitle: "Automatitzem els teus processos, formem el teu equip i resolem els colls d'ampolla reals del teu negoci. Sense vendre tecnologia. Sense fum.",
     heroCtaSocio: "Fes-te soci",
-    heroCtaContacto: "Contacta",
+    heroCtaContacto: "Contacta amb nosaltres",
     serviciosLabel: "El que fem",
     serviciosTitle: "No venem solucions. Resolem problemes.",
     serviciosSubtitle: "Abans de proposar res, entenem com treballes.",
     s: [
-      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Abans de proposar res, escoltem. Mapegem com treballes, on s'acumula la friccio i quines tasques et treuen temps sense aportar-te valor. Sense compromis, sense cost.", claim: "No venem solucions. Diagnostiquem problemes reals." },
+      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Abans de proposar res, escoltem. Mapegem com treballes, on s'acumula la friccio i quines tasques et treuen temps sense aportar-te valor. Sense compromis, sense cost.", claim: "Diagnostiquem problemes reals i oferim solucions." },
       { num: "02", title: "Consultoria d'implementacio", body: "T'ajudem a triar quina eina encaixa amb la teva empresa, com integrar-la i com mesurar si realment resol el problema. L'equip huma revisa cada cas abans de recomanar res.", claim: "Criteri huma, recolzat per IA." },
       { num: "03", title: "Automatitzacio de processos", body: "Automatitzem les tasques repetitives que identifiquem a l'auditoria. Sense canviar la teva forma de treballar de cop, sense grans inversions. Els resultats es noten des del primer mes.", claim: "NOVA analitza el teu flux de treball i proposa solucions concretes." },
       { num: "04", title: "Formacio practica de l'equip", body: "Tres sessions perque el teu equip entengui i usi la IA sense por. Sense argot, sense teoria buida. Nomes eines reals aplicades al teu sector, des del primer dia.", claim: "Maxim 6 persones per grup. Al vostre ritme." },
@@ -100,7 +160,7 @@ const texts: Record<string, {
     serviciosTitle: "We don't sell solutions. We solve problems.",
     serviciosSubtitle: "Before proposing anything, we understand how you work.",
     s: [
-      { num: "01", badge: "Free", title: "Initial audit", body: "Before proposing anything, we listen. We map how you work, where friction builds up, and which tasks drain your time without adding value. No commitment, no cost.", claim: "We don't sell solutions. We diagnose real problems." },
+      { num: "01", badge: "Free", title: "Initial audit", body: "Before proposing anything, we listen. We map how you work, where friction builds up, and which tasks drain your time without adding value. No commitment, no cost.", claim: "We diagnose real problems and offer solutions." },
       { num: "02", title: "Implementation consulting", body: "We help you choose which tool fits your company, how to integrate it, and how to measure whether it actually solves the problem. Our human team reviews each case before recommending anything.", claim: "Human judgement, backed by AI." },
       { num: "03", title: "Process automation", body: "We automate the repetitive tasks we identify during the audit. Without overhauling how you work overnight, without major investments. Results show from the first month.", claim: "NOVA analyses your workflow and proposes concrete solutions." },
       { num: "04", title: "Practical team training", body: "Three sessions so your team understands and uses AI without fear. No jargon, no empty theory. Only real tools applied to your sector, from day one.", claim: "Maximum 6 people per group. At your own pace." },
@@ -137,7 +197,7 @@ const texts: Record<string, {
     serviciosTitle: "Nous ne vendons pas de solutions. Nous resolvons des problemes.",
     serviciosSubtitle: "Avant de proposer quoi que ce soit, nous comprenons comment vous travaillez.",
     s: [
-      { num: "01", badge: "Gratuit", title: "Audit initial", body: "Avant de proposer quoi que ce soit, nous ecoutons. Nous cartographions votre facon de travailler, ou la friction s'accumule et quelles taches vous font perdre du temps sans valeur ajoutee. Sans engagement, sans cout.", claim: "Nous ne vendons pas de solutions. Nous diagnostiquons de vrais problemes." },
+      { num: "01", badge: "Gratuit", title: "Audit initial", body: "Avant de proposer quoi que ce soit, nous ecoutons. Nous cartographions votre facon de travailler, ou la friction s'accumule et quelles taches vous font perdre du temps sans valeur ajoutee. Sans engagement, sans cout.", claim: "Nous diagnostiquons de vrais problemes et proposons des solutions." },
       { num: "02", title: "Conseil en implementation", body: "Nous vous aidons a choisir l'outil adapte a votre entreprise, comment l'integrer et comment mesurer s'il resout vraiment le probleme. L'equipe humaine examine chaque cas avant de recommander quoi que ce soit.", claim: "Jugement humain, soutenu par l'IA." },
       { num: "03", title: "Automatisation des processus", body: "Nous automatisons les taches repetitives identifiees lors de l'audit. Sans bouleverser votre facon de travailler du jour au lendemain, sans investissements majeurs. Les resultats se voient des le premier mois.", claim: "NOVA analyse votre flux de travail et propose des solutions concretes." },
       { num: "04", title: "Formation pratique de l'equipe", body: "Trois sessions pour que votre equipe comprenne et utilise l'IA sans crainte. Sans jargon, sans theorie creuse. Uniquement des outils reels appliques a votre secteur, des le premier jour.", claim: "Maximum 6 personnes par groupe. A votre rythme." },
@@ -166,13 +226,13 @@ const texts: Record<string, {
   },
 };
 
+// ─── Pagina principal ─────────────────────────────────────────────────────────
 export default function IaPymes() {
   const [location] = useLocation();
   const locale = location.split("/")[1] || "es";
   const t = texts[locale] || texts.es;
   const { abrirAgente } = useAgent();
   const [contactOpen, setContactOpen] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const rutaSocios = "/" + locale + "/socios";
 
@@ -180,42 +240,32 @@ export default function IaPymes() {
     window.scrollTo(0, 0);
   }, []);
 
-  const gradStyle: React.CSSProperties = {
-    background: "linear-gradient(90deg, #ffffff 0%, #4D9FEC 40%, #1B4FD8 70%, #ffffff 100%)",
-    backgroundSize: "200% auto",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
-    animation: "snGrad 6s linear infinite",
-    display: "inline-block",
-  };
-
   return (
     <div className="min-h-screen bg-[#0A0E1A]">
-      <style>{"@keyframes snGrad { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }"}</style>
 
       <Navbar />
 
-      <section className="pt-32 pb-20 px-6 bg-[#0A0E1A]">
+      {/* HERO */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-[#0A0E1A]">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
-            <span style={gradStyle}>{t.heroTitle1}</span>
+            <span style={gradientStyle}>{t.heroTitle1}</span>
             <br />
-            <span style={gradStyle}>{t.heroTitle2}</span>
+            <span style={gradientStyle}>{t.heroTitle2}</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
             {t.heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={rutaSocios}
-              className="px-8 py-3 bg-[#1B4FD8] hover:bg-[#1640b0] text-white font-semibold rounded-lg transition-colors"
+            <button
+              onClick={() => window.location.href = rutaSocios}
+              className="px-7 py-3.5 bg-[#1B4FD8] hover:bg-[#1B4FD8]/90 text-white font-semibold rounded-lg transition-all duration-200"
             >
               {t.heroCtaSocio}
-            </a>
+            </button>
             <button
               onClick={() => setContactOpen(true)}
-              className="px-8 py-3 border border-white/30 hover:border-white/60 text-white font-semibold rounded-lg transition-colors"
+              className="px-7 py-3.5 bg-white/[0.06] hover:bg-white/[0.10] border border-white/10 text-white font-semibold rounded-lg transition-all duration-200"
             >
               {t.heroCtaContacto}
             </button>
@@ -223,43 +273,74 @@ export default function IaPymes() {
         </div>
       </section>
 
-      <section className="py-20 px-6 bg-[#0A0E1A]">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
-            {t.serviciosLabel}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-3" style={gradStyle}>
-            {t.serviciosTitle}
-          </h2>
-          <p className="text-gray-400 text-center mb-14 text-lg">{t.serviciosSubtitle}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* SERVICIOS */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0E1A] border-t border-white/[0.05]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.serviciosLabel}</span>
+            <h2 className="font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
+              {t.serviciosTitle}
+            </h2>
+            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.serviciosSubtitle}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {t.s.map((srv, i) => (
-              <div
+              <ServiceCard
                 key={i}
-                className="relative rounded-xl border border-white/10 p-6 cursor-default transition-all duration-300 overflow-hidden"
-                style={{
-                  background: hoveredCard === i ? "#1B4FD8" : "rgba(255,255,255,0.03)",
-                  transform: hoveredCard === i ? "translateY(-4px)" : "translateY(0)",
-                  borderColor: hoveredCard === i ? "#4D9FEC" : "rgba(255,255,255,0.1)",
-                }}
-                onMouseEnter={() => setHoveredCard(i)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-[#4D9FEC] text-sm font-semibold tracking-widest">{srv.num}</span>
-                  {srv.badge && (
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC]">
-                      {srv.badge}
-                    </span>
+                number={srv.num}
+                badge={srv.badge}
+                title={srv.title}
+                description={srv.body}
+                claim={srv.claim}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* COMO FUNCIONA — timeline horizontal */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0F1628] border-t border-white/[0.05]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.comoLabel}</span>
+            <h2 className="font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
+              {t.comoTitle}
+            </h2>
+          </div>
+
+          {/* Timeline desktop */}
+          <div className="hidden md:block relative">
+            {/* Linea conectora */}
+            <div className="absolute top-6 left-[calc(12.5%)] right-[calc(12.5%)] h-px bg-gradient-to-r from-transparent via-[#1B4FD8]/60 to-transparent" />
+
+            <div className="grid grid-cols-4 gap-6">
+              {t.pasos.map((paso, i) => (
+                <div key={i} className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full border-2 border-[#1B4FD8] bg-[#0F1628] flex items-center justify-center mb-5 relative z-10">
+                    <span className="text-[#4D9FEC] font-bold text-sm">{paso.num}</span>
+                  </div>
+                  <h3 className="text-white font-semibold text-sm mb-2">{paso.title}</h3>
+                  <p className="text-white/50 text-xs leading-relaxed">{paso.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline mobile — vertical */}
+          <div className="md:hidden flex flex-col gap-0">
+            {t.pasos.map((paso, i) => (
+              <div key={i} className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full border-2 border-[#1B4FD8] bg-[#0F1628] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#4D9FEC] font-bold text-xs">{paso.num}</span>
+                  </div>
+                  {i < t.pasos.length - 1 && (
+                    <div className="w-px flex-1 bg-[#1B4FD8]/30 my-2" />
                   )}
                 </div>
-                <h3 className="text-white font-semibold text-base mb-3">{srv.title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed mb-4">{srv.body}</p>
-                <div
-                  className="overflow-hidden transition-all duration-300"
-                  style={{ maxHeight: hoveredCard === i ? "56px" : "0px" }}
-                >
-                  <p className="text-[#4D9FEC] text-xs italic">{srv.claim}</p>
+                <div className="pb-8">
+                  <h3 className="text-white font-semibold text-sm mb-1 mt-2">{paso.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{paso.body}</p>
                 </div>
               </div>
             ))}
@@ -267,63 +348,45 @@ export default function IaPymes() {
         </div>
       </section>
 
-      <section className="py-20 px-6 bg-[#0F1628]">
+      {/* NOVA */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0E1A] border-t border-white/[0.05]">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
-            {t.comoLabel}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-14" style={gradStyle}>
-            {t.comoTitle}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {t.pasos.map((paso, i) => (
-              <div key={i} className="text-center">
-                <div className="w-12 h-12 rounded-full border border-[#1B4FD8] flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#4D9FEC] font-bold text-sm">{paso.num}</span>
-                </div>
-                <h3 className="text-white font-semibold mb-2">{paso.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{paso.body}</p>
-              </div>
-            ))}
+          <div className="text-center mb-12">
+            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.novaLabel}</span>
+            <h2 className="font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
+              {t.novaTitle}
+            </h2>
+            <p className="mt-4 text-white/60 max-w-2xl mx-auto leading-relaxed">
+              {t.novaBody}
+            </p>
           </div>
-        </div>
-      </section>
 
-      <section className="py-20 px-6 bg-[#0A0E1A]">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
-            {t.novaLabel}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6" style={gradStyle}>
-            {t.novaTitle}
-          </h2>
-          <p className="text-gray-300 text-center text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
-            {t.novaBody}
-          </p>
           <div className="bg-[#0F1628] border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-[#4D9FEC]/20 flex items-center justify-center">
                 <span className="text-[#4D9FEC] text-xs font-bold">N</span>
               </div>
-              <span className="text-white font-semibold">NOVA</span>
-              <span className="ml-auto w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-white font-semibold text-sm">NOVA · XpertAuth</span>
+              <span className="ml-auto px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Activo</span>
             </div>
             <div className="space-y-3">
               {t.novaPreguntas.map((q, i) => (
                 <button
                   key={i}
                   onClick={() => abrirAgente("NOVA")}
-                  className="w-full text-left px-4 py-3 rounded-lg border border-white/10 hover:border-[#4D9FEC]/50 hover:bg-[#4D9FEC]/5 text-gray-300 text-sm transition-all duration-200"
+                  className="w-full text-left px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm hover:border-[#4D9FEC]/30 hover:text-white/80 transition-all duration-200"
                 >
                   {q}
                 </button>
               ))}
             </div>
+            <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
           </div>
+
           <div className="text-center">
             <button
               onClick={() => abrirAgente("NOVA")}
-              className="px-8 py-3 bg-[#4D9FEC] hover:bg-[#3a8fd9] text-white font-semibold rounded-lg transition-colors"
+              className="px-7 py-3.5 bg-[#4D9FEC] hover:bg-[#4D9FEC]/90 text-white font-semibold rounded-lg transition-all duration-200"
             >
               {t.novaBtn}
             </button>
@@ -331,22 +394,23 @@ export default function IaPymes() {
         </div>
       </section>
 
-      <section className="py-24 px-6 bg-[#070A12]">
+      {/* CTA FINAL */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#070A12] border-t border-white/[0.05]">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4" style={gradStyle}>
+          <h2 className="font-bold text-3xl sm:text-4xl mb-5" style={gradientStyle}>
             {t.ctaTitle}
           </h2>
-          <p className="text-gray-400 text-lg mb-10">{t.ctaSubtitle}</p>
+          <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">{t.ctaSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={rutaSocios}
-              className="px-8 py-3 bg-[#1B4FD8] hover:bg-[#1640b0] text-white font-semibold rounded-lg transition-colors"
+            <button
+              onClick={() => window.location.href = rutaSocios}
+              className="px-7 py-3.5 bg-[#1B4FD8] hover:bg-[#1B4FD8]/90 text-white font-semibold rounded-lg transition-all duration-200"
             >
               {t.ctaSocio}
-            </a>
+            </button>
             <button
               onClick={() => setContactOpen(true)}
-              className="px-8 py-3 border border-white/30 hover:border-white/60 text-white font-semibold rounded-lg transition-colors"
+              className="px-7 py-3.5 bg-white/[0.06] hover:bg-white/[0.10] border border-white/10 text-white font-semibold rounded-lg transition-all duration-200"
             >
               {t.ctaContacto}
             </button>
@@ -355,6 +419,7 @@ export default function IaPymes() {
       </section>
 
       <Footer />
+
       <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} locale={locale} />
     </div>
   );
