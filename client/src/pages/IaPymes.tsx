@@ -4,7 +4,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 import { useAgent } from "@/App";
-import { AutomatizacionCarousel } from "@/components/AutomatizacionCarousel";
 
 const gradientStyle: React.CSSProperties = {
   background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
@@ -15,58 +14,205 @@ const gradientStyle: React.CSSProperties = {
   animation: "snGrad 6s ease infinite",
 };
 
-function ServiceCard({
-  number, title, description, claim, badge,
-}: {
-  number: string; title: string; description: string; claim: string; badge?: string;
-}) {
-  const [hovered, setHovered] = useState(false);
+// ─── Datos casos de uso ───────────────────────────────────────────────────────
+const casosUso = [
+  {
+    num: "01",
+    titulo: "Clasificar emails y registrar incidencias",
+    descripcion: "Cada email de cliente se clasifica por tipo automaticamente. Las incidencias se registran en Sheets y se confirma la recepcion al cliente sin intervenir.",
+    herramientas: [
+      { nombre: "Gmail", color: "#EA4335" },
+      { nombre: "Sheets", color: "#34A853" },
+      { nombre: "Gmail", color: "#EA4335" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "02",
+    titulo: "Nuevo lead entra solo en CRM con bienvenida",
+    descripcion: "El formulario web crea el contacto en tu CRM y dispara un email de bienvenida personalizado. Sin tocar nada.",
+    herramientas: [
+      { nombre: "Formulario", color: "#7B68EE" },
+      { nombre: "HubSpot", color: "#FF6B35" },
+      { nombre: "Gmail", color: "#EA4335" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "03",
+    titulo: "Mensaje de cliente genera tarea al equipo",
+    descripcion: "Un mensaje de cliente en WhatsApp crea automaticamente una tarea en Notion y notifica al responsable en Slack.",
+    herramientas: [
+      { nombre: "WhatsApp", color: "#25D366" },
+      { nombre: "Notion", color: "#888888" },
+      { nombre: "Slack", color: "#4A154B" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "04",
+    titulo: "Extrae datos de facturas a tu hoja de costes",
+    descripcion: "Subes la factura PDF a Drive. La IA extrae importe, proveedor y fecha. Los datos se vuelcan solos en tu hoja de contabilidad.",
+    herramientas: [
+      { nombre: "Drive", color: "#4285F4" },
+      { nombre: "IA", color: "#8B5CF6" },
+      { nombre: "Sheets", color: "#34A853" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "05",
+    titulo: "Recordatorio automatico de cita al cliente",
+    descripcion: "Creas el evento en Calendar. 24h antes el cliente recibe automaticamente un WhatsApp con la confirmacion y los detalles.",
+    herramientas: [
+      { nombre: "Calendar", color: "#4285F4" },
+      { nombre: "WhatsApp", color: "#25D366" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "06",
+    titulo: "Informe semanal de ventas sin tocarlo",
+    descripcion: "Cada lunes a las 8h se genera el informe de ventas de la semana anterior y se envia automaticamente a los responsables.",
+    herramientas: [
+      { nombre: "Sheets", color: "#34A853" },
+      { nombre: "PDF", color: "#F72585" },
+      { nombre: "Gmail", color: "#EA4335" },
+    ],
+    transporte: false,
+  },
+  {
+    num: "07",
+    titulo: "Recepcion de eCMR y registro automatico",
+    descripcion: "El eCMR llega por email. La IA extrae matricula, origen, destino y fecha. Se registra en tu hoja de servicios y se archiva en Drive.",
+    herramientas: [
+      { nombre: "Email", color: "#EA4335" },
+      { nombre: "IA", color: "#8B5CF6" },
+      { nombre: "Sheets", color: "#34A853" },
+      { nombre: "Drive", color: "#4285F4" },
+    ],
+    transporte: true,
+  },
+  {
+    num: "08",
+    titulo: "Facturacion automatica al cerrar el servicio",
+    descripcion: "Al marcar el servicio como completado en Sheets, se genera la factura en Sage y se envia automaticamente al cliente por email.",
+    herramientas: [
+      { nombre: "Sheets", color: "#34A853" },
+      { nombre: "Sage", color: "#00DC82" },
+      { nombre: "Gmail", color: "#EA4335" },
+    ],
+    transporte: true,
+  },
+];
+
+// ─── Componente acordeon ──────────────────────────────────────────────────────
+function CasoAcordeon({ caso }: { caso: typeof casosUso[0] }) {
+  const [open, setOpen] = useState(false);
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        transition: "all 0.35s cubic-bezier(0.34,1.2,0.64,1)",
-        transform: hovered ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
-      }}
-      className={`p-6 rounded-xl border transition-colors duration-300 overflow-hidden ${
-        hovered
-          ? "bg-[#1B4FD8]/10 border-[#1B4FD8]/40 shadow-lg shadow-[#1B4FD8]/10"
-          : "bg-white/[0.03] border-white/[0.08]"
+      className={`rounded-xl border overflow-hidden transition-colors duration-200 ${
+        open ? "border-[#1B4FD8]/40 bg-[#1B4FD8]/5" : "border-white/[0.08] bg-white/[0.02]"
       }`}
     >
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono">{number}</span>
-        {badge && (
-          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC]">
-            {badge}
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-3 px-5 py-4 text-left"
+      >
+        <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono flex-shrink-0">
+          {caso.num}
+        </span>
+        <span className="text-white text-sm font-medium flex-1 leading-snug">
+          {caso.titulo}
+        </span>
+        {caso.transporte && (
+          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC] flex-shrink-0">
+            Transporte
           </span>
         )}
-      </div>
-      <h3 className="text-white font-semibold text-base mb-2">{title}</h3>
-      <p className="text-white/60 text-sm leading-relaxed">{description}</p>
+        <span
+          className="text-white/40 text-lg flex-shrink-0 transition-transform duration-200"
+          style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
+        >
+          ›
+        </span>
+      </button>
+
       <div
         style={{
-          maxHeight: hovered ? "56px" : "0px",
-          opacity: hovered ? 1 : 0,
-          transition: "max-height 0.3s ease, opacity 0.3s ease 0.05s",
+          maxHeight: open ? "200px" : "0px",
+          opacity: open ? 1 : 0,
+          transition: "max-height 0.3s ease, opacity 0.25s ease",
           overflow: "hidden",
         }}
       >
-        <p className="text-[#4D9FEC] text-xs italic leading-relaxed pt-2 border-t border-[#4D9FEC]/20">
-          — {claim}
-        </p>
+        <div className="px-5 pb-5 border-t border-white/[0.06]">
+          <div className="flex items-center gap-2 flex-wrap mt-4 mb-3">
+            {caso.herramientas.map((h, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-md px-2.5 py-1">
+                  <div
+                    className="w-2.5 h-2.5 rounded-sm flex-shrink-0"
+                    style={{ backgroundColor: h.color }}
+                  />
+                  <span className="text-white/70 text-xs font-medium">{h.nombre}</span>
+                </div>
+                {i < caso.herramientas.length - 1 && (
+                  <span className="text-white/30 text-xs">→</span>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-white/50 text-sm leading-relaxed">{caso.descripcion}</p>
+        </div>
       </div>
     </div>
   );
 }
 
+// ─── Tarjeta Problema/Solucion ────────────────────────────────────────────────
+function ServiceCard({
+  number, title, subtitle, problema, solucion, badge,
+}: {
+  number: string; title: string; subtitle: string;
+  problema: string; solucion: string; badge: string; 
+}) {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-6 flex flex-col gap-4">
+      <div className="flex items-start gap-3">
+        <div className="w-9 h-9 rounded-lg bg-[#1B4FD8]/20 border border-[#1B4FD8]/30 flex items-center justify-center flex-shrink-0">
+          <span className="text-[#4D9FEC] text-xs font-bold">{number}</span>
+        </div>
+        <div>
+          <h3 className="text-white font-semibold text-sm leading-snug">{title}</h3>
+          <p className="text-white/40 text-xs mt-0.5">{subtitle}</p>
+        </div>
+      </div>
+
+      <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3">
+        <p className="text-red-400 text-xs font-bold uppercase tracking-widest mb-1">El problema</p>
+        <p className="text-red-300/80 text-xs leading-relaxed">{problema}</p>
+      </div>
+
+      <div className="rounded-lg bg-[#1B4FD8]/10 border border-[#1B4FD8]/20 px-4 py-3">
+        <p className="text-[#4D9FEC] text-xs font-bold uppercase tracking-widest mb-1">La solucion</p>
+        <p className="text-[#4D9FEC]/80 text-xs leading-relaxed">{solucion}</p>
+      </div>
+
+      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#4D9FEC]/10 text-[#4D9FEC] self-start">
+        {badge}
+      </span>
+    </div>
+  );
+}
+
+// ─── Textos por idioma ────────────────────────────────────────────────────────
 const texts: Record<string, {
   heroTitle1: string; heroTitle2: string; heroSubtitle: string;
   heroCtaSocio: string; heroCtaContacto: string;
   serviciosLabel: string; serviciosTitle: string; serviciosSubtitle: string;
-  s: { num: string; badge?: string; title: string; body: string; claim: string }[];
-  automatizacionLabel: string; automatizacionTitle: string; automatizacionSubtitle: string;
+  servicios: { num: string; title: string; subtitle: string; problema: string; solucion: string; badge: string }[];
+  casosLabel: string; casosTitle: string; casosSubtitle: string;
   novaLabel: string; novaTitle: string; novaBody: string; novaBtn: string;
   novaPreguntas: string[];
   ctaTitle: string; ctaSubtitle: string; ctaSocio: string; ctaContacto: string;
@@ -80,15 +226,35 @@ const texts: Record<string, {
     serviciosLabel: "Lo que hacemos",
     serviciosTitle: "No vendemos soluciones. Resolvemos problemas.",
     serviciosSubtitle: "Antes de proponer nada, entendemos como trabajas.",
-    s: [
-      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Antes de proponer nada, escuchamos. Mapeamos como trabajas, donde se acumula la friccion y que tareas te quitan tiempo sin aportarte valor. Sin compromiso, sin coste.", claim: "Diagnosticamos problemas reales y ofrecemos soluciones." },
-      { num: "02", title: "Consultoria de implementacion", body: "Te ayudamos a elegir que herramienta encaja con tu empresa, como integrarla y como medir si realmente resuelve el problema. El equipo humano revisa cada caso antes de recomendar nada.", claim: "Criterio humano, respaldado por IA." },
-      { num: "03", title: "Automatizacion de procesos", body: "Automatizamos las tareas repetitivas que identificamos en la auditoria. Sin cambiar tu forma de trabajar de golpe, sin grandes inversiones. Los resultados se notan desde el primer mes.", claim: "NOVA analiza tu flujo de trabajo y propone soluciones concretas." },
-      { num: "04", title: "Formacion practica del equipo", body: "Tres sesiones para que tu equipo entienda y use la IA sin miedo. Sin jerga, sin teoria vacia. Solo herramientas reales aplicadas a tu sector, desde el primer dia.", claim: "Maximo 6 personas por grupo. A vuestro ritmo." },
+    servicios: [
+      {
+        num: "01", title: "Auditoria inicial", subtitle: "Gratuita · Sin compromiso",
+        problema: "No sabes por donde empezar con la IA. Ves que otros la usan pero no tienes claro si te sirve a ti o que cambiarias primero.",
+        solucion: "Mapeamos tu flujo de trabajo real, identificamos los cuellos de botella y te decimos exactamente donde la IA te ahorraria tiempo y dinero.",
+        badge: "Sin coste · Sin presion",
+      },
+      {
+        num: "02", title: "Consultoria de implementacion", subtitle: "Elegir bien antes de gastar",
+        problema: "El mercado esta lleno de herramientas de IA. No sabes cual elegir, cual se integra con lo que ya tienes o si realmente vale lo que cuesta.",
+        solucion: "El equipo humano analiza tu caso y recomienda solo lo que tiene sentido para ti. Sin comisiones, sin afiliados, sin intereses ocultos.",
+        badge: "Criterio humano · Respaldado por IA",
+      },
+      {
+        num: "03", title: "Automatizacion de procesos", subtitle: "Resultados desde el primer mes",
+        problema: "Tu equipo pierde horas en tareas repetitivas: copiar datos, enviar emails de seguimiento, generar informes. Trabajo que no aporta valor.",
+        solucion: "Automatizamos esas tareas sin tocar tu forma de trabajar de golpe. Cambios pequenos, resultados medibles desde el primer mes.",
+        badge: "NOVA analiza · Nosotros implementamos",
+      },
+      {
+        num: "04", title: "Formacion practica del equipo", subtitle: "Maximo 6 personas · A vuestro ritmo",
+        problema: "Compras una herramienta de IA y nadie del equipo la usa. O la usan mal. La tecnologia sin formacion es dinero tirado.",
+        solucion: "Tres sesiones practicas con herramientas reales aplicadas a tu sector. El equipo sale sabiendo usarlas, no solo conociendo su existencia.",
+        badge: "Sin jerga · Sin teoria vacia",
+      },
     ],
-    automatizacionLabel: "Casos reales",
-    automatizacionTitle: "Esto ya lo estamos haciendo.",
-    automatizacionSubtitle: "Ejemplos de automatizaciones reales que implementamos en PYMEs. Arrastra para explorar.",
+    casosLabel: "Casos reales",
+    casosTitle: "Esto ya lo estamos haciendo.",
+    casosSubtitle: "Automatizaciones reales que implementamos en PYMEs. Haz clic para ver como funciona cada una.",
     novaLabel: "Agente IA",
     novaTitle: "NOVA, tu consultor de IA disponible 24/7.",
     novaBody: "NOVA es el agente de XpertAuth especializado en IA para PYMEs. Practica, directa y sin humo. Resuelve dudas sobre automatizacion, herramientas y procesos en tiempo real.",
@@ -112,15 +278,35 @@ const texts: Record<string, {
     serviciosLabel: "El que fem",
     serviciosTitle: "No venem solucions. Resolem problemes.",
     serviciosSubtitle: "Abans de proposar res, entenem com treballes.",
-    s: [
-      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Abans de proposar res, escoltem. Mapegem com treballes, on s'acumula la friccio i quines tasques et treuen temps sense aportar-te valor. Sense compromis, sense cost.", claim: "Diagnostiquem problemes reals i oferim solucions." },
-      { num: "02", title: "Consultoria d'implementacio", body: "T'ajudem a triar quina eina encaixa amb la teva empresa, com integrar-la i com mesurar si realment resol el problema. L'equip huma revisa cada cas abans de recomanar res.", claim: "Criteri huma, recolzat per IA." },
-      { num: "03", title: "Automatitzacio de processos", body: "Automatitzem les tasques repetitives que identifiquem a l'auditoria. Sense canviar la teva forma de treballar de cop, sense grans inversions. Els resultats es noten des del primer mes.", claim: "NOVA analitza el teu flux de treball i proposa solucions concretes." },
-      { num: "04", title: "Formacio practica de l'equip", body: "Tres sessions perque el teu equip entengui i usi la IA sense por. Sense argot, sense teoria buida. Nomes eines reals aplicades al teu sector, des del primer dia.", claim: "Maxim 6 persones per grup. Al vostre ritme." },
+    servicios: [
+      {
+        num: "01", title: "Auditoria inicial", subtitle: "Gratuita · Sense compromis",
+        problema: "No saps per on comenar amb la IA. Veus que altres la usen pero no tens clar si et serveix a tu o que canviaries primer.",
+        solucion: "Mapegem el teu flux de treball real, identifiquem els colls d'ampolla i et diem exactament on la IA t'estalviaria temps i diners.",
+        badge: "Sense cost · Sense pressio",
+      },
+      {
+        num: "02", title: "Consultoria d'implementacio", subtitle: "Triar be abans de gastar",
+        problema: "El mercat esta ple d'eines de IA. No saps quina triar, quina s'integra amb el que ja tens o si realment val el que costa.",
+        solucion: "L'equip huma analitza el teu cas i recomana nomes el que te sentit per a tu. Sense comissions, sense afiliats, sense interessos ocults.",
+        badge: "Criteri huma · Recolzat per IA",
+      },
+      {
+        num: "03", title: "Automatitzacio de processos", subtitle: "Resultats des del primer mes",
+        problema: "El teu equip perd hores en tasques repetitives: copiar dades, enviar emails de seguiment, generar informes. Feina que no aporta valor.",
+        solucion: "Automatitzem aquestes tasques sense canviar la teva forma de treballar de cop. Canvis petits, resultats mesurables des del primer mes.",
+        badge: "NOVA analitza · Nosaltres implementem",
+      },
+      {
+        num: "04", title: "Formacio practica de l'equip", subtitle: "Maxim 6 persones · Al vostre ritme",
+        problema: "Compres una eina de IA i ningu de l'equip la fa servir. O la fan servir malament. La tecnologia sense formacio es diners tirats.",
+        solucion: "Tres sessions practiques amb eines reals aplicades al teu sector. L'equip surt sabent usar-les, no nomes coneixent la seva existencia.",
+        badge: "Sense argot · Sense teoria buida",
+      },
     ],
-    automatizacionLabel: "Casos reals",
-    automatizacionTitle: "Aixo ja ho estem fent.",
-    automatizacionSubtitle: "Exemples d'automatitzacions reals que implementem en PIMEs. Arrossega per explorar.",
+    casosLabel: "Casos reals",
+    casosTitle: "Aixo ja ho estem fent.",
+    casosSubtitle: "Automatitzacions reals que implementem en PIMEs. Fes clic per veure com funciona cada una.",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, el teu consultor de IA disponible 24/7.",
     novaBody: "NOVA es l'agent de XpertAuth especialitzat en IA per a PYMEs. Practica, directa i sense fum. Resol dubtes sobre automatitzacio, eines i processos en temps real.",
@@ -144,15 +330,35 @@ const texts: Record<string, {
     serviciosLabel: "What we do",
     serviciosTitle: "We don't sell solutions. We solve problems.",
     serviciosSubtitle: "Before proposing anything, we understand how you work.",
-    s: [
-      { num: "01", badge: "Free", title: "Initial audit", body: "Before proposing anything, we listen. We map how you work, where friction builds up, and which tasks drain your time without adding value. No commitment, no cost.", claim: "We diagnose real problems and offer solutions." },
-      { num: "02", title: "Implementation consulting", body: "We help you choose which tool fits your company, how to integrate it, and how to measure whether it actually solves the problem. Our human team reviews each case before recommending anything.", claim: "Human judgement, backed by AI." },
-      { num: "03", title: "Process automation", body: "We automate the repetitive tasks we identify during the audit. Without overhauling how you work overnight, without major investments. Results show from the first month.", claim: "NOVA analyses your workflow and proposes concrete solutions." },
-      { num: "04", title: "Practical team training", body: "Three sessions so your team understands and uses AI without fear. No jargon, no empty theory. Only real tools applied to your sector, from day one.", claim: "Maximum 6 people per group. At your own pace." },
+    servicios: [
+      {
+        num: "01", title: "Initial audit", subtitle: "Free · No commitment",
+        problema: "You don't know where to start with AI. You see others using it but you're not sure if it works for you or what you'd change first.",
+        solucion: "We map your real workflow, identify the bottlenecks and tell you exactly where AI would save you time and money.",
+        badge: "No cost · No pressure",
+      },
+      {
+        num: "02", title: "Implementation consulting", subtitle: "Choose well before spending",
+        problema: "The market is full of AI tools. You don't know which to choose, which integrates with what you already have, or if it's worth the cost.",
+        solucion: "Our human team analyses your case and recommends only what makes sense for you. No commissions, no affiliates, no hidden interests.",
+        badge: "Human judgement · Backed by AI",
+      },
+      {
+        num: "03", title: "Process automation", subtitle: "Results from the first month",
+        problema: "Your team wastes hours on repetitive tasks: copying data, sending follow-up emails, generating reports. Work that adds no value.",
+        solucion: "We automate those tasks without overhauling how you work overnight. Small changes, measurable results from the first month.",
+        badge: "NOVA analyses · We implement",
+      },
+      {
+        num: "04", title: "Practical team training", subtitle: "Max 6 people · At your own pace",
+        problema: "You buy an AI tool and nobody on the team uses it. Or they use it badly. Technology without training is money wasted.",
+        solucion: "Three practical sessions with real tools applied to your sector. The team leaves knowing how to use them, not just knowing they exist.",
+        badge: "No jargon · No empty theory",
+      },
     ],
-    automatizacionLabel: "Real cases",
-    automatizacionTitle: "We are already doing this.",
-    automatizacionSubtitle: "Real automation examples we implement in SMEs. Drag to explore.",
+    casosLabel: "Real cases",
+    casosTitle: "We are already doing this.",
+    casosSubtitle: "Real automations we implement in SMEs. Click to see how each one works.",
     novaLabel: "AI Agent",
     novaTitle: "NOVA, your AI consultant available 24/7.",
     novaBody: "NOVA is XpertAuth's agent specialised in AI for SMEs. Practical, direct, and no hype. Answers questions about automation, tools, and processes in real time.",
@@ -176,15 +382,35 @@ const texts: Record<string, {
     serviciosLabel: "Ce que nous faisons",
     serviciosTitle: "Nous ne vendons pas de solutions. Nous resolvons des problemes.",
     serviciosSubtitle: "Avant de proposer quoi que ce soit, nous comprenons comment vous travaillez.",
-    s: [
-      { num: "01", badge: "Gratuit", title: "Audit initial", body: "Avant de proposer quoi que ce soit, nous ecoutons. Nous cartographions votre facon de travailler, ou la friction s'accumule et quelles taches vous font perdre du temps sans valeur ajoutee. Sans engagement, sans cout.", claim: "Nous diagnostiquons de vrais problemes et proposons des solutions." },
-      { num: "02", title: "Conseil en implementation", body: "Nous vous aidons a choisir l'outil adapte a votre entreprise, comment l'integrer et comment mesurer s'il resout vraiment le probleme. L'equipe humaine examine chaque cas avant de recommander quoi que ce soit.", claim: "Jugement humain, soutenu par l'IA." },
-      { num: "03", title: "Automatisation des processus", body: "Nous automatisons les taches repetitives identifiees lors de l'audit. Sans bouleverser votre facon de travailler du jour au lendemain, sans investissements majeurs. Les resultats se voient des le premier mois.", claim: "NOVA analyse votre flux de travail et propose des solutions concretes." },
-      { num: "04", title: "Formation pratique de l'equipe", body: "Trois sessions pour que votre equipe comprenne et utilise l'IA sans crainte. Sans jargon, sans theorie creuse. Uniquement des outils reels appliques a votre secteur, des le premier jour.", claim: "Maximum 6 personnes par groupe. A votre rythme." },
+    servicios: [
+      {
+        num: "01", title: "Audit initial", subtitle: "Gratuit · Sans engagement",
+        problema: "Vous ne savez pas par ou commencer avec l'IA. Vous voyez que d'autres l'utilisent mais vous ne savez pas si cela vous convient.",
+        solucion: "Nous cartographions votre flux de travail reel, identifions les goulots d'etranglement et vous disons exactement ou l'IA vous ferait gagner du temps.",
+        badge: "Sans cout · Sans pression",
+      },
+      {
+        num: "02", title: "Conseil en implementation", subtitle: "Bien choisir avant de depenser",
+        problema: "Le marche regorge d'outils IA. Vous ne savez pas lequel choisir, lequel s'integre avec ce que vous avez deja ou s'il vaut vraiment son prix.",
+        solucion: "Notre equipe humaine analyse votre cas et ne recommande que ce qui a du sens pour vous. Sans commissions, sans affilies, sans interets caches.",
+        badge: "Jugement humain · Soutenu par IA",
+      },
+      {
+        num: "03", title: "Automatisation des processus", subtitle: "Resultats des le premier mois",
+        problema: "Votre equipe perd des heures sur des taches repetitives: copier des donnees, envoyer des emails de suivi, generer des rapports.",
+        solucion: "Nous automatisons ces taches sans bouleverser votre facon de travailler. Petits changements, resultats mesurables des le premier mois.",
+        badge: "NOVA analyse · Nous implementons",
+      },
+      {
+        num: "04", title: "Formation pratique de l'equipe", subtitle: "Max 6 personnes · A votre rythme",
+        problema: "Vous achetez un outil IA et personne dans l'equipe ne l'utilise. Ou ils l'utilisent mal. La technologie sans formation est de l'argent gaspille.",
+        solucion: "Trois sessions pratiques avec de vrais outils appliques a votre secteur. L'equipe repart en sachant les utiliser, pas seulement en connaissant leur existence.",
+        badge: "Sans jargon · Sans theorie creuse",
+      },
     ],
-    automatizacionLabel: "Cas reels",
-    automatizacionTitle: "Nous le faisons deja.",
-    automatizacionSubtitle: "Exemples d'automatisations reelles que nous mettons en oeuvre dans les PME. Faites glisser pour explorer.",
+    casosLabel: "Cas reels",
+    casosTitle: "Nous le faisons deja.",
+    casosSubtitle: "Automatisations reelles que nous mettons en oeuvre dans les PME. Cliquez pour voir comment chacune fonctionne.",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, votre consultant IA disponible 24/7.",
     novaBody: "NOVA est l'agent XpertAuth specialise dans l'IA pour les PME. Pratique, direct et sans enfumage. Il repond aux questions sur l'automatisation, les outils et les processus en temps reel.",
@@ -201,6 +427,7 @@ const texts: Record<string, {
   },
 };
 
+// ─── Pagina principal ─────────────────────────────────────────────────────────
 export default function IaPymes() {
   const [location] = useLocation();
   const locale = location.split("/")[1] || "es";
@@ -243,7 +470,7 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* SERVICIOS */}
+      {/* SERVICIOS — Problema/Solucion */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0E1A] border-t border-white/[0.05]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
@@ -253,32 +480,29 @@ export default function IaPymes() {
             </h2>
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.serviciosSubtitle}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {t.s.map((srv, i) => (
-              <ServiceCard
-                key={i}
-                number={srv.num}
-                badge={srv.badge}
-                title={srv.title}
-                description={srv.body}
-                claim={srv.claim}
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {t.servicios.map((srv, i) => (
+              <ServiceCard key={i} {...srv} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CARRUSEL AUTOMATIZACIONES */}
+      {/* CASOS DE USO — Acordeon */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0F1628] border-t border-white/[0.05]">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.automatizacionLabel}</span>
+            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.casosLabel}</span>
             <h2 className="font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
-              {t.automatizacionTitle}
+              {t.casosTitle}
             </h2>
-            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.automatizacionSubtitle}</p>
+            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.casosSubtitle}</p>
           </div>
-          <AutomatizacionCarousel />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {casosUso.map((caso, i) => (
+              <CasoAcordeon key={i} caso={caso} />
+            ))}
+          </div>
         </div>
       </section>
 
