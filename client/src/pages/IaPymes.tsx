@@ -4,8 +4,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 import { useAgent } from "@/App";
+import { AutomatizacionCarousel } from "@/components/AutomatizacionCarousel";
 
-// ─── Gradiente animado ────────────────────────────────────────────────────────
 const gradientStyle: React.CSSProperties = {
   background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
   backgroundSize: "300% 300%",
@@ -15,14 +15,12 @@ const gradientStyle: React.CSSProperties = {
   animation: "snGrad 6s ease infinite",
 };
 
-// ─── Tarjeta de servicio (igual que TransporteEspecial) ───────────────────────
 function ServiceCard({
   number, title, description, claim, badge,
 }: {
   number: string; title: string; description: string; claim: string; badge?: string;
 }) {
   const [hovered, setHovered] = useState(false);
-
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -47,7 +45,6 @@ function ServiceCard({
       </div>
       <h3 className="text-white font-semibold text-base mb-2">{title}</h3>
       <p className="text-white/60 text-sm leading-relaxed">{description}</p>
-
       <div
         style={{
           maxHeight: hovered ? "56px" : "0px",
@@ -64,14 +61,12 @@ function ServiceCard({
   );
 }
 
-// ─── Textos por idioma ────────────────────────────────────────────────────────
 const texts: Record<string, {
   heroTitle1: string; heroTitle2: string; heroSubtitle: string;
   heroCtaSocio: string; heroCtaContacto: string;
   serviciosLabel: string; serviciosTitle: string; serviciosSubtitle: string;
   s: { num: string; badge?: string; title: string; body: string; claim: string }[];
-  comoLabel: string; comoTitle: string;
-  pasos: { num: string; title: string; body: string }[];
+  automatizacionLabel: string; automatizacionTitle: string; automatizacionSubtitle: string;
   novaLabel: string; novaTitle: string; novaBody: string; novaBtn: string;
   novaPreguntas: string[];
   ctaTitle: string; ctaSubtitle: string; ctaSocio: string; ctaContacto: string;
@@ -91,14 +86,9 @@ const texts: Record<string, {
       { num: "03", title: "Automatizacion de procesos", body: "Automatizamos las tareas repetitivas que identificamos en la auditoria. Sin cambiar tu forma de trabajar de golpe, sin grandes inversiones. Los resultados se notan desde el primer mes.", claim: "NOVA analiza tu flujo de trabajo y propone soluciones concretas." },
       { num: "04", title: "Formacion practica del equipo", body: "Tres sesiones para que tu equipo entienda y use la IA sin miedo. Sin jerga, sin teoria vacia. Solo herramientas reales aplicadas a tu sector, desde el primer dia.", claim: "Maximo 6 personas por grupo. A vuestro ritmo." },
     ],
-    comoLabel: "El proceso",
-    comoTitle: "Cuatro pasos, resultados reales.",
-    pasos: [
-      { num: "01", title: "Nos reunimos", body: "Una llamada o reunion presencial para entender tu negocio. Sin formularios previos, sin presentaciones comerciales." },
-      { num: "02", title: "Auditamos tu flujo", body: "Observamos como trabajas y donde se pierden tiempo y energia. Te presentamos un diagnostico claro y honesto." },
-      { num: "03", title: "Proponemos y ejecutamos", body: "Solo recomendamos lo que tiene sentido para tu caso. Si hay automatizacion posible, la implementamos nosotros." },
-      { num: "04", title: "Formamos y acompanamos", body: "Formamos a tu equipo para que usen las herramientas con autonomia. No te dejamos con tecnologia que nadie sabe manejar." },
-    ],
+    automatizacionLabel: "Casos reales",
+    automatizacionTitle: "Esto ya lo estamos haciendo.",
+    automatizacionSubtitle: "Ejemplos de automatizaciones reales que implementamos en PYMEs. Arrastra para explorar.",
     novaLabel: "Agente IA",
     novaTitle: "NOVA, tu consultor de IA disponible 24/7.",
     novaBody: "NOVA es el agente de XpertAuth especializado en IA para PYMEs. Practica, directa y sin humo. Resuelve dudas sobre automatizacion, herramientas y procesos en tiempo real.",
@@ -128,14 +118,9 @@ const texts: Record<string, {
       { num: "03", title: "Automatitzacio de processos", body: "Automatitzem les tasques repetitives que identifiquem a l'auditoria. Sense canviar la teva forma de treballar de cop, sense grans inversions. Els resultats es noten des del primer mes.", claim: "NOVA analitza el teu flux de treball i proposa solucions concretes." },
       { num: "04", title: "Formacio practica de l'equip", body: "Tres sessions perque el teu equip entengui i usi la IA sense por. Sense argot, sense teoria buida. Nomes eines reals aplicades al teu sector, des del primer dia.", claim: "Maxim 6 persones per grup. Al vostre ritme." },
     ],
-    comoLabel: "El proces",
-    comoTitle: "Quatre passos, resultats reals.",
-    pasos: [
-      { num: "01", title: "Ens reunim", body: "Una trucada o reunio presencial per entendre el teu negoci. Sense formularis previs, sense presentacions comercials." },
-      { num: "02", title: "Auditem el teu flux", body: "Observem com treballes i on es perden temps i energia. Et presentem un diagnostic clar i honest." },
-      { num: "03", title: "Proposem i executem", body: "Nomes recomanem el que te sentit per al teu cas. Si hi ha automatitzacio possible, la implementem nosaltres." },
-      { num: "04", title: "Formem i acompanyem", body: "Formem el teu equip perque usin les eines amb autonomia. No et deixem amb tecnologia que ningu sap fer servir." },
-    ],
+    automatizacionLabel: "Casos reals",
+    automatizacionTitle: "Aixo ja ho estem fent.",
+    automatizacionSubtitle: "Exemples d'automatitzacions reals que implementem en PIMEs. Arrossega per explorar.",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, el teu consultor de IA disponible 24/7.",
     novaBody: "NOVA es l'agent de XpertAuth especialitzat en IA per a PYMEs. Practica, directa i sense fum. Resol dubtes sobre automatitzacio, eines i processos en temps real.",
@@ -165,14 +150,9 @@ const texts: Record<string, {
       { num: "03", title: "Process automation", body: "We automate the repetitive tasks we identify during the audit. Without overhauling how you work overnight, without major investments. Results show from the first month.", claim: "NOVA analyses your workflow and proposes concrete solutions." },
       { num: "04", title: "Practical team training", body: "Three sessions so your team understands and uses AI without fear. No jargon, no empty theory. Only real tools applied to your sector, from day one.", claim: "Maximum 6 people per group. At your own pace." },
     ],
-    comoLabel: "The process",
-    comoTitle: "Four steps, real results.",
-    pasos: [
-      { num: "01", title: "We meet", body: "A call or in-person meeting to understand your business. No prior forms, no sales presentations." },
-      { num: "02", title: "We audit your workflow", body: "We observe how you work and where time and energy are lost. We present a clear, honest diagnosis." },
-      { num: "03", title: "We propose and execute", body: "We only recommend what makes sense for your case. If automation is possible, we implement it ourselves." },
-      { num: "04", title: "We train and support", body: "We train your team to use the tools independently. We don't leave you with technology nobody knows how to use." },
-    ],
+    automatizacionLabel: "Real cases",
+    automatizacionTitle: "We are already doing this.",
+    automatizacionSubtitle: "Real automation examples we implement in SMEs. Drag to explore.",
     novaLabel: "AI Agent",
     novaTitle: "NOVA, your AI consultant available 24/7.",
     novaBody: "NOVA is XpertAuth's agent specialised in AI for SMEs. Practical, direct, and no hype. Answers questions about automation, tools, and processes in real time.",
@@ -202,14 +182,9 @@ const texts: Record<string, {
       { num: "03", title: "Automatisation des processus", body: "Nous automatisons les taches repetitives identifiees lors de l'audit. Sans bouleverser votre facon de travailler du jour au lendemain, sans investissements majeurs. Les resultats se voient des le premier mois.", claim: "NOVA analyse votre flux de travail et propose des solutions concretes." },
       { num: "04", title: "Formation pratique de l'equipe", body: "Trois sessions pour que votre equipe comprenne et utilise l'IA sans crainte. Sans jargon, sans theorie creuse. Uniquement des outils reels appliques a votre secteur, des le premier jour.", claim: "Maximum 6 personnes par groupe. A votre rythme." },
     ],
-    comoLabel: "Le processus",
-    comoTitle: "Quatre etapes, des resultats concrets.",
-    pasos: [
-      { num: "01", title: "Nous nous rencontrons", body: "Un appel ou une reunion en personne pour comprendre votre activite. Sans formulaires prealables, sans presentations commerciales." },
-      { num: "02", title: "Nous auditons votre flux", body: "Nous observons comment vous travaillez et ou le temps et l'energie se perdent. Nous vous presentons un diagnostic clair et honnete." },
-      { num: "03", title: "Nous proposons et executons", body: "Nous ne recommandons que ce qui a du sens pour votre cas. Si une automatisation est possible, nous la mettons en oeuvre nous-memes." },
-      { num: "04", title: "Nous formons et accompagnons", body: "Nous formons votre equipe pour qu'elle utilise les outils en autonomie. Nous ne vous laissons pas avec une technologie que personne ne sait utiliser." },
-    ],
+    automatizacionLabel: "Cas reels",
+    automatizacionTitle: "Nous le faisons deja.",
+    automatizacionSubtitle: "Exemples d'automatisations reelles que nous mettons en oeuvre dans les PME. Faites glisser pour explorer.",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, votre consultant IA disponible 24/7.",
     novaBody: "NOVA est l'agent XpertAuth specialise dans l'IA pour les PME. Pratique, direct et sans enfumage. Il repond aux questions sur l'automatisation, les outils et les processus en temps reel.",
@@ -226,23 +201,18 @@ const texts: Record<string, {
   },
 };
 
-// ─── Pagina principal ─────────────────────────────────────────────────────────
 export default function IaPymes() {
   const [location] = useLocation();
   const locale = location.split("/")[1] || "es";
   const t = texts[locale] || texts.es;
   const { abrirAgente } = useAgent();
   const [contactOpen, setContactOpen] = useState(false);
-
   const rutaSocios = "/" + locale + "/socios";
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="min-h-screen bg-[#0A0E1A]">
-
       <Navbar />
 
       {/* HERO */}
@@ -298,53 +268,17 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* COMO FUNCIONA — timeline horizontal */}
+      {/* CARRUSEL AUTOMATIZACIONES */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0F1628] border-t border-white/[0.05]">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.comoLabel}</span>
+            <span className="text-[#4D9FEC] text-xs font-semibold tracking-widest uppercase">{t.automatizacionLabel}</span>
             <h2 className="font-bold text-3xl sm:text-4xl mt-4" style={gradientStyle}>
-              {t.comoTitle}
+              {t.automatizacionTitle}
             </h2>
+            <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.automatizacionSubtitle}</p>
           </div>
-
-          {/* Timeline desktop */}
-          <div className="hidden md:block relative">
-            {/* Linea conectora */}
-            <div className="absolute top-6 left-[calc(12.5%)] right-[calc(12.5%)] h-px bg-gradient-to-r from-transparent via-[#1B4FD8]/60 to-transparent" />
-
-            <div className="grid grid-cols-4 gap-6">
-              {t.pasos.map((paso, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full border-2 border-[#1B4FD8] bg-[#0F1628] flex items-center justify-center mb-5 relative z-10">
-                    <span className="text-[#4D9FEC] font-bold text-sm">{paso.num}</span>
-                  </div>
-                  <h3 className="text-white font-semibold text-sm mb-2">{paso.title}</h3>
-                  <p className="text-white/50 text-xs leading-relaxed">{paso.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Timeline mobile — vertical */}
-          <div className="md:hidden flex flex-col gap-0">
-            {t.pasos.map((paso, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-10 h-10 rounded-full border-2 border-[#1B4FD8] bg-[#0F1628] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[#4D9FEC] font-bold text-xs">{paso.num}</span>
-                  </div>
-                  {i < t.pasos.length - 1 && (
-                    <div className="w-px flex-1 bg-[#1B4FD8]/30 my-2" />
-                  )}
-                </div>
-                <div className="pb-8">
-                  <h3 className="text-white font-semibold text-sm mb-1 mt-2">{paso.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed">{paso.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AutomatizacionCarousel />
         </div>
       </section>
 
@@ -360,7 +294,6 @@ export default function IaPymes() {
               {t.novaBody}
             </p>
           </div>
-
           <div className="bg-[#0F1628] border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-[#4D9FEC]/20 flex items-center justify-center">
@@ -382,7 +315,6 @@ export default function IaPymes() {
             </div>
             <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
           </div>
-
           <div className="text-center">
             <button
               onClick={() => abrirAgente("NOVA")}
@@ -419,8 +351,7 @@ export default function IaPymes() {
       </section>
 
       <Footer />
-
-      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} locale={locale} />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }
