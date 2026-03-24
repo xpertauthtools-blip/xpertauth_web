@@ -19,42 +19,42 @@ const texts: Record<string, {
   es: {
     heroTitle1: "La IA no es para",
     heroTitle2: "grandes empresas.",
-    heroSubtitle: "Automatizamos tus procesos, formamos a tu equipo y resolvemos los cuellos de botella reales de tu negocio. Sin vender tecnología. Sin humo.",
+    heroSubtitle: "Automatizamos tus procesos, formamos a tu equipo y resolvemos los cuellos de botella reales de tu negocio. Sin vender tecnologia. Sin humo.",
     heroCtaSocio: "Hazte socio",
     heroCtaContacto: "Contacta",
     serviciosLabel: "Lo que hacemos",
     serviciosTitle: "No vendemos soluciones. Resolvemos problemas.",
-    serviciosSubtitle: "Antes de proponer nada, entendemos cómo trabajas.",
+    serviciosSubtitle: "Antes de proponer nada, entendemos como trabajas.",
     s: [
-      { num: "01", badge: "Gratuita", title: "Auditoría inicial", body: "Antes de proponer nada, escuchamos. Mapeamos cómo trabajas, dónde se acumula la fricción y qué tareas te quitan tiempo sin aportarte valor. Sin compromiso, sin coste.", claim: "No vendemos soluciones. Diagnosticamos problemas reales." },
-      { num: "02", title: "Consultoría de implementación", body: "Te ayudamos a elegir qué herramienta encaja con tu empresa, cómo integrarla y cómo medir si realmente resuelve el problema. El equipo humano revisa cada caso antes de recomendar nada.", claim: "Criterio humano, respaldado por IA." },
-      { num: "03", title: "Automatización de procesos", body: "Automatizamos las tareas repetitivas que identificamos en la auditoría. Sin cambiar tu forma de trabajar de golpe, sin grandes inversiones. Los resultados se notan desde el primer mes.", claim: "NOVA analiza tu flujo de trabajo y propone soluciones concretas." },
-      { num: "04", title: "Formación práctica del equipo", body: "Tres sesiones para que tu equipo entienda y use la IA sin miedo. Sin jerga, sin teoría vacía. Solo herramientas reales aplicadas a tu sector, desde el primer día.", claim: "Máximo 6 personas por grupo. A vuestro ritmo." },
+      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Antes de proponer nada, escuchamos. Mapeamos como trabajas, donde se acumula la friccion y que tareas te quitan tiempo sin aportarte valor. Sin compromiso, sin coste.", claim: "No vendemos soluciones. Diagnosticamos problemas reales." },
+      { num: "02", title: "Consultoria de implementacion", body: "Te ayudamos a elegir que herramienta encaja con tu empresa, como integrarla y como medir si realmente resuelve el problema. El equipo humano revisa cada caso antes de recomendar nada.", claim: "Criterio humano, respaldado por IA." },
+      { num: "03", title: "Automatizacion de procesos", body: "Automatizamos las tareas repetitivas que identificamos en la auditoria. Sin cambiar tu forma de trabajar de golpe, sin grandes inversiones. Los resultados se notan desde el primer mes.", claim: "NOVA analiza tu flujo de trabajo y propone soluciones concretas." },
+      { num: "04", title: "Formacion practica del equipo", body: "Tres sesiones para que tu equipo entienda y use la IA sin miedo. Sin jerga, sin teoria vacia. Solo herramientas reales aplicadas a tu sector, desde el primer dia.", claim: "Maximo 6 personas por grupo. A vuestro ritmo." },
     ],
     comoLabel: "El proceso",
     comoTitle: "Cuatro pasos, resultados reales.",
     pasos: [
-      { num: "01", title: "Nos reunimos", body: "Una llamada o reunión presencial para entender tu negocio. Sin formularios previos, sin presentaciones comerciales." },
-      { num: "02", title: "Auditamos tu flujo", body: "Observamos cómo trabajas y dónde se pierden tiempo y energía. Te presentamos un diagnóstico claro y honesto." },
-      { num: "03", title: "Proponemos y ejecutamos", body: "Solo recomendamos lo que tiene sentido para tu caso. Si hay automatización posible, la implementamos nosotros." },
-      { num: "04", title: "Formamos y acompañamos", body: "Formamos a tu equipo para que usen las herramientas con autonomía. No te dejamos con tecnología que nadie sabe manejar." },
+      { num: "01", title: "Nos reunimos", body: "Una llamada o reunion presencial para entender tu negocio. Sin formularios previos, sin presentaciones comerciales." },
+      { num: "02", title: "Auditamos tu flujo", body: "Observamos como trabajas y donde se pierden tiempo y energia. Te presentamos un diagnostico claro y honesto." },
+      { num: "03", title: "Proponemos y ejecutamos", body: "Solo recomendamos lo que tiene sentido para tu caso. Si hay automatizacion posible, la implementamos nosotros." },
+      { num: "04", title: "Formamos y acompanamos", body: "Formamos a tu equipo para que usen las herramientas con autonomia. No te dejamos con tecnologia que nadie sabe manejar." },
     ],
     novaLabel: "Agente IA",
     novaTitle: "NOVA, tu consultor de IA disponible 24/7.",
-    novaBody: "NOVA es el agente de XpertAuth especializado en IA para PYMEs. Práctica, directa y sin humo. Resuelve dudas sobre automatización, herramientas y procesos en tiempo real.",
+    novaBody: "NOVA es el agente de XpertAuth especializado en IA para PYMEs. Practica, directa y sin humo. Resuelve dudas sobre automatizacion, herramientas y procesos en tiempo real.",
     novaBtn: "Pregunta a NOVA",
     novaPreguntas: [
-      "¿Qué procesos de mi empresa se pueden automatizar fácilmente?",
-      "¿Cuánto cuesta implementar IA en una PYME pequeña?",
-      "¿Qué herramientas de IA son útiles para gestionar clientes?",
+      "Que procesos de mi empresa se pueden automatizar facilmente?",
+      "Cuanto cuesta implementar IA en una PYME pequena?",
+      "Que herramientas de IA son utiles para gestionar clientes?",
     ],
     ctaTitle: "Da el primer paso.",
-    ctaSubtitle: "La auditoría es gratuita. Sin compromiso. Sin presión.",
+    ctaSubtitle: "La auditoria es gratuita. Sin compromiso. Sin presion.",
     ctaSocio: "Hazte socio",
     ctaContacto: "Contacta con nosotros",
   },
   ca: {
-    heroTitle1: "La IA no és per a",
+    heroTitle1: "La IA no es per a",
     heroTitle2: "grans empreses.",
     heroSubtitle: "Automatitzem els teus processos, formem el teu equip i resolem els colls d'ampolla reals del teu negoci. Sense vendre tecnologia. Sense fum.",
     heroCtaSocio: "Fes-te soci",
@@ -63,30 +63,30 @@ const texts: Record<string, {
     serviciosTitle: "No venem solucions. Resolem problemes.",
     serviciosSubtitle: "Abans de proposar res, entenem com treballes.",
     s: [
-      { num: "01", badge: "Gratuïta", title: "Auditoria inicial", body: "Abans de proposar res, escoltem. Mapegem com treballes, on s'acumula la fricció i quines tasques et treuen temps sense aportar-te valor. Sense compromís, sense cost.", claim: "No venem solucions. Diagnostiquem problemes reals." },
-      { num: "02", title: "Consultoria d'implementació", body: "T'ajudem a triar quina eina encaixa amb la teva empresa, com integrar-la i com mesurar si realment resol el problema. L'equip humà revisa cada cas abans de recomanar res.", claim: "Criteri humà, recolzat per IA." },
-      { num: "03", title: "Automatització de processos", body: "Automatitzem les tasques repetitives que identifiquem a l'auditoria. Sense canviar la teva forma de treballar de cop, sense grans inversions. Els resultats es noten des del primer mes.", claim: "NOVA analitza el teu flux de treball i proposa solucions concretes." },
-      { num: "04", title: "Formació pràctica de l'equip", body: "Tres sessions perquè el teu equip entengui i usi la IA sense por. Sense argot, sense teoria buida. Només eines reals aplicades al teu sector, des del primer dia.", claim: "Màxim 6 persones per grup. Al vostre ritme." },
+      { num: "01", badge: "Gratuita", title: "Auditoria inicial", body: "Abans de proposar res, escoltem. Mapegem com treballes, on s'acumula la friccio i quines tasques et treuen temps sense aportar-te valor. Sense compromis, sense cost.", claim: "No venem solucions. Diagnostiquem problemes reals." },
+      { num: "02", title: "Consultoria d'implementacio", body: "T'ajudem a triar quina eina encaixa amb la teva empresa, com integrar-la i com mesurar si realment resol el problema. L'equip huma revisa cada cas abans de recomanar res.", claim: "Criteri huma, recolzat per IA." },
+      { num: "03", title: "Automatitzacio de processos", body: "Automatitzem les tasques repetitives que identifiquem a l'auditoria. Sense canviar la teva forma de treballar de cop, sense grans inversions. Els resultats es noten des del primer mes.", claim: "NOVA analitza el teu flux de treball i proposa solucions concretes." },
+      { num: "04", title: "Formacio practica de l'equip", body: "Tres sessions perque el teu equip entengui i usi la IA sense por. Sense argot, sense teoria buida. Nomes eines reals aplicades al teu sector, des del primer dia.", claim: "Maxim 6 persones per grup. Al vostre ritme." },
     ],
-    comoLabel: "El procés",
+    comoLabel: "El proces",
     comoTitle: "Quatre passos, resultats reals.",
     pasos: [
-      { num: "01", title: "Ens reunim", body: "Una trucada o reunió presencial per entendre el teu negoci. Sense formularis previs, sense presentacions comercials." },
-      { num: "02", title: "Auditem el teu flux", body: "Observem com treballes i on es perden temps i energia. Et presentem un diagnòstic clar i honest." },
-      { num: "03", title: "Proposem i executem", body: "Només recomanem el que té sentit per al teu cas. Si hi ha automatització possible, la implementem nosaltres." },
-      { num: "04", title: "Formem i acompanyem", body: "Formem el teu equip perquè usin les eines amb autonomia. No et deixem amb tecnologia que ningú sap fer servir." },
+      { num: "01", title: "Ens reunim", body: "Una trucada o reunio presencial per entendre el teu negoci. Sense formularis previs, sense presentacions comercials." },
+      { num: "02", title: "Auditem el teu flux", body: "Observem com treballes i on es perden temps i energia. Et presentem un diagnostic clar i honest." },
+      { num: "03", title: "Proposem i executem", body: "Nomes recomanem el que te sentit per al teu cas. Si hi ha automatitzacio possible, la implementem nosaltres." },
+      { num: "04", title: "Formem i acompanyem", body: "Formem el teu equip perque usin les eines amb autonomia. No et deixem amb tecnologia que ningu sap fer servir." },
     ],
     novaLabel: "Agent IA",
     novaTitle: "NOVA, el teu consultor de IA disponible 24/7.",
-    novaBody: "NOVA és l'agent de XpertAuth especialitzat en IA per a PYMEs. Pràctica, directa i sense fum. Resol dubtes sobre automatització, eines i processos en temps real.",
+    novaBody: "NOVA es l'agent de XpertAuth especialitzat en IA per a PYMEs. Practica, directa i sense fum. Resol dubtes sobre automatitzacio, eines i processos en temps real.",
     novaBtn: "Pregunta a NOVA",
     novaPreguntas: [
-      "Quins processos de la meva empresa es poden automatitzar fàcilment?",
+      "Quins processos de la meva empresa es poden automatitzar facilment?",
       "Quant costa implementar IA en una PIME petita?",
-      "Quines eines de IA són útils per gestionar clients?",
+      "Quines eines de IA son utiles per gestionar clients?",
     ],
     ctaTitle: "Fes el primer pas.",
-    ctaSubtitle: "L'auditoria és gratuïta. Sense compromís. Sense pressió.",
+    ctaSubtitle: "L'auditoria es gratuita. Sense compromis. Sense pressio.",
     ctaSocio: "Fes-te soci",
     ctaContacto: "Contacta amb nosaltres",
   },
@@ -174,6 +174,8 @@ export default function IaPymes() {
   const [contactOpen, setContactOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
+  const rutaSocios = "/" + locale + "/socios";
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -190,11 +192,10 @@ export default function IaPymes() {
 
   return (
     <div className="min-h-screen bg-[#0A0E1A]">
-      <style>{`@keyframes snGrad { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }`}</style>
+      <style>{"@keyframes snGrad { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }"}</style>
 
       <Navbar />
 
-      {/* HERO */}
       <section className="pt-32 pb-20 px-6 bg-[#0A0E1A]">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
@@ -206,8 +207,8 @@ export default function IaPymes() {
             {t.heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            
-              href={"/" + locale + "/socios"}
+            <a
+              href={rutaSocios}
               className="px-8 py-3 bg-[#1B4FD8] hover:bg-[#1640b0] text-white font-semibold rounded-lg transition-colors"
             >
               {t.heroCtaSocio}
@@ -222,7 +223,6 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* SERVICIOS */}
       <section className="py-20 px-6 bg-[#0A0E1A]">
         <div className="max-w-6xl mx-auto">
           <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
@@ -267,7 +267,6 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* COMO FUNCIONA */}
       <section className="py-20 px-6 bg-[#0F1628]">
         <div className="max-w-5xl mx-auto">
           <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
@@ -290,7 +289,6 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* NOVA */}
       <section className="py-20 px-6 bg-[#0A0E1A]">
         <div className="max-w-5xl mx-auto">
           <p className="text-[#4D9FEC] text-sm font-semibold uppercase tracking-widest mb-4 text-center">
@@ -333,7 +331,6 @@ export default function IaPymes() {
         </div>
       </section>
 
-      {/* CTA FINAL */}
       <section className="py-24 px-6 bg-[#070A12]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4" style={gradStyle}>
@@ -341,8 +338,8 @@ export default function IaPymes() {
           </h2>
           <p className="text-gray-400 text-lg mb-10">{t.ctaSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            
-              href={"/" + locale + "/socios"}
+            <a
+              href={rutaSocios}
               className="px-8 py-3 bg-[#1B4FD8] hover:bg-[#1640b0] text-white font-semibold rounded-lg transition-colors"
             >
               {t.ctaSocio}
