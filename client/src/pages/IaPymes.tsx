@@ -194,58 +194,115 @@ function ToolIcon({ nombre }: { nombre: string }) {
     </div>
   );
 }
-function CasoAcordeon({ caso }: { caso: typeof casosUso[0] }) {
-  const [open, setOpen] = useState(false);
+function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
+  const [flipped, setFlipped] = useState(false);
   return (
     <div
-      className={`rounded-xl border transition-all duration-200 ${
-        open ? "border-[#1B4FD8]/40 bg-[#1B4FD8]/5" : "border-white/[0.08] bg-white/[0.02]"
-      } hover:border-white/20`}
-      style={{ overflow: open ? "visible" : "hidden" }}
+      onClick={() => setFlipped(!flipped)}
+      className="cursor-pointer"
+      style={{ perspective: "1000px", height: "200px" }}
     >
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-3 px-5 py-4 text-left"
-      >
-        <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono flex-shrink-0">
-          {caso.num}
-        </span>
-        <span className="text-white text-sm font-medium flex-1 leading-snug">
-          {caso.titulo}
-        </span>
-        {caso.transporte && (
-          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC] flex-shrink-0">
-            Transporte
-          </span>
-        )}
-        <span
-          className="text-white/40 text-lg flex-shrink-0 transition-transform duration-200"
-          style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
-        >
-          ›
-        </span>
-      </button>
-
       <div
         style={{
-          maxHeight: open ? "240px" : "0px",
-          opacity: open ? 1 : 0,
-          transition: "max-height 0.3s ease, opacity 0.25s ease",
-          overflow: open ? "visible" : "hidden",
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.6s cubic-bezier(0.4,0.2,0.2,1)",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
-        <div className="px-5 pb-5 border-t border-white/[0.06]">
-          <div className="flex items-center gap-3 flex-wrap mt-4 mb-4" style={{ position: "relative", zIndex: 10 }}>
-            {caso.herramientas.map((h, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <ToolIcon nombre={h.nombre} />
-                {i < caso.herramientas.length - 1 && (
-                  <span className="text-white/30 text-base">→</span>
-                )}
-              </div>
-            ))}
+        {/* ── CARA DELANTERA: logos ── */}
+        <div
+          style={{
+            position: "absolute", inset: 0, backfaceVisibility: "hidden",
+            background: "rgba(255,255,255,0.02)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 12,
+            display: "flex", flexDirection: "column",
+            padding: "18px 20px",
+            transition: "border-color 0.2s",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(77,159,236,0.3)")}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
+        >
+          {/* Número + badge + indicador flip */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono">{caso.num}</span>
+              {caso.transporte && (
+                <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC]">
+                  Transporte
+                </span>
+              )}
+            </div>
+            {/* Indicador de giro */}
+            <div className="flex items-center gap-1 opacity-40">
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none">
+                <path d="M2 8a6 6 0 0 1 10.5-4M14 4v4h-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
+              </svg>
+              <span className="text-white text-xs">girar</span>
+            </div>
           </div>
-          <p className="text-white/80 text-sm leading-relaxed">{caso.descripcion}</p>
+
+          {/* Logos centrados */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              {caso.herramientas.map((h, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <ToolIcon nombre={h.nombre} />
+                  {i < caso.herramientas.length - 1 && (
+                    <span className="text-white/25 text-base">→</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Título abajo */}
+          <p className="text-white/50 text-xs text-center mt-3 leading-snug">{caso.titulo}</p>
+        </div>
+
+        {/* ── CARA TRASERA: descripción ── */}
+        <div
+          style={{
+            position: "absolute", inset: 0, backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            background: "rgba(27,79,216,0.07)",
+            border: "1px solid rgba(27,79,216,0.3)",
+            borderRadius: 12,
+            display: "flex", flexDirection: "column",
+            padding: "18px 20px",
+          }}
+        >
+          {/* Número + flujo */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono">{caso.num}</span>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {caso.herramientas.map((h, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <span className="text-white/60 text-xs">{h.nombre}</span>
+                  {i < caso.herramientas.length - 1 && (
+                    <span className="text-white/25 text-xs">→</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Título */}
+          <h4 className="text-white font-semibold text-sm leading-snug mb-3">{caso.titulo}</h4>
+
+          {/* Descripción */}
+          <p className="text-white/75 text-sm leading-relaxed flex-1">{caso.descripcion}</p>
+
+          {/* Hint para volver */}
+          <div className="flex items-center justify-end gap-1 mt-3 opacity-35">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+              <path d="M14 8a6 6 0 0 1-10.5 4M2 12V8h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
+            </svg>
+            <span className="text-white text-xs">volver</span>
+          </div>
         </div>
       </div>
     </div>
@@ -641,7 +698,7 @@ export default function IaPymes() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {casosUso.map((caso, i) => (
               <RevealDiv key={i} delay={i * 60}>
-                <CasoAcordeon caso={caso} />
+                <CasoFlipCard caso={caso} />
               </RevealDiv>
             ))}
           </div>
