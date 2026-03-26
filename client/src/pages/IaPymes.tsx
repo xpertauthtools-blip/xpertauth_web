@@ -413,7 +413,7 @@ const texts: Record<string, {
   ctaTitle: string; ctaSubtitle: string; ctaSocio: string; ctaContacto: string;
 }> = {
   es: {
-    heroTitle1: "La IA no es para",
+    heroTitle1: "La IA no es solo para",
     heroTitle2: "grandes empresas.",
     heroSubtitle: "Automatizamos tus procesos, formamos a tu equipo y resolvemos los cuellos de botella reales de tu negocio. Sin vender tecnologia. Sin humo.",
     heroCtaSocio: "Hazte socio",
