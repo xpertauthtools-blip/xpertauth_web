@@ -465,8 +465,8 @@ const texts: Record<string, {
     ctaContacto: "Contacta con nosotros",
   },
   ca: {
-    heroTitle1: "La IA no es per a",
-    heroTitle2: "grans empreses.",
+    heroTitle1: "La IA no es només",
+    heroTitle2: "per a grans empreses.",
     heroSubtitle: "Automatitzem els teus processos, formem el teu equip i resolem els colls d'ampolla reals del teu negoci. Sense vendre tecnologia. Sense fum.",
     heroCtaSocio: "Fes-te soci",
     heroCtaContacto: "Contacta amb nosaltres",
