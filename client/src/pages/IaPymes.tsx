@@ -260,7 +260,7 @@ function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
           </div>
 
           {/* Título abajo */}
-          <p className="text-white/50 text-xs text-center mt-3 leading-snug">{caso.titulo}</p>
+          <p className="text-white/75 text-sm text-center mt-3 leading-snug truncate">{caso.titulo}</p>
         </div>
 
         {/* ── CARA TRASERA: descripción ── */}
