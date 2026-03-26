@@ -107,101 +107,88 @@ const casosUso = [
 ];
 
 // ─── Iconos SVG herramientas ──────────────────────────────────────────────────
+const toolConfig: Record<string, { bg: string; border: string; icon: JSX.Element }> = {
+  Gmail: {
+    bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M2 6.5C2 5.4 2.9 4.5 4 4.5h16c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-11z" fill="#EA4335" fillOpacity=".1"/><path d="M2 7l10 6.5L22 7" stroke="#EA4335" strokeWidth="1.8" strokeLinecap="round"/><path d="M2 7v11M22 7v11" stroke="#EA4335" strokeWidth="1.2" strokeOpacity=".4"/></svg>,
+  },
+  Email: {
+    bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M2 6.5C2 5.4 2.9 4.5 4 4.5h16c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-11z" fill="#EA4335" fillOpacity=".1"/><path d="M2 7l10 6.5L22 7" stroke="#EA4335" strokeWidth="1.8" strokeLinecap="round"/></svg>,
+  },
+  Sheets: {
+    bg: "rgba(52,168,83,0.15)", border: "rgba(52,168,83,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="2" width="18" height="20" rx="2" fill="#34A853" fillOpacity=".15" stroke="#34A853" strokeWidth="1.4"/><path d="M3 8h18M3 13h18M3 18h18M8 8v12M14 8v12" stroke="#34A853" strokeWidth="1.1" strokeOpacity=".9"/></svg>,
+  },
+  Drive: {
+    bg: "rgba(66,133,244,0.15)", border: "rgba(66,133,244,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M8.5 3.5L2 15h6l6.5-11.5H8.5z" fill="#4285F4" fillOpacity=".3" stroke="#4285F4" strokeWidth="1.2" strokeLinejoin="round"/><path d="M15.5 3.5L22 15h-6l-6.5-11.5h6z" fill="#34A853" fillOpacity=".3" stroke="#34A853" strokeWidth="1.2" strokeLinejoin="round"/><path d="M2 15l4 6h12l4-6H2z" fill="#FBBC05" fillOpacity=".3" stroke="#FBBC05" strokeWidth="1.2" strokeLinejoin="round"/></svg>,
+  },
+  Calendar: {
+    bg: "rgba(66,133,244,0.15)", border: "rgba(66,133,244,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" fill="#4285F4" fillOpacity=".15" stroke="#4285F4" strokeWidth="1.3"/><path d="M3 9h18" stroke="#4285F4" strokeWidth="1.3"/><path d="M8 2v4M16 2v4" stroke="#4285F4" strokeWidth="1.3" strokeLinecap="round"/><rect x="7" y="13" width="3" height="3" rx=".5" fill="#EA4335"/></svg>,
+  },
+  WhatsApp: {
+    bg: "rgba(37,211,102,0.15)", border: "rgba(37,211,102,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="#25D366"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.36A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 13.07c-.2.56-1.16 1.07-1.6 1.13-.43.06-.97.08-1.57-.1-.36-.11-.82-.26-1.41-.51-2.46-1.06-4.07-3.54-4.2-3.71-.12-.17-.99-1.32-.99-2.52s.63-1.79.85-2.03c.22-.24.48-.3.64-.3h.46c.15 0 .35-.06.54.41.2.49.68 1.67.74 1.79.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.11-.24.24-.1.47.14.23.62 1.02 1.33 1.65.91.81 1.68 1.06 1.91 1.18.23.12.37.1.5-.06.14-.16.58-.67.74-.9.16-.23.31-.19.52-.11.21.08 1.34.63 1.57.74.23.12.38.17.44.27.06.1.06.58-.14 1.14z"/></svg>,
+  },
+  Notion: {
+    bg: "rgba(255,255,255,0.08)", border: "rgba(255,255,255,0.2)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="2" width="18" height="20" rx="2" fill="#fff" fillOpacity=".06" stroke="#aaa" strokeWidth="1.3"/><path d="M7 7h6M7 11h8M7 15h5" stroke="#ccc" strokeWidth="1.4" strokeLinecap="round"/><path d="M17 6l-4 12" stroke="#999" strokeWidth="1.1" strokeLinecap="round"/></svg>,
+  },
+  Slack: {
+    bg: "rgba(74,21,75,0.25)", border: "rgba(54,197,240,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M9.5 3C8.1 3 7 4.1 7 5.5S8.1 8 9.5 8H12V5.5C12 4.1 10.9 3 9.5 3z" fill="#E01E5A"/><path d="M9.5 9H3v3h6.5c1.4 0 2.5-1.1 2.5-2.5S10.9 9 9.5 9z" fill="#E01E5A" fillOpacity=".7"/><path d="M21 12.5C21 11.1 19.9 10 18.5 10S16 11.1 16 12.5V15h2.5c1.4 0 2.5-1.1 2.5-2.5z" fill="#2EB67D"/><path d="M15 12.5V19h3v-6.5c0-1.4-1.1-2.5-2.5-2.5S13 11.1 13 12.5z" fill="#2EB67D" fillOpacity=".7"/><path d="M14.5 21c1.4 0 2.5-1.1 2.5-2.5S15.9 16 14.5 16H12v2.5c0 1.4 1.1 2.5 2.5 2.5z" fill="#ECB22E"/><path d="M14.5 15H21v-3h-6.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5z" fill="#ECB22E" fillOpacity=".7"/><path d="M3 11.5C3 12.9 4.1 14 5.5 14S8 12.9 8 11.5V9H5.5C4.1 9 3 10.1 3 11.5z" fill="#36C5F0"/><path d="M9 11.5V5H6v6.5c0 1.4 1.1 2.5 2.5 2.5S11 12.9 11 11.5z" fill="#36C5F0" fillOpacity=".7"/></svg>,
+  },
+  HubSpot: {
+    bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="15" cy="8" r="3" fill="#FF6B35" fillOpacity=".3" stroke="#FF6B35" strokeWidth="1.3"/><circle cx="15" cy="8" r="1.2" fill="#FF6B35"/><path d="M12 8H6a3 3 0 1 0 0 6h1" stroke="#FF6B35" strokeWidth="1.3" strokeLinecap="round"/><circle cx="9" cy="17" r="3" fill="#FF6B35" fillOpacity=".2" stroke="#FF6B35" strokeWidth="1.3"/></svg>,
+  },
+  Formulario: {
+    bg: "rgba(123,104,238,0.15)", border: "rgba(123,104,238,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="#7B68EE" fillOpacity=".15" stroke="#7B68EE" strokeWidth="1.3"/><path d="M7 8h10M7 12h6M7 16h8" stroke="#7B68EE" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+  },
+  IA: {
+    bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="12" r="4" fill="#8B5CF6" fillOpacity=".25" stroke="#8B5CF6" strokeWidth="1.3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#8B5CF6" strokeWidth="1.3" strokeLinecap="round"/><circle cx="12" cy="12" r="1.5" fill="#8B5CF6"/></svg>,
+  },
+  PDF: {
+    bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#F72585" fillOpacity=".15" stroke="#F72585" strokeWidth="1.3"/><path d="M14 2v5h5" stroke="#F72585" strokeWidth="1.3" strokeLinejoin="round"/><path d="M8 13h2c.8 0 1.5-.7 1.5-1.5S10.8 10 10 10H8v6M14 10v6M16 10h-2v6M14 13h1.5" stroke="#F72585" strokeWidth="1.1" strokeLinecap="round"/></svg>,
+  },
+  Sage: {
+    bg: "rgba(0,220,130,0.12)", border: "rgba(0,220,130,0.35)",
+    icon: <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="12" r="9" fill="#00DC82" fillOpacity=".1" stroke="#00DC82" strokeWidth="1.3"/><path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4" stroke="#00DC82" strokeWidth="1.5" strokeLinecap="round"/><circle cx="12" cy="12" r="1.8" fill="#00DC82"/></svg>,
+  },
+};
+
 function ToolIcon({ nombre }: { nombre: string }) {
-  const icons: Record<string, JSX.Element> = {
-    Gmail: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <path d="M2 6.5C2 5.4 2.9 4.5 4 4.5h16c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-11z" fill="#fff" fillOpacity=".08"/>
-        <path d="M2 7l10 7 10-7" stroke="#EA4335" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M2 7v10.5M22 7v10.5" stroke="#EA4335" strokeWidth="1.2" strokeOpacity=".5"/>
-      </svg>
-    ),
-    Email: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <path d="M2 6.5C2 5.4 2.9 4.5 4 4.5h16c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-11z" fill="#fff" fillOpacity=".08"/>
-        <path d="M2 7l10 7 10-7" stroke="#EA4335" strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-    ),
-    Sheets: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <rect x="3" y="2" width="18" height="20" rx="2" fill="#0F9D58" fillOpacity=".2" stroke="#34A853" strokeWidth="1.2"/>
-        <path d="M3 8h18M3 13h18M3 18h18M8 8v12M14 8v12" stroke="#34A853" strokeWidth="1" strokeOpacity=".7"/>
-      </svg>
-    ),
-    Drive: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <path d="M8.5 3.5L2 15h6l6.5-11.5H8.5z" fill="#4285F4" fillOpacity=".3" stroke="#4285F4" strokeWidth="1.2" strokeLinejoin="round"/>
-        <path d="M15.5 3.5L22 15h-6l-6.5-11.5h6z" fill="#34A853" fillOpacity=".3" stroke="#34A853" strokeWidth="1.2" strokeLinejoin="round"/>
-        <path d="M2 15l4 6h12l4-6H2z" fill="#FBBC05" fillOpacity=".3" stroke="#FBBC05" strokeWidth="1.2" strokeLinejoin="round"/>
-      </svg>
-    ),
-    Calendar: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <rect x="3" y="4" width="18" height="17" rx="2" fill="#4285F4" fillOpacity=".15" stroke="#4285F4" strokeWidth="1.2"/>
-        <path d="M3 9h18" stroke="#4285F4" strokeWidth="1.2"/>
-        <path d="M8 2v4M16 2v4" stroke="#4285F4" strokeWidth="1.2" strokeLinecap="round"/>
-        <rect x="7" y="13" width="3" height="3" rx=".5" fill="#EA4335"/>
-      </svg>
-    ),
-    WhatsApp: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="#25D366">
-        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.36A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 13.07c-.2.56-1.16 1.07-1.6 1.13-.43.06-.97.08-1.57-.1-.36-.11-.82-.26-1.41-.51-2.46-1.06-4.07-3.54-4.2-3.71-.12-.17-.99-1.32-.99-2.52s.63-1.79.85-2.03c.22-.24.48-.3.64-.3h.46c.15 0 .35-.06.54.41.2.49.68 1.67.74 1.79.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.11-.24.24-.1.47.14.23.62 1.02 1.33 1.65.91.81 1.68 1.06 1.91 1.18.23.12.37.1.5-.06.14-.16.58-.67.74-.9.16-.23.31-.19.52-.11.21.08 1.34.63 1.57.74.23.12.38.17.44.27.06.1.06.58-.14 1.14z"/>
-      </svg>
-    ),
-    Notion: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <rect x="3" y="2" width="18" height="20" rx="2" fill="#fff" fillOpacity=".08" stroke="#aaa" strokeWidth="1.2"/>
-        <path d="M7 7h6M7 11h8M7 15h5" stroke="#ccc" strokeWidth="1.3" strokeLinecap="round"/>
-        <path d="M17 6l-4 12" stroke="#888" strokeWidth="1" strokeLinecap="round"/>
-      </svg>
-    ),
-    Slack: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <path d="M9.5 3C8.1 3 7 4.1 7 5.5S8.1 8 9.5 8H12V5.5C12 4.1 10.9 3 9.5 3z" fill="#E01E5A"/>
-        <path d="M9.5 9H3v3h6.5c1.4 0 2.5-1.1 2.5-2.5S10.9 9 9.5 9z" fill="#E01E5A" fillOpacity=".6"/>
-        <path d="M21 12.5C21 11.1 19.9 10 18.5 10S16 11.1 16 12.5V15h2.5c1.4 0 2.5-1.1 2.5-2.5z" fill="#2EB67D"/>
-        <path d="M15 12.5V19h3v-6.5c0-1.4-1.1-2.5-2.5-2.5S13 11.1 13 12.5z" fill="#2EB67D" fillOpacity=".6"/>
-        <path d="M14.5 21c1.4 0 2.5-1.1 2.5-2.5S15.9 16 14.5 16H12v2.5c0 1.4 1.1 2.5 2.5 2.5z" fill="#ECB22E"/>
-        <path d="M14.5 15H21v-3h-6.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5z" fill="#ECB22E" fillOpacity=".6"/>
-        <path d="M3 11.5C3 12.9 4.1 14 5.5 14S8 12.9 8 11.5V9H5.5C4.1 9 3 10.1 3 11.5z" fill="#36C5F0"/>
-        <path d="M9 11.5V5H6v6.5c0 1.4 1.1 2.5 2.5 2.5S11 12.9 11 11.5z" fill="#36C5F0" fillOpacity=".6"/>
-      </svg>
-    ),
-    HubSpot: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="#FF6B35">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
-    Formulario: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <rect x="3" y="3" width="18" height="18" rx="2" fill="#7B68EE" fillOpacity=".2" stroke="#7B68EE" strokeWidth="1.2"/>
-        <path d="M7 8h10M7 12h6M7 16h8" stroke="#7B68EE" strokeWidth="1.3" strokeLinecap="round"/>
-      </svg>
-    ),
-    IA: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <circle cx="12" cy="12" r="4" fill="#8B5CF6" fillOpacity=".3" stroke="#8B5CF6" strokeWidth="1.2"/>
-        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#8B5CF6" strokeWidth="1.2" strokeLinecap="round"/>
-      </svg>
-    ),
-    PDF: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#F72585" fillOpacity=".2" stroke="#F72585" strokeWidth="1.2"/>
-        <path d="M14 2v5h5" stroke="#F72585" strokeWidth="1.2" strokeLinejoin="round"/>
-        <path d="M8 13h2c.8 0 1.5-.7 1.5-1.5S10.8 10 10 10H8v6M14 10v6M16 10h-2v6M14 13h1.5" stroke="#F72585" strokeWidth="1" strokeLinecap="round"/>
-      </svg>
-    ),
-    Sage: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none">
-        <circle cx="12" cy="12" r="9" fill="#00DC82" fillOpacity=".15" stroke="#00DC82" strokeWidth="1.2"/>
-        <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4" stroke="#00DC82" strokeWidth="1.3" strokeLinecap="round"/>
-        <circle cx="12" cy="12" r="1.5" fill="#00DC82"/>
-      </svg>
-    ),
-  };
-  return icons[nombre] ?? (
-    <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0 bg-white/20" />
+  const cfg = toolConfig[nombre];
+  if (!cfg) return <div className="w-9 h-9 rounded-lg flex-shrink-0 bg-white/10" />;
+  return (
+    <div
+      className="relative group flex-shrink-0"
+      style={{ width: 36, height: 36 }}
+    >
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center"
+        style={{ background: cfg.bg, border: "1px solid " + cfg.border }}
+      >
+        {cfg.icon}
+      </div>
+      {/* Tooltip */}
+      <div
+        className="pointer-events-none absolute bottom-full left-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+        style={{ transform: "translateX(-50%)" }}
+      >
+        <div
+          className="whitespace-nowrap rounded px-2 py-1 text-white text-xs font-medium"
+          style={{ background: "#1e2a3a", border: "1px solid rgba(255,255,255,0.12)", fontSize: 11 }}
+        >
+          {nombre}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -248,13 +235,10 @@ function CasoAcordeon({ caso }: { caso: typeof casosUso[0] }) {
         <div className="px-5 pb-5 border-t border-white/[0.06]">
           <div className="flex items-center gap-2 flex-wrap mt-4 mb-3">
             {caso.herramientas.map((h, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <div className="flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-md px-2.5 py-1">
-                  <ToolIcon nombre={h.nombre} />
-                  <span className="text-white/80 text-xs font-medium">{h.nombre}</span>
-                </div>
+              <div key={i} className="flex items-center gap-2">
+                <ToolIcon nombre={h.nombre} />
                 {i < caso.herramientas.length - 1 && (
-                  <span className="text-white/30 text-xs">→</span>
+                  <span className="text-white/30 text-sm">→</span>
                 )}
               </div>
             ))}
