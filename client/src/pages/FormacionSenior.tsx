@@ -1216,12 +1216,7 @@ export default function FormacionSenior() {
                 }}>
                   {t.entitySectionTitle.split("\n").map((line, i) => (
                     <span key={i} style={{ display: "block" }}>
-                      {i === 0 ? line : <span style={{
-                        background: "linear-gradient(135deg,#4D9FEC,#1B4FD8)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                      }}>{line}</span>}
+                      {i === 0 ? line : <span style={emberGradientStyle}>{line}</span>}
                     </span>
                   ))}
                 </h2>
