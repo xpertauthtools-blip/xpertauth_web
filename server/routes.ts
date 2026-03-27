@@ -252,6 +252,21 @@ const contactoSchema = z.object({
   }),
 });
 
+// Schema flexible para entidades (sin acepta_privacidad obligatorio)
+const contactoEntidadSchema = z.object({
+  nombre: z.string().min(1),
+  email: z.string().email(),
+  empresa: z.string().optional(),
+  mensaje: z.string().optional(),
+  tipo: z.string().optional(),
+});
+
+// Schema para leads senior
+const leadSeniorSchema = z.object({
+  nombre: z.string().min(1),
+  telefono: z.string().min(6),
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -351,6 +366,62 @@ export async function registerRoutes(
       return res.status(201).json({ ok: true });
     } catch (error) {
       console.error("[contacto] Error:", error);
+      return res.status(500).json({ error: "Error interno del servidor." });
+    }
+  });
+
+  // ---- Ruta leads senior ----
+
+  app.post("/api/leads-senior", async (req, res) => {
+    try {
+      const parsed = leadSeniorSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Nombre y teléfono son obligatorios." });
+      }
+      const { error } = await supabase
+        .from("leads_senior")
+        .insert({
+          nombre: parsed.data.nombre,
+          telefono: parsed.data.telefono,
+          estado: "nuevo",
+        });
+      if (error) {
+        console.error("[supabase] leads_senior insert error:", error);
+        return res.status(500).json({ error: "Error al registrar. Inténtalo de nuevo." });
+      }
+      return res.status(201).json({ ok: true });
+    } catch (error) {
+      console.error("[leads-senior] Error:", error);
+      return res.status(500).json({ error: "Error interno del servidor." });
+    }
+  });
+
+  // ---- Ruta contacto entidades (formación senior) ----
+
+  app.post("/api/contacto-entidad", async (req, res) => {
+    try {
+      const parsed = contactoEntidadSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Nombre y email son obligatorios." });
+      }
+      const { error } = await supabase
+        .from("contacto")
+        .insert({
+          nombre: parsed.data.nombre,
+          email: parsed.data.email,
+          mensaje: parsed.data.mensaje || `Entidad: ${parsed.data.empresa || "no especificada"} · Tipo: ${parsed.data.tipo || "no especificado"}`,
+          leido: false,
+          respondido: false,
+          estado: "nuevo",
+          tipo: parsed.data.tipo || "entidad_formacion_senior",
+        });
+      if (error) {
+        console.error("[supabase] contacto-entidad insert error:", error);
+        return res.status(500).json({ error: "Error al enviar. Inténtalo de nuevo." });
+      }
+      return res.status(201).json({ ok: true });
+    } catch (error) {
+      console.error("[contacto-entidad] Error:", error);
       return res.status(500).json({ error: "Error interno del servidor." });
     }
   });
