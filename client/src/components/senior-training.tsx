@@ -79,19 +79,11 @@ function SeniorContactForm({ m }: { m: any }) {
     if (!nombre.trim() || !telefono.trim()) return;
     setStatus("sending");
     try {
-      const res = await fetch(
-        "https://dcuvptwwtdhlepvcttvx.supabase.co/rest/v1/leads_senior",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify({ nombre, telefono }),
-        }
-      );
+      const res = await fetch("/api/leads-senior", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, telefono }),
+      });
       if (!res.ok) throw new Error();
       setStatus("ok");
       setNombre("");
