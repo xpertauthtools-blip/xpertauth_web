@@ -440,6 +440,49 @@ const toolLogos: Record<string, { url: string; bg: string; border: string }> = {
   },
 };
 
+// ─── Flecha animada con pulso de flujo ───────────────────────────────────────
+function FlowArrow({ delay = 0 }: { delay?: number }) {
+  return (
+    <div className="relative flex items-center" style={{ width: 28, height: 20 }}>
+      {/* SVG flecha base tenue */}
+      <svg viewBox="0 0 28 14" width="28" height="14" fill="none" style={{ position: "absolute", inset: 0 }}>
+        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke="rgba(255,255,255,0.15)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      {/* SVG flecha que se ilumina con pulso */}
+      <svg viewBox="0 0 28 14" width="28" height="14" fill="none"
+        style={{
+          position: "absolute", inset: 0,
+          animation: `flowPulse 2s ease-in-out ${delay}s infinite`,
+        }}
+      >
+        <defs>
+          <linearGradient id={"fg" + Math.round(delay * 10)} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#4D9FEC" stopOpacity="0"/>
+            <stop offset="50%" stopColor="#4D9FEC" stopOpacity="1"/>
+            <stop offset="100%" stopColor="#1B4FD8" stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke={"url(#fg" + Math.round(delay * 10) + ")"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      {/* Partícula que viaja por la flecha */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: 0,
+          width: 5,
+          height: 5,
+          borderRadius: "50%",
+          background: "#4D9FEC",
+          boxShadow: "0 0 6px 2px rgba(77,159,236,0.7)",
+          transform: "translateY(-50%)",
+          animation: `flowDot 2s ease-in-out ${delay}s infinite`,
+        }}
+      />
+    </div>
+  );
+}
+
 function ToolIcon({ nombre }: { nombre: string }) {
   const cfg = toolLogos[nombre] ?? { url: "", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.15)" };
   return (
@@ -537,7 +580,7 @@ function CasoFlipCard({ caso, labelTransporte, labelGirar, labelVolver }: {
                 <div key={i} className="flex items-center gap-2">
                   <ToolIcon nombre={h.nombre} />
                   {i < caso.herramientas.length - 1 && (
-                    <span className="text-white/25 text-base">→</span>
+                    <FlowArrow delay={i * 0.4} />
                   )}
                 </div>
               ))}
@@ -943,6 +986,20 @@ export default function IaPymes() {
 
   return (
     <div className="min-h-screen bg-[#0A0E1A]">
+      <style>{`
+        @keyframes flowPulse {
+          0%   { opacity: 0; }
+          20%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes flowDot {
+          0%   { left: 0px;  opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 1; }
+          100% { left: 22px; opacity: 0; }
+        }
+      `}</style>
       <Navbar />
 
       {/* HERO */}
