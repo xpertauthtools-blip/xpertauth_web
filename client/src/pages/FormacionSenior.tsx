@@ -119,6 +119,8 @@ function ProgramCard({
         boxShadow: hovered ? `0 20px 60px ${glowColor}` : "none",
         position: "relative",
         overflow: "hidden",
+        height: "100%",
+        boxSizing: "border-box",
       }}
     >
       {/* Background glow for philosophy card */}
@@ -221,17 +223,18 @@ function ProgramCard({
           marginTop: 4,
           padding: "11px 22px",
           borderRadius: 10,
-          border: "none",
-          background: isEntity
-            ? hovered ? "#1B4FD8" : "rgba(27,79,216,0.8)"
-            : isPhilosophy
-            ? hovered ? "#E8620A" : "rgba(232,98,10,0.85)"
-            : hovered ? "#E8620A" : "rgba(232,98,10,0.15)",
-          color: isEntity || isPhilosophy ? "#fff" : hovered ? "#fff" : "#E8620A",
-          border: isEntity || isPhilosophy ? "none" : "1px solid rgba(232,98,10,0.35)",
           fontWeight: 600, fontSize: 14, cursor: "pointer",
           transition: "all 0.25s ease",
           alignSelf: "flex-start",
+          background: isEntity
+            ? hovered ? "#1B4FD8" : "rgba(27,79,216,0.12)"
+            : hovered ? "#E8620A" : "rgba(232,98,10,0.12)",
+          color: isEntity
+            ? hovered ? "#fff" : "#4D9FEC"
+            : hovered ? "#fff" : "#E8620A",
+          border: isEntity
+            ? `1px solid ${hovered ? "#1B4FD8" : "rgba(27,79,216,0.35)"}`
+            : `1px solid ${hovered ? "#E8620A" : "rgba(232,98,10,0.35)"}`,
         }}
       >
         {ctaLabel} →
@@ -660,15 +663,15 @@ function EntityForm({ t }: { t: typeof texts["es"] }) {
     setLoading(true);
     // POST to Supabase tabla "contacto" via server route
     try {
-      await fetch("/api/contacto", {
+      await fetch("/api/contacto-entidad", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nombre: form.name,
           empresa: form.org,
           email: form.email,
-          mensaje: `Entidad tipo: ${form.type || "No especificado"} — Solicitud colaboración formación senior`,
-          tipo: "entidad_formacion_senior",
+          tipo: form.type || "entidad_formacion_senior",
+          mensaje: `Solicitud colaboración formación. Entidad: ${form.org}. Tipo: ${form.type || "no especificado"}`,
         }),
       });
       setSent(true);
@@ -1139,16 +1142,19 @@ export default function FormacionSenior() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 440px), 1fr))",
             gap: 20,
+            alignItems: "stretch",
           }}>
             {t.cards.map((card, i) => (
-              <RevealDiv key={i} delay={i * 90}>
-                <ProgramCard
-                  {...card}
-                  onCta={() => {
-                    if (card.isEntity) { scrollToEntity(); }
-                    else { document.getElementById("senior-form")?.scrollIntoView({ behavior: "smooth", block: "center" }); }
-                  }}
-                />
+              <RevealDiv key={i} delay={i * 90} className="flex">
+                <div style={{ width: "100%" }}>
+                  <ProgramCard
+                    {...card}
+                    onCta={() => {
+                      if (card.isEntity) { scrollToEntity(); }
+                      else { document.getElementById("senior-form")?.scrollIntoView({ behavior: "smooth", block: "center" }); }
+                    }}
+                  />
+                </div>
               </RevealDiv>
             ))}
           </div>
