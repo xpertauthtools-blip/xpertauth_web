@@ -48,97 +48,377 @@ function RevealDiv({ children, delay = 0, className = "" }: { children: React.Re
   );
 }
 
-// ─── Datos casos de uso ───────────────────────────────────────────────────────
-const casosUso = [
-  {
-    num: "01",
-    titulo: "Clasificar emails y registrar incidencias",
-    descripcion: "Cada email de cliente se clasifica por tipo automaticamente. Las incidencias se registran en Sheets y se confirma la recepcion al cliente sin intervenir.",
-    herramientas: [
-      { nombre: "Gmail", color: "#EA4335" },
-      { nombre: "Sheets", color: "#34A853" },
-      { nombre: "Gmail", color: "#EA4335" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "02",
-    titulo: "Nuevo lead entra solo en CRM con bienvenida",
-    descripcion: "El formulario web crea el contacto en tu CRM y dispara un email de bienvenida personalizado. Sin tocar nada.",
-    herramientas: [
-      { nombre: "Formulario", color: "#7B68EE" },
-      { nombre: "HubSpot", color: "#FF6B35" },
-      { nombre: "Gmail", color: "#EA4335" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "03",
-    titulo: "Mensaje de cliente genera tarea al equipo",
-    descripcion: "Un mensaje de cliente en WhatsApp crea automaticamente una tarea en Notion y notifica al responsable en Slack.",
-    herramientas: [
-      { nombre: "WhatsApp", color: "#25D366" },
-      { nombre: "Notion", color: "#888888" },
-      { nombre: "Slack", color: "#4A154B" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "04",
-    titulo: "Extrae datos de facturas a tu hoja de costes",
-    descripcion: "Subes la factura PDF a Drive. La IA extrae importe, proveedor y fecha. Los datos se vuelcan solos en tu hoja de contabilidad.",
-    herramientas: [
-      { nombre: "Drive", color: "#4285F4" },
-      { nombre: "IA", color: "#8B5CF6" },
-      { nombre: "Sheets", color: "#34A853" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "05",
-    titulo: "Recordatorio automatico de cita al cliente",
-    descripcion: "Creas el evento en Calendar. 24h antes el cliente recibe automaticamente un WhatsApp con la confirmacion y los detalles.",
-    herramientas: [
-      { nombre: "Calendar", color: "#4285F4" },
-      { nombre: "WhatsApp", color: "#25D366" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "06",
-    titulo: "Informe semanal de ventas sin tocarlo",
-    descripcion: "Cada lunes a las 8h se genera el informe de ventas de la semana anterior y se envia automaticamente a los responsables.",
-    herramientas: [
-      { nombre: "Sheets", color: "#34A853" },
-      { nombre: "PDF", color: "#F72585" },
-      { nombre: "Gmail", color: "#EA4335" },
-    ],
-    transporte: false,
-  },
-  {
-    num: "07",
-    titulo: "Recepcion de eCMR y registro automatico",
-    descripcion: "El eCMR llega por email. La IA extrae matricula, origen, destino y fecha. Se registra en tu hoja de servicios y se archiva en Drive.",
-    herramientas: [
-      { nombre: "Email", color: "#EA4335" },
-      { nombre: "IA", color: "#8B5CF6" },
-      { nombre: "Sheets", color: "#34A853" },
-      { nombre: "Drive", color: "#4285F4" },
-    ],
-    transporte: true,
-  },
-  {
-    num: "08",
-    titulo: "Facturacion automatica al cerrar el servicio",
-    descripcion: "Al marcar el servicio como completado en Sheets, se genera la factura en Sage y se envia automaticamente al cliente por email.",
-    herramientas: [
-      { nombre: "Sheets", color: "#34A853" },
-      { nombre: "Sage", color: "#00DC82" },
-      { nombre: "Gmail", color: "#EA4335" },
-    ],
-    transporte: true,
-  },
-];
+// ─── Datos casos de uso — por locale ─────────────────────────────────────────
+type CasoUso = {
+  num: string;
+  titulo: string;
+  descripcion: string;
+  herramientas: { nombre: string; color: string }[];
+  transporte: boolean;
+};
+
+const casosUsoByLocale: Record<string, CasoUso[]> = {
+  es: [
+    {
+      num: "01",
+      titulo: "Clasificar emails y registrar incidencias",
+      descripcion: "Cada email de cliente se clasifica por tipo automaticamente. Las incidencias se registran en Sheets y se confirma la recepcion al cliente sin intervenir.",
+      herramientas: [
+        { nombre: "Gmail", color: "#EA4335" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "02",
+      titulo: "Nuevo lead entra solo en CRM con bienvenida",
+      descripcion: "El formulario web crea el contacto en tu CRM y dispara un email de bienvenida personalizado. Sin tocar nada.",
+      herramientas: [
+        { nombre: "Formulario", color: "#7B68EE" },
+        { nombre: "HubSpot", color: "#FF6B35" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "03",
+      titulo: "Mensaje de cliente genera tarea al equipo",
+      descripcion: "Un mensaje de cliente en WhatsApp crea automaticamente una tarea en Notion y notifica al responsable en Slack.",
+      herramientas: [
+        { nombre: "WhatsApp", color: "#25D366" },
+        { nombre: "Notion", color: "#888888" },
+        { nombre: "Slack", color: "#4A154B" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "04",
+      titulo: "Extrae datos de facturas a tu hoja de costes",
+      descripcion: "Subes la factura PDF a Drive. La IA extrae importe, proveedor y fecha. Los datos se vuelcan solos en tu hoja de contabilidad.",
+      herramientas: [
+        { nombre: "Drive", color: "#4285F4" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "05",
+      titulo: "Recordatorio automatico de cita al cliente",
+      descripcion: "Creas el evento en Calendar. 24h antes el cliente recibe automaticamente un WhatsApp con la confirmacion y los detalles.",
+      herramientas: [
+        { nombre: "Calendar", color: "#4285F4" },
+        { nombre: "WhatsApp", color: "#25D366" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "06",
+      titulo: "Informe semanal de ventas sin tocarlo",
+      descripcion: "Cada lunes a las 8h se genera el informe de ventas de la semana anterior y se envia automaticamente a los responsables.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "PDF", color: "#F72585" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "07",
+      titulo: "Recepcion de eCMR y registro automatico",
+      descripcion: "El eCMR llega por email. La IA extrae matricula, origen, destino y fecha. Se registra en tu hoja de servicios y se archiva en Drive.",
+      herramientas: [
+        { nombre: "Email", color: "#EA4335" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Drive", color: "#4285F4" },
+      ],
+      transporte: true,
+    },
+    {
+      num: "08",
+      titulo: "Facturacion automatica al cerrar el servicio",
+      descripcion: "Al marcar el servicio como completado en Sheets, se genera la factura en Sage y se envia automaticamente al cliente por email.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Sage", color: "#00DC82" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: true,
+    },
+  ],
+  ca: [
+    {
+      num: "01",
+      titulo: "Classificar emails i registrar incidencies",
+      descripcion: "Cada email de client es classifica per tipus automaticament. Les incidencies es registren a Sheets i es confirma la recepcio al client sense intervenir.",
+      herramientas: [
+        { nombre: "Gmail", color: "#EA4335" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "02",
+      titulo: "Nou lead entra sol al CRM amb benvinguda",
+      descripcion: "El formulari web crea el contacte al teu CRM i dispara un email de benvinguda personalitzat. Sense tocar res.",
+      herramientas: [
+        { nombre: "Formulario", color: "#7B68EE" },
+        { nombre: "HubSpot", color: "#FF6B35" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "03",
+      titulo: "Missatge de client genera tasca a l'equip",
+      descripcion: "Un missatge de client a WhatsApp crea automaticament una tasca a Notion i notifica el responsable a Slack.",
+      herramientas: [
+        { nombre: "WhatsApp", color: "#25D366" },
+        { nombre: "Notion", color: "#888888" },
+        { nombre: "Slack", color: "#4A154B" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "04",
+      titulo: "Extreu dades de factures al full de costos",
+      descripcion: "Puges la factura PDF a Drive. La IA extreu import, proveidora i data. Les dades s'aboquen soles al teu full de comptabilitat.",
+      herramientas: [
+        { nombre: "Drive", color: "#4285F4" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "05",
+      titulo: "Recordatori automatic de cita al client",
+      descripcion: "Crees l'event a Calendar. 24h abans el client rep automaticament un WhatsApp amb la confirmacio i els detalls.",
+      herramientas: [
+        { nombre: "Calendar", color: "#4285F4" },
+        { nombre: "WhatsApp", color: "#25D366" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "06",
+      titulo: "Informe setmanal de vendes sense tocar-lo",
+      descripcion: "Cada dilluns a les 8h es genera l'informe de vendes de la setmana anterior i s'envia automaticament als responsables.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "PDF", color: "#F72585" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "07",
+      titulo: "Recepcio d'eCMR i registre automatic",
+      descripcion: "L'eCMR arriba per email. La IA extreu matricula, origen, desti i data. Es registra al teu full de serveis i s'arxiva a Drive.",
+      herramientas: [
+        { nombre: "Email", color: "#EA4335" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Drive", color: "#4285F4" },
+      ],
+      transporte: true,
+    },
+    {
+      num: "08",
+      titulo: "Facturacio automatica en tancar el servei",
+      descripcion: "En marcar el servei com a completat a Sheets, es genera la factura a Sage i s'envia automaticament al client per email.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Sage", color: "#00DC82" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: true,
+    },
+  ],
+  en: [
+    {
+      num: "01",
+      titulo: "Classify emails and log incidents",
+      descripcion: "Every customer email is classified by type automatically. Incidents are logged in Sheets and the customer receives a confirmation without anyone intervening.",
+      herramientas: [
+        { nombre: "Gmail", color: "#EA4335" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "02",
+      titulo: "New lead enters CRM alone with welcome email",
+      descripcion: "The web form creates the contact in your CRM and triggers a personalised welcome email. No manual input needed.",
+      herramientas: [
+        { nombre: "Formulario", color: "#7B68EE" },
+        { nombre: "HubSpot", color: "#FF6B35" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "03",
+      titulo: "Customer message creates team task",
+      descripcion: "A customer WhatsApp message automatically creates a task in Notion and notifies the responsible person in Slack.",
+      herramientas: [
+        { nombre: "WhatsApp", color: "#25D366" },
+        { nombre: "Notion", color: "#888888" },
+        { nombre: "Slack", color: "#4A154B" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "04",
+      titulo: "Extract invoice data to your cost sheet",
+      descripcion: "Upload the PDF invoice to Drive. AI extracts amount, supplier and date. The data flows automatically into your accounting spreadsheet.",
+      herramientas: [
+        { nombre: "Drive", color: "#4285F4" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "05",
+      titulo: "Automatic appointment reminder to customer",
+      descripcion: "You create the event in Calendar. 24h before, the customer automatically receives a WhatsApp with the confirmation and details.",
+      herramientas: [
+        { nombre: "Calendar", color: "#4285F4" },
+        { nombre: "WhatsApp", color: "#25D366" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "06",
+      titulo: "Weekly sales report without touching it",
+      descripcion: "Every Monday at 8am the previous week's sales report is generated and automatically sent to the relevant people.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "PDF", color: "#F72585" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "07",
+      titulo: "eCMR reception and automatic logging",
+      descripcion: "The eCMR arrives by email. AI extracts plate number, origin, destination and date. It is logged in your services sheet and archived in Drive.",
+      herramientas: [
+        { nombre: "Email", color: "#EA4335" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Drive", color: "#4285F4" },
+      ],
+      transporte: true,
+    },
+    {
+      num: "08",
+      titulo: "Automatic invoicing when closing the job",
+      descripcion: "When you mark the job as completed in Sheets, the invoice is generated in Sage and automatically sent to the customer by email.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Sage", color: "#00DC82" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: true,
+    },
+  ],
+  fr: [
+    {
+      num: "01",
+      titulo: "Classer les emails et enregistrer les incidents",
+      descripcion: "Chaque email client est classe par type automatiquement. Les incidents sont enregistres dans Sheets et la reception est confirmee au client sans intervention.",
+      herramientas: [
+        { nombre: "Gmail", color: "#EA4335" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "02",
+      titulo: "Nouveau lead entre seul dans le CRM avec accueil",
+      descripcion: "Le formulaire web cree le contact dans votre CRM et declenche un email de bienvenue personnalise. Sans rien toucher.",
+      herramientas: [
+        { nombre: "Formulario", color: "#7B68EE" },
+        { nombre: "HubSpot", color: "#FF6B35" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "03",
+      titulo: "Message client genere une tache pour l'equipe",
+      descripcion: "Un message client sur WhatsApp cree automatiquement une tache dans Notion et notifie le responsable sur Slack.",
+      herramientas: [
+        { nombre: "WhatsApp", color: "#25D366" },
+        { nombre: "Notion", color: "#888888" },
+        { nombre: "Slack", color: "#4A154B" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "04",
+      titulo: "Extraire les donnees de factures vers votre feuille de couts",
+      descripcion: "Vous deposez la facture PDF dans Drive. L'IA extrait le montant, le fournisseur et la date. Les donnees se versent seules dans votre feuille de comptabilite.",
+      herramientas: [
+        { nombre: "Drive", color: "#4285F4" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "05",
+      titulo: "Rappel automatique de rendez-vous au client",
+      descripcion: "Vous creez l'evenement dans Calendar. 24h avant, le client recoit automatiquement un WhatsApp avec la confirmation et les details.",
+      herramientas: [
+        { nombre: "Calendar", color: "#4285F4" },
+        { nombre: "WhatsApp", color: "#25D366" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "06",
+      titulo: "Rapport hebdomadaire des ventes sans y toucher",
+      descripcion: "Chaque lundi a 8h le rapport des ventes de la semaine precedente est genere et envoye automatiquement aux responsables.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "PDF", color: "#F72585" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: false,
+    },
+    {
+      num: "07",
+      titulo: "Reception d'eCMR et enregistrement automatique",
+      descripcion: "L'eCMR arrive par email. L'IA extrait l'immatriculation, l'origine, la destination et la date. Il est enregistre dans votre feuille et archive dans Drive.",
+      herramientas: [
+        { nombre: "Email", color: "#EA4335" },
+        { nombre: "IA", color: "#8B5CF6" },
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Drive", color: "#4285F4" },
+      ],
+      transporte: true,
+    },
+    {
+      num: "08",
+      titulo: "Facturation automatique a la cloture du service",
+      descripcion: "Quand vous marquez le service comme termine dans Sheets, la facture est generee dans Sage et envoyee automatiquement au client par email.",
+      herramientas: [
+        { nombre: "Sheets", color: "#34A853" },
+        { nombre: "Sage", color: "#00DC82" },
+        { nombre: "Gmail", color: "#EA4335" },
+      ],
+      transporte: true,
+    },
+  ],
+};
 
 // ─── Logos reales herramientas ────────────────────────────────────────────────
 const toolLogos: Record<string, { url: string; bg: string; border: string }> = {
@@ -194,7 +474,12 @@ function ToolIcon({ nombre }: { nombre: string }) {
     </div>
   );
 }
-function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
+function CasoFlipCard({ caso, labelTransporte, labelGirar, labelVolver }: {
+  caso: CasoUso;
+  labelTransporte: string;
+  labelGirar: string;
+  labelVolver: string;
+}) {
   const [flipped, setFlipped] = useState(false);
   return (
     <div
@@ -232,7 +517,7 @@ function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
               <span className="text-[#4D9FEC] text-xs font-bold tracking-widest font-mono">{caso.num}</span>
               {caso.transporte && (
                 <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#4D9FEC]/20 text-[#4D9FEC]">
-                  Transporte
+                  {labelTransporte}
                 </span>
               )}
             </div>
@@ -241,7 +526,7 @@ function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
               <svg viewBox="0 0 16 16" width="13" height="13" fill="none">
                 <path d="M2 8a6 6 0 0 1 10.5-4M14 4v4h-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
               </svg>
-              <span className="text-white text-xs">girar</span>
+              <span className="text-white text-xs">{labelGirar}</span>
             </div>
           </div>
 
@@ -301,7 +586,7 @@ function CasoFlipCard({ caso }: { caso: typeof casosUso[0] }) {
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
               <path d="M14 8a6 6 0 0 1-10.5 4M2 12V8h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
             </svg>
-            <span className="text-white text-xs">volver</span>
+            <span className="text-white text-xs">{labelVolver}</span>
           </div>
         </div>
       </div>
@@ -349,10 +634,11 @@ const serviceIcons = [
 
 // ─── Tarjeta Problema/Solucion ────────────────────────────────────────────────
 function ServiceCard({
-  number, title, subtitle, problema, solucion, badge, index,
+  number, title, subtitle, problema, solucion, badge, index, labelProblema, labelSolucion,
 }: {
   number: string; title: string; subtitle: string;
   problema: string; solucion: string; badge: string; index: number;
+  labelProblema: string; labelSolucion: string;
 }) {
   const iconCfg = serviceIcons[index] ?? serviceIcons[0];
   return (
@@ -385,12 +671,12 @@ function ServiceCard({
       </div>
 
       <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3">
-        <p className="text-red-400 text-xs font-bold uppercase tracking-widest mb-1.5">El problema</p>
+        <p className="text-red-400 text-xs font-bold uppercase tracking-widest mb-1.5">{labelProblema}</p>
         <p className="text-red-100 text-sm leading-relaxed">{problema}</p>
       </div>
 
       <div className="rounded-lg bg-[#1B4FD8]/10 border border-[#1B4FD8]/20 px-4 py-3">
-        <p className="text-[#4D9FEC] text-xs font-bold uppercase tracking-widest mb-1.5">La solucion</p>
+        <p className="text-[#4D9FEC] text-xs font-bold uppercase tracking-widest mb-1.5">{labelSolucion}</p>
         <p className="text-white/90 text-sm leading-relaxed">{solucion}</p>
       </div>
 
@@ -407,7 +693,9 @@ const texts: Record<string, {
   heroCtaSocio: string; heroCtaContacto: string;
   serviciosLabel: string; serviciosTitle: string; serviciosSubtitle: string;
   servicios: { num: string; title: string; subtitle: string; problema: string; solucion: string; badge: string }[];
+  labelProblema: string; labelSolucion: string;
   casosLabel: string; casosTitle: string; casosSubtitle: string;
+  labelTransporte: string; labelGirar: string; labelVolver: string;
   novaLabel: string; novaTitle: string; novaBody: string; novaBtn: string;
   novaPreguntas: string[];
   ctaTitle: string; ctaSubtitle: string; ctaSocio: string; ctaContacto: string;
@@ -450,6 +738,11 @@ const texts: Record<string, {
     casosLabel: "Casos reales",
     casosTitle: "Esto ya lo estamos haciendo.",
     casosSubtitle: "Automatizaciones reales que implementamos en PYMEs. Haz clic para ver como funciona cada una.",
+    labelProblema: "El problema",
+    labelSolucion: "La solucion",
+    labelTransporte: "Transporte",
+    labelGirar: "girar",
+    labelVolver: "volver",
     novaLabel: "Agente IA",
     novaTitle: "NOVA, tu consultor de IA disponible 24/7.",
     novaBody: "NOVA es el agente de XpertAuth especializado en IA para PYMEs. Practica, directa y sin humo. Resuelve dudas sobre automatizacion, herramientas y procesos en tiempo real.",
@@ -502,6 +795,11 @@ const texts: Record<string, {
     casosLabel: "Casos reals",
     casosTitle: "Aixo ja ho estem fent.",
     casosSubtitle: "Automatitzacions reals que implementem en PIMEs. Fes clic per veure com funciona cada una.",
+    labelProblema: "El problema",
+    labelSolucion: "La solucio",
+    labelTransporte: "Transport",
+    labelGirar: "girar",
+    labelVolver: "tornar",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, el teu consultor de IA disponible 24/7.",
     novaBody: "NOVA es l'agent de XpertAuth especialitzat en IA per a PYMEs. Practica, directa i sense fum. Resol dubtes sobre automatitzacio, eines i processos en temps real.",
@@ -554,6 +852,11 @@ const texts: Record<string, {
     casosLabel: "Real cases",
     casosTitle: "We are already doing this.",
     casosSubtitle: "Real automations we implement in SMEs. Click to see how each one works.",
+    labelProblema: "The problem",
+    labelSolucion: "The solution",
+    labelTransporte: "Transport",
+    labelGirar: "flip",
+    labelVolver: "back",
     novaLabel: "AI Agent",
     novaTitle: "NOVA, your AI consultant available 24/7.",
     novaBody: "NOVA is XpertAuth's agent specialised in AI for SMEs. Practical, direct, and no hype. Answers questions about automation, tools, and processes in real time.",
@@ -606,6 +909,11 @@ const texts: Record<string, {
     casosLabel: "Cas reels",
     casosTitle: "Nous le faisons deja.",
     casosSubtitle: "Automatisations reelles que nous mettons en oeuvre dans les PME. Cliquez pour voir comment chacune fonctionne.",
+    labelProblema: "Le probleme",
+    labelSolucion: "La solution",
+    labelTransporte: "Transport",
+    labelGirar: "retourner",
+    labelVolver: "retour",
     novaLabel: "Agent IA",
     novaTitle: "NOVA, votre consultant IA disponible 24/7.",
     novaBody: "NOVA est l'agent XpertAuth specialise dans l'IA pour les PME. Pratique, direct et sans enfumage. Il repond aux questions sur l'automatisation, les outils et les processus en temps reel.",
@@ -678,7 +986,7 @@ export default function IaPymes() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {t.servicios.map((srv, i) => (
               <RevealDiv key={i} delay={i * 80}>
-                <ServiceCard {...srv} index={i} />
+                <ServiceCard {...srv} index={i} labelProblema={t.labelProblema} labelSolucion={t.labelSolucion} />
               </RevealDiv>
             ))}
           </div>
@@ -696,9 +1004,14 @@ export default function IaPymes() {
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.casosSubtitle}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {casosUso.map((caso, i) => (
+            {(casosUsoByLocale[locale] || casosUsoByLocale.es).map((caso, i) => (
               <RevealDiv key={i} delay={i * 60}>
-                <CasoFlipCard caso={caso} />
+                <CasoFlipCard
+                  caso={caso}
+                  labelTransporte={t.labelTransporte}
+                  labelGirar={t.labelGirar}
+                  labelVolver={t.labelVolver}
+                />
               </RevealDiv>
             ))}
           </div>
