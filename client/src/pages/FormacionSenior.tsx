@@ -277,6 +277,8 @@ const texts: Record<string, {
   ctaSubtitle: string;
   ctaBtn: string;
   ctaBtnSecondary: string;
+  seniorFormOk: string;
+  entityPills: string[];
 }> = {
   es: {
     heroLabel: "Formación Senior",
@@ -370,6 +372,8 @@ const texts: Record<string, {
     ctaSubtitle: "Déjanos tu nombre y teléfono. Te llamamos nosotros. Sin formularios raros, sin esperas.",
     ctaBtn: "Quiero apuntarme",
     ctaBtnSecondary: "Tengo una pregunta",
+    seniorFormOk: "¡Perfecto! Te llamamos pronto. 📞",
+    entityPills: ["🏛️ Centros cívicos", "📚 Bibliotecas", "🏘️ Asociaciones", "🎨 Artesanos", "🏫 Colegios", "🏢 Ayuntamientos"],
   },
   ca: {
     heroLabel: "Formació Sènior",
@@ -463,6 +467,8 @@ const texts: Record<string, {
     ctaSubtitle: "Deixa'ns el teu nom i telèfon. Et truquem nosaltres. Sense formularis estranys, sense esperes.",
     ctaBtn: "Vull apuntar-me",
     ctaBtnSecondary: "Tinc una pregunta",
+    seniorFormOk: "Perfecte! Et truquem aviat. 📞",
+    entityPills: ["🏛️ Centres cívics", "📚 Biblioteques", "🏘️ Associacions", "🎨 Artesans", "🏫 Col·legis", "🏢 Ajuntaments"],
   },
   en: {
     heroLabel: "Senior Training",
@@ -556,6 +562,8 @@ const texts: Record<string, {
     ctaSubtitle: "Leave us your name and phone number. We call you. No strange forms, no waiting.",
     ctaBtn: "I want to join",
     ctaBtnSecondary: "I have a question",
+    seniorFormOk: "Perfect! We'll call you soon. 📞",
+    entityPills: ["🏛️ Civic centres", "📚 Libraries", "🏘️ Associations", "🎨 Craftspeople", "🏫 Schools", "🏢 Local councils"],
   },
   fr: {
     heroLabel: "Formation Senior",
@@ -649,6 +657,8 @@ const texts: Record<string, {
     ctaSubtitle: "Laissez-nous votre nom et téléphone. Nous vous appelons. Pas de formulaires compliqués, pas d'attente.",
     ctaBtn: "Je veux m'inscrire",
     ctaBtnSecondary: "J'ai une question",
+    seniorFormOk: "Parfait ! Nous vous appelons bientôt. 📞",
+    entityPills: ["🏛️ Centres civiques", "📚 Bibliothèques", "🏘️ Associations", "🎨 Artisans", "🏫 Écoles", "🏢 Mairies"],
   },
 };
 
@@ -771,19 +781,26 @@ function SeniorForm({ t }: { t: typeof texts["es"] }) {
   const [form, setForm] = useState({ name: "", phone: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     if (!form.name || !form.phone) return;
     setLoading(true);
+    setError("");
     try {
-      await fetch("/api/leads-senior", {
+      const res = await fetch("/api/leads-senior", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre: form.name, telefono: form.phone }),
       });
-      setSent(true);
-    } catch {
-      setSent(true);
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || `Error ${res.status}`);
+      } else {
+        setSent(true);
+      }
+    } catch (e) {
+      setError("Error de conexión. Inténtalo de nuevo.");
     }
     setLoading(false);
   };
@@ -802,7 +819,7 @@ function SeniorForm({ t }: { t: typeof texts["es"] }) {
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
         <p style={{ color: "#E8620A", fontWeight: 700, fontSize: 18 }}>
-          ¡Perfecto! Te llamamos pronto. 📞
+          {t.seniorFormOk}
         </p>
       </div>
     );
@@ -844,6 +861,11 @@ function SeniorForm({ t }: { t: typeof texts["es"] }) {
       >
         {loading ? "..." : t.ctaBtn} →
       </button>
+      {error && (
+        <p style={{ color: "#f87171", fontSize: 13, margin: 0, width: "100%", textAlign: "center" }}>
+          ⚠️ {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -1216,7 +1238,7 @@ export default function FormacionSenior() {
               {/* Entity types pills */}
               <RevealDiv delay={180}>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 28 }}>
-                  {["🏛️ Centros cívicos", "📚 Bibliotecas", "🏘️ Asociaciones", "🎨 Artesanos", "🏫 Colegios", "🏢 Ayuntamientos"].map((label, i) => (
+                  {t.entityPills.map((label, i) => (
                     <span key={i} style={{
                       fontSize: 12, fontWeight: 500,
                       padding: "5px 12px", borderRadius: 20,
