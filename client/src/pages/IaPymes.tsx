@@ -1078,8 +1078,8 @@ export default function IaPymes() {
             </h2>
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.casosSubtitle}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {(casosUsoByLocale[locale] || casosUsoByLocale.es).map((caso, i) => (
+              <div key={i}>
               <div key={i}>
                 <CasoFlipCard
                   caso={caso}
