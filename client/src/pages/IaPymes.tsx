@@ -422,18 +422,18 @@ const casosUsoByLocale: Record<string, CasoUso[]> = {
 
 // ─── Logos reales herramientas ────────────────────────────────────────────────
 const toolLogos: Record<string, { url: string; bg: string; border: string }> = {
-  Gmail:      { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
-  Email:      { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
-  Sheets:     { url: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Google_Sheets_2020_Logo.svg", bg: "rgba(52,168,83,0.15)", border: "rgba(52,168,83,0.4)" },
-  Drive:      { url: "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
-  Calendar:   { url: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
-  WhatsApp:   { url: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", bg: "rgba(37,211,102,0.15)", border: "rgba(37,211,102,0.4)" },
-  Notion:     { url: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.2)" },
-  Slack:      { url: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg", bg: "rgba(74,21,75,0.2)", border: "rgba(54,197,240,0.35)" },
-  HubSpot:    { url: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg", bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
+  Gmail: { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
+  Email: { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
+  Sheets: { url: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Google_Sheets_2020_Logo.svg", bg: "rgba(52,168,83,0.15)", border: "rgba(52,168,83,0.4)" },
+  Drive: { url: "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
+  Calendar: { url: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
+  WhatsApp: { url: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", bg: "rgba(37,211,102,0.15)", border: "rgba(37,211,102,0.4)" },
+  Notion: { url: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.2)" },
+  Slack: { url: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg", bg: "rgba(74,21,75,0.2)", border: "rgba(54,197,240,0.35)" },
+  HubSpot: { url: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg", bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
   Formulario: { url: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Google_Forms_office_logo.svg", bg: "rgba(123,104,238,0.15)", border: "rgba(123,104,238,0.4)" },
-  PDF:        { url: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg", bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.4)" },
-  Sage:       { url: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Sage_Group_logo.svg", bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
+  PDF: { url: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg", bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.4)" },
+  Sage: { url: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Sage_Group_logo.svg", bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
   IA: {
     url: "",
     bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.4)",
@@ -446,7 +446,7 @@ function FlowArrow({ delay = 0 }: { delay?: number }) {
     <div className="relative flex items-center" style={{ width: 28, height: 20 }}>
       {/* SVG flecha base tenue */}
       <svg viewBox="0 0 28 14" width="28" height="14" fill="none" style={{ position: "absolute", inset: 0 }}>
-        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke="rgba(255,255,255,0.15)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke="rgba(255,255,255,0.15)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       {/* SVG flecha que se ilumina con pulso */}
       <svg viewBox="0 0 28 14" width="28" height="14" fill="none"
@@ -457,12 +457,12 @@ function FlowArrow({ delay = 0 }: { delay?: number }) {
       >
         <defs>
           <linearGradient id={"fg" + Math.round(delay * 10)} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4D9FEC" stopOpacity="0"/>
-            <stop offset="50%" stopColor="#4D9FEC" stopOpacity="1"/>
-            <stop offset="100%" stopColor="#1B4FD8" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#4D9FEC" stopOpacity="0" />
+            <stop offset="50%" stopColor="#4D9FEC" stopOpacity="1" />
+            <stop offset="100%" stopColor="#1B4FD8" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke={"url(#fg" + Math.round(delay * 10) + ")"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2 7 H22 M18 3 L24 7 L18 11" stroke={"url(#fg" + Math.round(delay * 10) + ")"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       {/* Partícula que viaja por la flecha */}
       <div
@@ -496,9 +496,9 @@ function ToolIcon({ nombre }: { nombre: string }) {
         ) : (
           // IA: icono SVG custom
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-            <circle cx="12" cy="12" r="4" fill="#8B5CF6" fillOpacity=".3" stroke="#8B5CF6" strokeWidth="1.4"/>
-            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/>
-            <circle cx="12" cy="12" r="1.5" fill="#8B5CF6"/>
+            <circle cx="12" cy="12" r="4" fill="#8B5CF6" fillOpacity=".3" stroke="#8B5CF6" strokeWidth="1.4" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round" />
+            <circle cx="12" cy="12" r="1.5" fill="#8B5CF6" />
           </svg>
         )}
       </div>
@@ -567,7 +567,7 @@ function CasoFlipCard({ caso, labelTransporte, labelGirar, labelVolver }: {
             {/* Indicador de giro */}
             <div className="flex items-center gap-1 opacity-40">
               <svg viewBox="0 0 16 16" width="13" height="13" fill="none">
-                <path d="M2 8a6 6 0 0 1 10.5-4M14 4v4h-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
+                <path d="M2 8a6 6 0 0 1 10.5-4M14 4v4h-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white" />
               </svg>
               <span className="text-white text-xs">{labelGirar}</span>
             </div>
@@ -627,7 +627,7 @@ function CasoFlipCard({ caso, labelTransporte, labelGirar, labelVolver }: {
           {/* Hint para volver */}
           <div className="flex items-center justify-end gap-1 mt-3 opacity-35">
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
-              <path d="M14 8a6 6 0 0 1-10.5 4M2 12V8h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white"/>
+              <path d="M14 8a6 6 0 0 1-10.5 4M2 12V8h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-white" />
             </svg>
             <span className="text-white text-xs">{labelVolver}</span>
           </div>
@@ -640,39 +640,47 @@ function CasoFlipCard({ caso, labelTransporte, labelGirar, labelVolver }: {
 // ─── Iconos por servicio ──────────────────────────────────────────────────────
 const serviceIcons = [
   // 01 Auditoría
-  { gradient: "linear-gradient(135deg,#1B4FD8,#4D9FEC)", icon: (
-    <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
-      <circle cx="18" cy="18" r="10" stroke="white" strokeWidth="2.5" strokeOpacity=".9"/>
-      <path d="M25 25l7 7" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-      <path d="M14 18h8M18 14v8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  )},
+  {
+    gradient: "linear-gradient(135deg,#1B4FD8,#4D9FEC)", icon: (
+      <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+        <circle cx="18" cy="18" r="10" stroke="white" strokeWidth="2.5" strokeOpacity=".9" />
+        <path d="M25 25l7 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M14 18h8M18 14v8" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    )
+  },
   // 02 Consultoría
-  { gradient: "linear-gradient(135deg,#4D9FEC,#7B68EE)", icon: (
-    <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
-      <rect x="6" y="10" width="28" height="20" rx="3" stroke="white" strokeWidth="2.2" strokeOpacity=".9"/>
-      <path d="M13 18h14M13 23h9" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="28" cy="14" r="5" fill="white" fillOpacity=".15" stroke="white" strokeWidth="1.5"/>
-      <path d="M28 12v2l1.5 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-  )},
+  {
+    gradient: "linear-gradient(135deg,#4D9FEC,#7B68EE)", icon: (
+      <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+        <rect x="6" y="10" width="28" height="20" rx="3" stroke="white" strokeWidth="2.2" strokeOpacity=".9" />
+        <path d="M13 18h14M13 23h9" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="28" cy="14" r="5" fill="white" fillOpacity=".15" stroke="white" strokeWidth="1.5" />
+        <path d="M28 12v2l1.5 1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    )
+  },
   // 03 Automatización
-  { gradient: "linear-gradient(135deg,#8B5CF6,#4D9FEC)", icon: (
-    <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
-      <path d="M8 20a12 12 0 0 1 24 0" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity=".9"/>
-      <path d="M20 8v6M14 10l3 5M26 10l-3 5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="20" cy="26" r="5" stroke="white" strokeWidth="2" strokeOpacity=".9"/>
-      <circle cx="20" cy="26" r="2" fill="white" fillOpacity=".7"/>
-    </svg>
-  )},
+  {
+    gradient: "linear-gradient(135deg,#8B5CF6,#4D9FEC)", icon: (
+      <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+        <path d="M8 20a12 12 0 0 1 24 0" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeOpacity=".9" />
+        <path d="M20 8v6M14 10l3 5M26 10l-3 5" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="20" cy="26" r="5" stroke="white" strokeWidth="2" strokeOpacity=".9" />
+        <circle cx="20" cy="26" r="2" fill="white" fillOpacity=".7" />
+      </svg>
+    )
+  },
   // 04 Formación
-  { gradient: "linear-gradient(135deg,#1B4FD8,#8B5CF6)", icon: (
-    <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
-      <path d="M20 10L6 17l14 7 14-7-14-7z" stroke="white" strokeWidth="2.2" strokeLinejoin="round" strokeOpacity=".9"/>
-      <path d="M10 21v7c0 0 4 4 10 4s10-4 10-4v-7" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M34 17v6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  )},
+  {
+    gradient: "linear-gradient(135deg,#1B4FD8,#8B5CF6)", icon: (
+      <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+        <path d="M20 10L6 17l14 7 14-7-14-7z" stroke="white" strokeWidth="2.2" strokeLinejoin="round" strokeOpacity=".9" />
+        <path d="M10 21v7c0 0 4 4 10 4s10-4 10-4v-7" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M34 17v6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    )
+  },
 ];
 
 // ─── Tarjeta Problema/Solucion ────────────────────────────────────────────────
@@ -1089,26 +1097,26 @@ export default function IaPymes() {
           </div>
           <RevealDiv>
             <div className="bg-[#0F1628] border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-full bg-[#4D9FEC]/20 flex items-center justify-center">
-                <span className="text-[#4D9FEC] text-xs font-bold">N</span>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 rounded-full bg-[#4D9FEC]/20 flex items-center justify-center">
+                  <span className="text-[#4D9FEC] text-xs font-bold">N</span>
+                </div>
+                <span className="text-white font-semibold text-sm">NOVA · XpertAuth</span>
+                <span className="ml-auto px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Activo</span>
               </div>
-              <span className="text-white font-semibold text-sm">NOVA · XpertAuth</span>
-              <span className="ml-auto px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Activo</span>
+              <div className="space-y-3">
+                {t.novaPreguntas.map((q, i) => (
+                  <button
+                    key={i}
+                    onClick={() => abrirAgente("NOVA")}
+                    className="w-full text-left px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm hover:border-[#4D9FEC]/30 hover:text-white/80 transition-all duration-200"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
             </div>
-            <div className="space-y-3">
-              {t.novaPreguntas.map((q, i) => (
-                <button
-                  key={i}
-                  onClick={() => abrirAgente("NOVA")}
-                  className="w-full text-left px-4 py-3 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm hover:border-[#4D9FEC]/30 hover:text-white/80 transition-all duration-200"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-            <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
-          </div>
           </RevealDiv>
           <div className="text-center">
             <button
