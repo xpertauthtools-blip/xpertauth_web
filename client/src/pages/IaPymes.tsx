@@ -1062,7 +1062,7 @@ export default function IaPymes() {
             {t.servicios.map((srv, i) => (
               <RevealDiv key={i} delay={i * 80}>
                 <ServiceCard {...srv} index={i} labelProblema={t.labelProblema} labelSolucion={t.labelSolucion} />
-              </RevealDiv>
+              </div>
             ))}
           </div>
         </div>
@@ -1080,14 +1080,14 @@ export default function IaPymes() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {(casosUsoByLocale[locale] || casosUsoByLocale.es).map((caso, i) => (
-              <RevealDiv key={i} delay={i * 60}>
+              <div key={i}>
                 <CasoFlipCard
                   caso={caso}
                   labelTransporte={t.labelTransporte}
                   labelGirar={t.labelGirar}
                   labelVolver={t.labelVolver}
                 />
-              </RevealDiv>
+              </div>
             ))}
           </div>
         </div>
@@ -1127,7 +1127,7 @@ export default function IaPymes() {
             </div>
             <p className="mt-4 text-white/30 text-xs text-center">Ejemplos de consultas · Haz clic para preguntar</p>
           </div>
-          </RevealDiv>
+          </div>
           <div className="text-center">
             <button
               onClick={() => abrirAgente("NOVA")}
