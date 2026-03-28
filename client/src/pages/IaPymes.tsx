@@ -421,9 +421,7 @@ const casosUsoByLocale: Record<string, CasoUso[]> = {
 };
 
 // ─── Logos reales herramientas ────────────────────────────────────────────────
-type ToolConfig = { url?: string; renderIcon?: () => React.ReactNode; bg: string; border: string };
-
-const toolLogos: Record<string, ToolConfig> = {
+const toolLogos: Record<string, { url: string; bg: string; border: string }> = {
   Gmail:      { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
   Email:      { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", bg: "rgba(234,67,53,0.15)", border: "rgba(234,67,53,0.4)" },
   Sheets:     { url: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Google_Sheets_2020_Logo.svg", bg: "rgba(52,168,83,0.15)", border: "rgba(52,168,83,0.4)" },
@@ -431,28 +429,11 @@ const toolLogos: Record<string, ToolConfig> = {
   Calendar:   { url: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
   WhatsApp:   { url: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", bg: "rgba(37,211,102,0.15)", border: "rgba(37,211,102,0.4)" },
   Notion:     { url: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.2)" },
-  Slack:      { renderIcon: () => (
-    <svg viewBox="0 0 127 127" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M27.2 80c0 7.3-5.9 13.2-13.2 13.2C6.7 93.2.8 87.3.8 80c0-7.3 5.9-13.2 13.2-13.2h13.2V80z" fill="white" fillOpacity=".9"/>
-      <path d="M33.7 80c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2v33c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V80z" fill="white" fillOpacity=".9"/>
-      <path d="M46.9 27.2c-7.3 0-13.2-5.9-13.2-13.2C33.7 6.7 39.6.8 46.9.8c7.3 0 13.2 5.9 13.2 13.2v13.2H46.9z" fill="white" fillOpacity=".7"/>
-      <path d="M46.9 33.7c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H13.9C6.6 60.1.7 54.2.7 46.9c0-7.3 5.9-13.2 13.2-13.2h33z" fill="white" fillOpacity=".7"/>
-      <path d="M99.8 46.9c0-7.3 5.9-13.2 13.2-13.2 7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2H99.8V46.9z" fill="#36C5F0"/>
-      <path d="M93.3 46.9c0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V13.9C66.9 6.6 72.8.7 80.1.7c7.3 0 13.2 5.9 13.2 13.2v33z" fill="#36C5F0"/>
-      <path d="M80.1 99.8c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2-7.3 0-13.2-5.9-13.2-13.2V99.8h13.2z" fill="#2EB67D"/>
-      <path d="M80.1 93.3c-7.3 0-13.2-5.9-13.2-13.2 0-7.3 5.9-13.2 13.2-13.2h33c7.3 0 13.2 5.9 13.2 13.2 0 7.3-5.9 13.2-13.2 13.2h-33z" fill="#2EB67D"/>
-    </svg>
-  ), bg: "rgba(54,197,240,0.12)", border: "rgba(54,197,240,0.35)" },
-  HubSpot:    { renderIcon: () => (
-    <svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M331.7 212.9V156c17.9-7.4 30.5-25 30.5-45.6V109c0-27.3-22.1-49.5-49.5-49.5h-1.4c-27.3 0-49.5 22.1-49.5 49.5v1.4c0 20.6 12.6 38.3 30.5 45.6v56.9c-26.6 4.2-50.4 16.4-69.1 34.4L90.8 133.9a56.4 56.4 0 0 0 1.3-12.1C92.1 87.2 64.9 60 31.3 60S-29.5 87.2-29.5 120.8s27.2 60.8 60.8 60.8c11.3 0 21.9-3.1 30.9-8.5l131.3 112c-9 19.4-14 41-14 63.9 0 23.7 5.4 46.1 15 66.1l-39.8 39.8c-3.4-1.1-6.9-1.7-10.6-1.7-20.1 0-36.4 16.3-36.4 36.4S124.2 525 144.3 525s36.4-16.3 36.4-36.4c0-3.7-.6-7.2-1.7-10.6l39.3-39.3c21.3 13.7 46.6 21.7 73.8 21.7 75.4 0 136.7-61.2 136.7-136.7-.1-64.7-44.9-119-105.1-131.8zm-20.5 204c-40.9 0-74.1-33.2-74.1-74.1s33.2-74.1 74.1-74.1 74.1 33.2 74.1 74.1-33.2 74.1-74.1 74.1z" fill="white" fillOpacity=".9"/>
-    </svg>
-  ), bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
+  Slack:      { url: "https://cdn.simpleicons.org/slack/white", bg: "rgba(54,197,240,0.12)", border: "rgba(54,197,240,0.35)" },
+  HubSpot:    { url: "https://cdn.simpleicons.org/hubspot/white", bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
   Formulario: { url: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Google_Forms_office_logo.svg", bg: "rgba(123,104,238,0.15)", border: "rgba(123,104,238,0.4)" },
   PDF:        { url: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg", bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.4)" },
-  Sage:       { renderIcon: () => (
-    <span style={{ color: "white", fontWeight: 700, fontSize: 13, letterSpacing: "-0.5px", opacity: 0.9, fontFamily: "Arial, sans-serif" }}>sage</span>
-  ), bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
+  Sage:       { url: "https://cdn.simpleicons.org/sage/white", bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
   IA:         { url: "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo/logo_xpertauth_icon_v1.png", bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.4)" },
 };
 
@@ -500,22 +481,20 @@ function FlowArrow({ delay = 0 }: { delay?: number }) {
 }
 
 function ToolIcon({ nombre }: { nombre: string }) {
-  const cfg = toolLogos[nombre] ?? { bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.15)" };
+  const cfg = toolLogos[nombre] ?? { url: "", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.15)" };
   return (
     <div className="relative group flex-shrink-0">
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center"
         style={{ background: cfg.bg, border: "1px solid " + cfg.border }}
       >
-        {cfg.renderIcon ? (
-          cfg.renderIcon()
-        ) : cfg.url ? (
+        {cfg.url ? (
           <img src={cfg.url} alt={nombre} className="w-5 h-5 object-contain" />
         ) : (
-          // Fallback genérico
+          // IA: icono SVG custom
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-            <circle cx="12" cy="12" r="4" fill="white" fillOpacity=".3" stroke="white" strokeWidth="1.4"/>
-            <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="white" strokeWidth="1.4" strokeLinecap="round"/>
+            <circle cx="12" cy="12" r="4" fill="#8B5CF6" fillOpacity=".3" stroke="#8B5CF6" strokeWidth="1.4"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#8B5CF6" strokeWidth="1.4" strokeLinecap="round"/>
             <circle cx="12" cy="12" r="1.5" fill="#8B5CF6"/>
           </svg>
         )}
