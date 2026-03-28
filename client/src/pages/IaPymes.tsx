@@ -451,9 +451,7 @@ const toolLogos: Record<string, ToolConfig> = {
   Formulario: { url: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Google_Forms_office_logo.svg", bg: "rgba(123,104,238,0.15)", border: "rgba(123,104,238,0.4)" },
   PDF:        { url: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg", bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.4)" },
   Sage:       { renderIcon: () => (
-    <svg viewBox="0 0 100 40" width="44" height="18" xmlns="http://www.w3.org/2000/svg">
-      <text x="2" y="30" fontFamily="Arial, sans-serif" fontWeight="bold" fontSize="30" fill="white" fillOpacity=".9">sage</text>
-    </svg>
+    <span style={{ color: "white", fontWeight: 700, fontSize: 13, letterSpacing: "-0.5px", opacity: 0.9, fontFamily: "Arial, sans-serif" }}>sage</span>
   ), bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
   IA:         { url: "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo/logo_xpertauth_icon_v1.png", bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.4)" },
 };
