@@ -1080,14 +1080,14 @@ export default function IaPymes() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {(casosUsoByLocale[locale] || casosUsoByLocale.es).map((caso, i) => (
-              <RevealDiv key={i} delay={i * 60}>
+              <div key={i}>
                 <CasoFlipCard
                   caso={caso}
                   labelTransporte={t.labelTransporte}
                   labelGirar={t.labelGirar}
                   labelVolver={t.labelVolver}
                 />
-              </RevealDiv>
+              </div>
             ))}
           </div>
         </div>
