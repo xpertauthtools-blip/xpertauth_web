@@ -429,12 +429,15 @@ const toolLogos: Record<string, { url: string; bg: string; border: string }> = {
   Calendar:   { url: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg", bg: "rgba(66,133,244,0.12)", border: "rgba(66,133,244,0.35)" },
   WhatsApp:   { url: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", bg: "rgba(37,211,102,0.15)", border: "rgba(37,211,102,0.4)" },
   Notion:     { url: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", bg: "rgba(255,255,255,0.07)", border: "rgba(255,255,255,0.2)" },
-  Slack:      { url: "https://cdn.simpleicons.org/slack/white", bg: "rgba(54,197,240,0.12)", border: "rgba(54,197,240,0.35)" },
-  HubSpot:    { url: "https://cdn.simpleicons.org/hubspot/white", bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
+  Slack:      { url: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg", bg: "rgba(74,21,75,0.2)", border: "rgba(54,197,240,0.35)" },
+  HubSpot:    { url: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg", bg: "rgba(255,107,53,0.15)", border: "rgba(255,107,53,0.4)" },
   Formulario: { url: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Google_Forms_office_logo.svg", bg: "rgba(123,104,238,0.15)", border: "rgba(123,104,238,0.4)" },
   PDF:        { url: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg", bg: "rgba(247,37,133,0.15)", border: "rgba(247,37,133,0.4)" },
-  Sage:       { url: "https://cdn.simpleicons.org/sage/white", bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
-  IA:         { url: "https://dcuvptwwtdhlepvcttvx.supabase.co/storage/v1/object/public/web-images/logo/logo_xpertauth_icon_v1.png", bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.4)" },
+  Sage:       { url: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Sage_Group_logo.svg", bg: "rgba(0,180,100,0.15)", border: "rgba(0,180,100,0.4)" },
+  IA: {
+    url: "",
+    bg: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.4)",
+  },
 };
 
 // ─── Flecha animada con pulso de flujo ───────────────────────────────────────
