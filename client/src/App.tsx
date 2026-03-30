@@ -21,6 +21,9 @@ import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import Newsletter from "@/pages/Newsletter";
 import NewsletterPost from "@/pages/NewsletterPost";
+import PoliticaPrivacidad from "@/pages/PoliticaPrivacidad";
+import AvisoLegal from "@/pages/AvisoLegal";
+import PoliticaCookies from "@/pages/PoliticaCookies";
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
 
@@ -72,6 +75,9 @@ function Router() {
       <Route path="/:locale/blog" component={Blog} />
       <Route path="/:locale/newsletter/:concept_id" component={NewsletterPost} />
       <Route path="/:locale/newsletter" component={Newsletter} />
+      <Route path="/:locale/politica-de-privacidad" component={PoliticaPrivacidad} />
+      <Route path="/:locale/aviso-legal" component={AvisoLegal} />
+      <Route path="/:locale/cookies" component={PoliticaCookies} />
       <Route path="/:locale" component={Home} />
       <Route path="/">
         <Redirect to="/es" />
