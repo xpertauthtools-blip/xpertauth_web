@@ -159,15 +159,15 @@ export default function Footer() {
         {/* Barra inferior */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center gap-4 text-white/30 text-xs">
-            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-privacy">
+            <a href={"/" + locale + "/politica-de-privacidad"} className="hover:text-white/60 transition-colors" data-testid="link-privacy">
               {m.privacy}
             </a>
             <span>|</span>
-            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-legal">
+            <a href={"/" + locale + "/aviso-legal"} className="hover:text-white/60 transition-colors" data-testid="link-legal">
               {m.legal}
             </a>
             <span>|</span>
-            <a href="#" className="hover:text-white/60 transition-colors" data-testid="link-cookies">
+            <a href={"/" + locale + "/cookies"} className="hover:text-white/60 transition-colors" data-testid="link-cookies">
               {m.cookies}
             </a>
           </div>
