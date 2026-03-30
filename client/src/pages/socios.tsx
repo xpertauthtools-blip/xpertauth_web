@@ -372,11 +372,11 @@ export default function Socios() {
                   />
                   <label htmlFor="acepta_privacidad" className="text-xs text-white/50 leading-relaxed">
                     {t("formPrivacy")}{" "}
-                    <a href={`/${locale}/privacidad`} className="text-arctic underline underline-offset-2">
+                    <a href={`/${locale}/politica-de-privacidad`} className="text-arctic underline underline-offset-2">
                       {t("formPrivacyLink")}
                     </a>{" "}
                     {t("formPrivacyAnd")}{" "}
-                    <a href={`/${locale}/terminos`} className="text-arctic underline underline-offset-2">
+                    <a href={`/${locale}/aviso-legal`} className="text-arctic underline underline-offset-2">
                       {t("formTermsLink")}
                     </a>{" "}
                     {t("formPrivacyRequired")}
