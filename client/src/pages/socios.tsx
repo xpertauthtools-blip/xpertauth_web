@@ -174,7 +174,7 @@ export default function Socios() {
               )}
 
               <div className="mb-6">
-                <p className={`text-sm font-bold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
+                <p className={`text-base font-bold text-white mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
               <p className={`text-sm mt-3 ${plan.id === "individual" ? "text-white/80" : "text-white/50"}`}>
