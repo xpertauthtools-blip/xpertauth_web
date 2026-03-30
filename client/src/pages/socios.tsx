@@ -177,13 +177,6 @@ export default function Socios() {
                 <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
-                <p className="font-heading text-3xl font-bold text-pure">
-                  {plan.precio}
-                </p>
-                {plan.precioAnual && (
-                  <p className="text-white/60 text-sm mt-1">{t("orAnual")} {plan.precioAnual}</p>
-                )}
-                <p className={`text-sm mt-3 ${plan.id === "individual" ? "text-white/80" : "text-white/50"}`}>
                   {plan.desc}
                 </p>
               </div>
@@ -216,7 +209,12 @@ export default function Socios() {
         </div>
       </section>
 
-      {/* Distribución de la cuota */}
+      {/* Nota precios orientativos */}
+        <div className="max-w-3xl mx-auto mt-8 text-center">
+          <p className="text-white/30 text-xs leading-relaxed">{m?.pricingNote}</p>
+        </div>
+
+        {/* Distribución de la cuota */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-8">{t("quotaTitle")}</p>
@@ -275,7 +273,7 @@ export default function Socios() {
                   >
                     {PLANES.map((plan: any) => (
                       <option key={plan.id} value={plan.id}>
-                        {plan.nombre} — {plan.precio}
+                        {plan.nombre}
                       </option>
                     ))}
                   </select>
