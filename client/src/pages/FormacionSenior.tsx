@@ -1304,29 +1304,30 @@ export default function FormacionSenior() {
             <SeniorForm t={t} />
           </RevealDiv>
           <RevealDiv delay={180}>
-            <button
-              onClick={() => setContactOpen(true)}
-              style={{
-                marginTop: 16,
-                padding: "0", background: "none", border: "none",
-                color: "rgba(255,255,255,0.4)", fontSize: 14,
-                cursor: "pointer", textDecoration: "underline",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.7)"}
-              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"}
-            >
-              {t.ctaBtnSecondary}
-            </button>
-            <a
-              href="https://calendar.app.google/q54rranYyoyCfcu77"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-7 py-3 border border-[#E8620A]/40 text-[#E8620A] font-semibold rounded-lg transition-all duration-200 hover:bg-[#E8620A]/10 hover:border-[#E8620A]/60"
-            >
-              <Calendar className="w-4 h-4" />
-              Reserva tu cita
-            </a>
+            <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 20 }}>
+              <button
+                onClick={() => setContactOpen(true)}
+                style={{
+                  padding: "0", background: "none", border: "none",
+                  color: "rgba(255,255,255,0.4)", fontSize: 14,
+                  cursor: "pointer", textDecoration: "underline",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.7)"}
+                onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"}
+              >
+                {t.ctaBtnSecondary}
+              </button>
+              <a
+                href="https://calendar.app.google/q54rranYyoyCfcu77"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3 border border-[#E8620A]/40 text-[#E8620A] font-semibold rounded-lg transition-all duration-200 hover:bg-[#E8620A]/10 hover:border-[#E8620A]/60"
+              >
+                <Calendar className="w-4 h-4" />
+                Reserva tu cita
+              </a>
+            </div>
           </RevealDiv>
         </div>
       </section>
