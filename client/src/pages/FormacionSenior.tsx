@@ -1321,28 +1321,10 @@ export default function FormacionSenior() {
               href="https://calendar.app.google/q54rranYyoyCfcu77"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                marginTop: 16,
-                display: "inline-block",
-                padding: "12px 28px",
-                border: "1px solid rgba(232,98,10,0.4)",
-                borderRadius: 8,
-                color: "#E8620A",
-                fontSize: 14,
-                fontWeight: 600,
-                textDecoration: "none",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = "rgba(232,98,10,0.1)";
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(232,98,10,0.6)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = "none";
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(232,98,10,0.4)";
-              }}
+              className="inline-flex items-center gap-2 mt-4 px-7 py-3 border border-[#E8620A]/40 text-[#E8620A] font-semibold rounded-lg transition-all duration-200 hover:bg-[#E8620A]/10 hover:border-[#E8620A]/60"
             >
-              📅 {t.ctaAgendar}
+              <Calendar className="w-4 h-4" />
+              Reserva tu cita
             </a>
           </RevealDiv>
         </div>
