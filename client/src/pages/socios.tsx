@@ -174,7 +174,7 @@ export default function Socios() {
               )}
 
               <div className="mb-6">
-                <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
+                <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
               <p className={`text-sm mt-3 ${plan.id === "individual" ? "text-white/80" : "text-white/50"}`}>
@@ -212,7 +212,7 @@ export default function Socios() {
 
       {/* Nota precios orientativos */}
         <div className="max-w-3xl mx-auto mt-8 text-center">
-          <p className="text-white/30 text-xs leading-relaxed">{m?.pricingNote}</p>
+          <p className="text-white/50 text-xs leading-relaxed">{m?.pricingNote}</p>
         </div>
 
         {/* Distribución de la cuota */}
