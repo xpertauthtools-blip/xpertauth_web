@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 import { useAgent } from "@/App";
+import { Calendar } from "lucide-react";
 
 const gradientStyle: React.CSSProperties = {
   background: "linear-gradient(135deg,#ffffff 0%,#4D9FEC 40%,#1B4FD8 70%,#ffffff 100%)",
