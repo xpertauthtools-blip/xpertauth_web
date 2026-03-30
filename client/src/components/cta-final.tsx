@@ -59,6 +59,15 @@ export default function CtaFinal() {
             >
               {t("cta2")}
             </button>
+
+            <a
+              href="https://calendar.app.google/q54rranYyoyCfcu77"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 border border-arctic/40 text-arctic font-medium rounded-md text-sm sm:text-base transition-all duration-300 w-full sm:w-auto text-center hover:bg-arctic/10 hover:border-arctic/60"
+            >
+              📅 {t("ctaAgendar") || "Agendar cita gratuita"}
+            </a>
           </div>
         </motion.div>
       </div>
