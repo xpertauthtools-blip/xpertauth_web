@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 import { useAgent } from "@/App";
 import { useI18n } from "@/i18n/context";
-import { ArrowRight, ExternalLink, FileCheck, Map, MessageSquare, ShieldCheck, BookOpen } from "lucide-react";
+import { ArrowRight, ExternalLink, FileCheck, Map, MessageSquare, ShieldCheck, BookOpen, Calendar } from "lucide-react";
 
 // ─── Paleta ───────────────────────────────────────────────────────────────────
 const gradientStyle: React.CSSProperties = {
@@ -485,6 +485,15 @@ export default function TransporteEspecial() {
             >
               {t.ctaContacta}
             </button>
+            <a
+              href="https://calendar.app.google/q54rranYyoyCfcu77"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3.5 border border-[#4D9FEC]/40 text-[#4D9FEC] font-semibold rounded-lg transition-all duration-200 hover:bg-[#4D9FEC]/10 hover:border-[#4D9FEC]/60 flex items-center gap-2"
+            >
+              <Calendar className="w-4 h-4" />
+              Reserva tu cita
+            </a>
           </div>
         </div>
       </section>
