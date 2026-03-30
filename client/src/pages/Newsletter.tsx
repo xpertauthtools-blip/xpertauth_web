@@ -12,7 +12,7 @@ interface Entrega {
   concept_id: string;
   volume: number;
   image_url: string | null;
-  published_at: string;
+  scheduled_at: string;
 }
 
 const texts: Record<string, {
@@ -160,9 +160,9 @@ export default function Newsletter() {
       const url =
         SUPABASE_URL +
         "/rest/v1/post_newsletter" +
-        "?select=id,title,concept_id,volume,image_url,published_at" +
-        "&published_at=lte." + now +
-        "&order=published_at.desc" +
+        "?select=id,title,concept_id,volume,image_url,scheduled_at" +
+        "&scheduled_at=lte." + encodeURIComponent(now) +
+        "&order=scheduled_at.desc" +
         "&limit=1000";
 
       try {
@@ -295,7 +295,7 @@ export default function Newsletter() {
                       </div>
                       <div className="flex items-center justify-between mt-5">
                         <span className="text-xs text-white/30">
-                          📅 {formatDate(item.published_at, locale)}
+                          📅 {formatDate(item.scheduled_at, locale)}
                         </span>
                         <span className="text-[#E8620A] text-sm font-medium">
                           {t.readMore}
