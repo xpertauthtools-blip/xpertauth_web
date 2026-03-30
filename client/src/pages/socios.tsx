@@ -177,8 +177,9 @@ export default function Socios() {
                 <p className={`text-xs font-semibold uppercase tracking-widest mb-2 ${plan.id === "individual" ? "text-white/70" : "text-white/40"}`}>
                   {plan.nombre}
                 </p>
-                  {plan.desc}
-                </p>
+              <p className={`text-sm mt-3 ${plan.id === "individual" ? "text-white/80" : "text-white/50"}`}>
+                {plan.desc}
+              </p>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
