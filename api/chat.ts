@@ -30,7 +30,7 @@ const COSTE_CREDITOS: Record<string, number> = {
 // ─── Créditos iniciales por plan ─────────────────────────────────────────────
 
 const CREDITOS_POR_PLAN: Record<string, number> = {
-  gratuito:    50,
+  gratuito:    100,
   socio:       1000,
   corporativo: -1,   // -1 = ilimitado
 };
@@ -408,7 +408,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (creditosInsuficientes) {
       return res.status(402).json({
         error: "creditos_insuficientes",
-        mensaje: "Has agotado tus créditos disponibles. Hazte socio de XpertAuth para seguir consultando sin límites.",
+        mensaje: "Has agotado tus créditos disponibles. XpertAuth está en proceso de constitución — regístrate en nuestra lista de espera para obtener más consultas.",
       });
     }
 
