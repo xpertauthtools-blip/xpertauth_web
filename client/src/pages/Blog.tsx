@@ -4,8 +4,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 
-const SUPABASE_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjdXZwdHd3dGRobGVwdmN0dHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA2NjMwMTUsImV4cCI6MjA1NjIzOTAxNX0.ouJCUkOW7ouvBHNs3bDMvHHAFrjLiD82fAGCBPHWFuY";
 const PAGE_SIZE = 10;
 
 interface Post {
@@ -156,14 +154,16 @@ export default function Blog() {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
       const now = new Date().toISOString();
-      // Traemos todos los publicados de una vez (máx 1000) para paginar en frontend
+
       const url =
         SUPABASE_URL +
         "/rest/v1/posts" +
         "?select=id,title,slug,excerpt,image_url,author,published_at" +
         "&is_published=eq.true" +
-        "&published_at=lte." + encodeURIComponent(now) +
+        "&published_at=lte." + now +
         "&order=published_at.desc" +
         "&limit=1000";
 
@@ -188,6 +188,8 @@ export default function Blog() {
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) return;
     setSubLoading(true);
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
     try {
       const res = await fetch(SUPABASE_URL + "/rest/v1/suscriptores", {
         method: "POST",
