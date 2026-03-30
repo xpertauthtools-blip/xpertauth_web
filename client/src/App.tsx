@@ -19,6 +19,8 @@ import IaPymes from "@/pages/IaPymes";
 import FormacionSenior from "@/pages/FormacionSenior";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
+import Newsletter from "@/pages/Newsletter";
+import NewsletterPost from "@/pages/NewsletterPost";
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
 
@@ -68,6 +70,8 @@ function Router() {
       <Route path="/:locale/socios" component={Socios} />
       <Route path="/:locale/blog/:slug" component={BlogPost} />
       <Route path="/:locale/blog" component={Blog} />
+      <Route path="/:locale/newsletter/:concept_id" component={NewsletterPost} />
+      <Route path="/:locale/newsletter" component={Newsletter} />
       <Route path="/:locale" component={Home} />
       <Route path="/">
         <Redirect to="/es" />
