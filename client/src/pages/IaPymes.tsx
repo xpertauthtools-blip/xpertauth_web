@@ -1159,6 +1159,14 @@ export default function IaPymes() {
             >
               {t.ctaContacto}
             </button>
+            <a
+              href="https://calendar.app.google/q54rranYyoyCfcu77"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3.5 border border-[#4D9FEC]/40 text-[#4D9FEC] font-semibold rounded-lg transition-all duration-200 hover:bg-[#4D9FEC]/10 hover:border-[#4D9FEC]/60"
+            >
+              📅 {t.ctaAgendar}
+            </a>
           </div>
         </div>
       </section>
