@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
+import { Calendar } from "lucide-react";
 
 // ─── Gradient style (same pattern as IaPymes) ────────────────────────────────
 const emberGradientStyle: React.CSSProperties = {
