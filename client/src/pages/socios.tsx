@@ -125,6 +125,25 @@ export default function Socios() {
         </div>
       </section>
 
+      {/* Banner — Asociación en proceso de constitución */}
+      <section className="pb-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="rounded-2xl border border-[#4D9FEC]/30 bg-[#4D9FEC]/5 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="text-3xl flex-shrink-0">🚧</div>
+            <div>
+              <p className="text-white font-bold text-base mb-1">
+                XpertAuth está en proceso de constitución
+              </p>
+              <p className="text-white/60 text-sm leading-relaxed">
+                Todavía no podemos admitir socios formalmente, pero puedes registrar tu interés ahora.
+                Cuando la asociación esté constituida, serás el primero en saberlo — y el primero en poder hacerte socio.
+                Además, al registrarte hoy accedes a más consultas gratuitas con nuestros agentes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Planes */}
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -190,7 +209,7 @@ export default function Socios() {
                     : "bg-white/10 text-pure hover:bg-white/20 border border-white/10"
                 }`}
               >
-                {plan.cta}
+                Apuntarme a la lista de espera
               </button>
             </motion.div>
           ))}
