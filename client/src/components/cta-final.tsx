@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { useTranslations } from "@/i18n/context";
 import { useLocation } from "wouter";
 import ContactModal from "./ContactModal";
@@ -64,9 +64,10 @@ export default function CtaFinal() {
               href="https://calendar.app.google/q54rranYyoyCfcu77"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 border border-arctic/40 text-arctic font-medium rounded-md text-sm sm:text-base transition-all duration-300 w-full sm:w-auto text-center hover:bg-arctic/10 hover:border-arctic/60"
+              className="px-8 py-4 border border-arctic/40 text-arctic font-medium rounded-md text-sm sm:text-base transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-2 hover:bg-arctic/10 hover:border-arctic/60"
             >
-              📅 {t("ctaAgendar") || "Agendar cita gratuita"}
+              <Calendar className="w-4 h-4" />
+              Reserva tu cita
             </a>
           </div>
         </motion.div>
