@@ -66,10 +66,10 @@ function Router() {
       <Route path="/:locale/servicios/transporte-especial" component={TransporteEspecial} />
       <Route path="/:locale/sobre-nosotros" component={SobreNosotros} />
       <Route path="/:locale/socios" component={Socios} />
+      <Route path="/:locale/blog/:slug" component={BlogPost} />
+      <Route path="/:locale/blog" component={Blog} />
       <Route path="/:locale" component={Home} />
       <Route path="/">
-      <Route path="/:locale/blog" component={Blog} />
-      <Route path="/:locale/blog/:slug" component={BlogPost} />  
         <Redirect to="/es" />
       </Route>
       <Route component={NotFound} />
