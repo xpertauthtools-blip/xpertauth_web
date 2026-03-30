@@ -35,7 +35,7 @@ async function fetchNewsletters() {
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
   const now = new Date().toISOString();
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,scheduled_at&scheduled_at=lte.${now}&order=scheduled_at.desc&limit=2`,
+    `${SUPABASE_URL}/rest/v1/post_newsletter?select=id,volume,title,content,scheduled_at,concept_id&scheduled_at=lte.${now}&order=scheduled_at.desc&limit=2`,
     {
       headers: {
         apikey: key,
@@ -329,13 +329,14 @@ export default function BlogNewsletter() {
                 <p className="text-white/50 text-sm">Próximamente las primeras entregas.</p>
               ) : (
                 newsletters.map((nl, i) => (
-                  <motion.div
+                  <motion.a
                     key={nl.id}
+                    href={`/es/newsletter/${nl.concept_id}`}
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="group p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-ember/30 transition-all duration-300"
+                    className="group p-5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-ember/30 transition-all duration-300 block cursor-pointer"
                     data-testid={`card-newsletter-${i}`}
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -358,7 +359,7 @@ export default function BlogNewsletter() {
                         <ArrowRight className="w-5 h-5 text-white/30 transition-all group-hover:text-ember group-hover:translate-x-1" />
                       </div>
                     </div>
-                  </motion.div>
+                  </motion.a>
                 ))
               )}
             </div>
