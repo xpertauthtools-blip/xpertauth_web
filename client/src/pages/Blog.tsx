@@ -133,8 +133,7 @@ export default function Blog() {
   const locale = params.locale && texts[params.locale] ? params.locale : "es";
   const t = texts[locale];
 
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
@@ -142,7 +141,8 @@ export default function Blog() {
   const [subLoading, setSubLoading] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const totalPages = Math.ceil(allPosts.length / PAGE_SIZE);
+  const paginatedPosts = allPosts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const gradientStyle: React.CSSProperties = {
     background: "linear-gradient(90deg, #ffffff 0%, #4D9FEC 50%, #1B4FD8 100%)",
@@ -157,43 +157,33 @@ export default function Blog() {
     const fetchPosts = async () => {
       setLoading(true);
       const now = new Date().toISOString();
-      const from = (currentPage - 1) * PAGE_SIZE;
-      const to = from + PAGE_SIZE - 1;
-
+      // Traemos todos los publicados de una vez (máx 1000) para paginar en frontend
       const url =
         SUPABASE_URL +
-        "/rest/v1/posts?select=id,title,slug,excerpt,image_url,author,published_at" +
+        "/rest/v1/posts" +
+        "?select=id,title,slug,excerpt,image_url,author,published_at" +
         "&is_published=eq.true" +
-        "&published_at=lte." + now +
+        "&published_at=lte." + encodeURIComponent(now) +
         "&order=published_at.desc" +
-        "&offset=" + from +
-        "&limit=" + PAGE_SIZE;
+        "&limit=1000";
 
       try {
         const res = await fetch(url, {
           headers: {
             apikey: SUPABASE_ANON_KEY,
             Authorization: "Bearer " + SUPABASE_ANON_KEY,
-            "Range-Unit": "items",
-            Range: from + "-" + to,
-            Prefer: "count=exact",
           },
         });
-        const contentRange = res.headers.get("content-range");
-        if (contentRange) {
-          const total = parseInt(contentRange.split("/")[1], 10);
-          if (!isNaN(total)) setTotalCount(total);
-        }
         const data = await res.json();
-        setPosts(Array.isArray(data) ? data : []);
+        setAllPosts(Array.isArray(data) ? data : []);
       } catch {
-        setPosts([]);
+        setAllPosts([]);
       } finally {
         setLoading(false);
       }
     };
     fetchPosts();
-  }, [currentPage]);
+  }, []);
 
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) return;
@@ -245,7 +235,7 @@ export default function Blog() {
         .post-card:hover {
           transform: translateY(-3px);
           box-shadow: 0 8px 32px rgba(77,159,236,0.12);
-          border-color: rgba(77,159,236,0.4);
+          border-color: rgba(77,159,236,0.4) !important;
         }
       `}</style>
 
@@ -266,20 +256,20 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* LISTADO DE POSTS */}
+      {/* LISTADO */}
       <section className="py-12 px-6 bg-[#0A0E1A]">
         <div className="max-w-4xl mx-auto">
           {loading ? (
             <p className="text-center text-white/40 py-20">{t.loading}</p>
-          ) : posts.length === 0 ? (
+          ) : paginatedPosts.length === 0 ? (
             <p className="text-center text-white/40 py-20">{t.noPosts}</p>
           ) : (
             <div className="space-y-5">
-              {posts.map((post, i) => (
+              {paginatedPosts.map((post, i) => (
                 <article
                   key={post.id}
-                  className="post-card bg-[#0F1628] border border-white/10 rounded-xl overflow-hidden cursor-pointer fade-up"
-                  style={{ animationDelay: (i * 0.06) + "s", opacity: 0 }}
+                  className="post-card bg-[#0F1628] border border-white/10 rounded-xl overflow-hidden cursor-pointer"
+                  style={{ animationDelay: (i * 0.06) + "s" }}
                   onClick={() => goToPost(post.slug)}
                 >
                   <div className="flex flex-col md:flex-row">
@@ -347,11 +337,8 @@ export default function Blog() {
       {/* SUSCRIPCIÓN */}
       <section className="py-16 px-6 bg-[#070A12]">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-white mb-3">
-            {t.subscribeTitle}
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-3">{t.subscribeTitle}</h2>
           <p className="text-white/50 text-sm mb-8">{t.subscribeSubtitle}</p>
-
           {subStatus === "ok" ? (
             <p className="text-[#4D9FEC] font-medium">{t.successMsg}</p>
           ) : (
