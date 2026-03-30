@@ -23,6 +23,7 @@ const texts: Record<string, {
   heroSubtitle: string;
   ctaSocio: string;
   ctaContacta: string;
+  ctaAgendar: string;
   servicesLabel: string;
   servicesTitle: string;
   servicesSubtitle: string;
@@ -51,6 +52,7 @@ const texts: Record<string, {
     heroSubtitle: "Consultas normativas DGT y SCT. Asesoría en permisos AE, AEG y AET. Apoyo en la planificación de itinerarios. Sin sorpresas legales.",
     ctaSocio: "Hazte socio",
     ctaContacta: "Contacta con nosotros",
+    ctaAgendar: "Agendar cita gratuita",
     servicesLabel: "Lo que hacemos",
     servicesTitle: "Experiencia que se traduce en orientación real",
     servicesSubtitle: "No tramitamos ni planificamos por ti, pero sabemos exactamente cómo acompañarte en cada paso.",
@@ -90,6 +92,7 @@ const texts: Record<string, {
     heroSubtitle: "Consultes normatives DGT i SCT. Assessoria en permisos AE, AEG i AET. Suport en la planificació d'itineraris. Sense sorpreses legals.",
     ctaSocio: "Fes-te soci",
     ctaContacta: "Contacta amb nosaltres",
+    ctaAgendar: "Agenda una cita gratuïta",
     servicesLabel: "El que fem",
     servicesTitle: "Experiència que es tradueix en orientació real",
     servicesSubtitle: "No tramitem ni planifiquem per tu, però sabem exactament com acompanyar-te a cada pas.",
@@ -129,6 +132,7 @@ const texts: Record<string, {
     heroSubtitle: "DGT and SCT regulatory advice. Guidance on AE, AEG and AET permits. Support in route planning. No legal surprises.",
     ctaSocio: "Become a member",
     ctaContacta: "Contact us",
+    ctaAgendar: "Book a free call",
     servicesLabel: "What we do",
     servicesTitle: "Experience that translates into real guidance",
     servicesSubtitle: "We don't process or plan for you, but we know exactly how to guide you every step of the way.",
@@ -168,6 +172,7 @@ const texts: Record<string, {
     heroSubtitle: "Conseils réglementaires DGT et SCT. Accompagnement pour les permis AE, AEG et AET. Soutien à la planification des itinéraires. Sans mauvaises surprises légales.",
     ctaSocio: "Devenir membre",
     ctaContacta: "Nous contacter",
+    ctaAgendar: "Réserver un appel gratuit",
     servicesLabel: "Ce que nous faisons",
     servicesTitle: "Une expérience qui se traduit par un accompagnement réel",
     servicesSubtitle: "Nous ne traitons pas à votre place, mais nous savons exactement comment vous guider à chaque étape.",
