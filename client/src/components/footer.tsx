@@ -35,6 +35,7 @@ export default function Footer() {
   const schedule = [
     { day: m.scheduleMonday, hours: "16:00 – 18:30" },
     { day: m.scheduleTueWedFri, hours: "09:00 – 13:00 / 16:00 – 18:30" },
+  { day: m.scheduleFriday, hours: "09:00 – 13:00" },
   ];
 
   return (
