@@ -4,9 +4,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactModal from "@/components/ContactModal";
 
-const SUPABASE_URL = "https://dcuvptwwtdhlepvcttvx.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjdXZwdHd3dGRobGVwdmN0dHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA2NjMwMTUsImV4cCI6MjA1NjIzOTAxNX0.ouJCUkOW7ouvBHNs3bDMvHHAFrjLiD82fAGCBPHWFuY";
-
 interface Post {
   id: string;
   title: string;
@@ -113,26 +110,17 @@ function formatDate(dateStr: string, locale: string): string {
   }
 }
 
-// Renderiza el campo `content` de Supabase.
-// Si contiene HTML lo renderiza directamente; si es texto plano, divide por saltos de línea.
 function renderContent(content: string) {
   const isHtml = /<[a-z][\s\S]*>/i.test(content);
   if (isHtml) {
     return (
-      <div
-        className="prose-content"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      <div className="prose-content" dangerouslySetInnerHTML={{ __html: content }} />
     );
   }
   return (
     <div className="prose-content">
       {content.split("\n").map((paragraph, i) =>
-        paragraph.trim() ? (
-          <p key={i}>{paragraph}</p>
-        ) : (
-          <br key={i} />
-        )
+        paragraph.trim() ? <p key={i}>{paragraph}</p> : <br key={i} />
       )}
     </div>
   );
@@ -155,9 +143,13 @@ export default function BlogPost() {
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true);
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
       const url =
         SUPABASE_URL +
-        "/rest/v1/posts?select=id,title,slug,excerpt,content,image_url,author,published_at" +
+        "/rest/v1/posts" +
+        "?select=id,title,slug,excerpt,content,image_url,author,published_at" +
         "&slug=eq." + encodeURIComponent(slug) +
         "&is_published=eq.true" +
         "&limit=1";
@@ -187,6 +179,8 @@ export default function BlogPost() {
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) return;
     setSubLoading(true);
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
     try {
       const res = await fetch(SUPABASE_URL + "/rest/v1/suscriptores", {
         method: "POST",
@@ -207,10 +201,6 @@ export default function BlogPost() {
     }
   };
 
-  const goBack = () => {
-    window.location.href = "/" + locale + "/blog";
-  };
-
   return (
     <div className="min-h-screen bg-[#0A0E1A]">
       <style>{`
@@ -219,82 +209,19 @@ export default function BlogPost() {
           to   { opacity: 1; transform: translateY(0); }
         }
         .fade-up { animation: fadeUp 0.5s ease forwards; }
-
-        /* Estilos para el contenido del artículo */
-        .prose-content {
-          color: rgba(255,255,255,0.80);
-          font-size: 1.0625rem;
-          line-height: 1.85;
-          max-width: 100%;
-        }
-        .prose-content p {
-          margin-bottom: 1.4rem;
-        }
-        .prose-content h1,
-        .prose-content h2,
-        .prose-content h3,
-        .prose-content h4 {
-          color: #ffffff;
-          font-weight: 700;
-          margin-top: 2.5rem;
-          margin-bottom: 1rem;
-          line-height: 1.3;
-        }
-        .prose-content h2 { font-size: 1.5rem; }
-        .prose-content h3 { font-size: 1.25rem; }
-        .prose-content a {
-          color: #4D9FEC;
-          text-decoration: underline;
-          text-underline-offset: 3px;
-        }
-        .prose-content a:hover { color: #ffffff; }
-        .prose-content ul,
-        .prose-content ol {
-          padding-left: 1.5rem;
-          margin-bottom: 1.4rem;
-        }
-        .prose-content ul { list-style-type: disc; }
-        .prose-content ol { list-style-type: decimal; }
+        .prose-content { color: rgba(255,255,255,0.80); font-size: 1.0625rem; line-height: 1.85; }
+        .prose-content p { margin-bottom: 1.4rem; }
+        .prose-content h2 { color: #fff; font-weight: 700; font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+        .prose-content h3 { color: #fff; font-weight: 700; font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+        .prose-content a { color: #4D9FEC; text-decoration: underline; text-underline-offset: 3px; }
+        .prose-content a:hover { color: #fff; }
+        .prose-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.4rem; }
+        .prose-content ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.4rem; }
         .prose-content li { margin-bottom: 0.5rem; }
-        .prose-content blockquote {
-          border-left: 3px solid #4D9FEC;
-          padding-left: 1.25rem;
-          margin: 1.5rem 0;
-          color: rgba(255,255,255,0.55);
-          font-style: italic;
-        }
-        .prose-content code {
-          background: rgba(77,159,236,0.12);
-          color: #4D9FEC;
-          padding: 0.15rem 0.4rem;
-          border-radius: 4px;
-          font-size: 0.9em;
-          font-family: monospace;
-        }
-        .prose-content pre {
-          background: #070A12;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 8px;
-          padding: 1.25rem;
-          overflow-x: auto;
-          margin-bottom: 1.4rem;
-        }
-        .prose-content pre code {
-          background: none;
-          padding: 0;
-          color: rgba(255,255,255,0.75);
-        }
-        .prose-content img {
-          border-radius: 10px;
-          max-width: 100%;
-          margin: 1.5rem 0;
-        }
-        .prose-content strong { color: #ffffff; }
-        .prose-content hr {
-          border: none;
-          border-top: 1px solid rgba(255,255,255,0.08);
-          margin: 2rem 0;
-        }
+        .prose-content blockquote { border-left: 3px solid #4D9FEC; padding-left: 1.25rem; margin: 1.5rem 0; color: rgba(255,255,255,0.55); font-style: italic; }
+        .prose-content strong { color: #fff; }
+        .prose-content code { background: rgba(77,159,236,0.12); color: #4D9FEC; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        .prose-content img { border-radius: 10px; max-width: 100%; margin: 1.5rem 0; }
       `}</style>
 
       <Navbar />
@@ -302,7 +229,7 @@ export default function BlogPost() {
       <div className="pt-28 pb-6 px-6 bg-[#0A0E1A]">
         <div className="max-w-3xl mx-auto">
           <button
-            onClick={goBack}
+            onClick={() => { window.location.href = "/" + locale + "/blog"; }}
             className="text-sm text-white/40 hover:text-[#4D9FEC] transition-colors"
           >
             {t.backLabel}
@@ -316,7 +243,7 @@ export default function BlogPost() {
         <div className="text-center text-white/40 py-32">{t.notFound}</div>
       ) : (
         <>
-          {/* CABECERA DEL ARTÍCULO */}
+          {/* CABECERA */}
           <header className="px-6 pb-12 bg-[#0A0E1A]">
             <div className="max-w-3xl mx-auto fade-up">
               <span className="inline-block text-xs font-semibold tracking-widest text-[#4D9FEC] uppercase mb-5 border border-[#4D9FEC]/30 px-3 py-1 rounded-full">
@@ -325,27 +252,19 @@ export default function BlogPost() {
               <h1 className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight">
                 {post.title}
               </h1>
-              <p className="text-white/55 text-lg mb-6 leading-relaxed">
-                {post.excerpt}
-              </p>
+              <p className="text-white/55 text-lg mb-6 leading-relaxed">{post.excerpt}</p>
               <div className="flex items-center gap-3 text-sm text-white/30">
                 <span>📅 {formatDate(post.published_at, locale)}</span>
-                {post.author && (
-                  <span>· {t.by} {post.author}</span>
-                )}
+                {post.author && <span>· {t.by} {post.author}</span>}
               </div>
             </div>
           </header>
 
-          {/* IMAGEN DESTACADA */}
+          {/* IMAGEN */}
           {post.image_url && (
             <div className="px-6 pb-12 bg-[#0A0E1A]">
               <div className="max-w-3xl mx-auto">
-                <img
-                  src={post.image_url}
-                  alt={post.title}
-                  className="w-full rounded-xl object-cover max-h-96"
-                />
+                <img src={post.image_url} alt={post.title} className="w-full rounded-xl object-cover max-h-96" />
               </div>
             </div>
           )}
@@ -357,12 +276,7 @@ export default function BlogPost() {
             </div>
           </section>
 
-          {/* SEPARADOR */}
-          <div className="max-w-3xl mx-auto px-6">
-            <hr className="border-white/8" />
-          </div>
-
-          {/* CTA EQUIPO */}
+          {/* CTA */}
           <section className="py-14 px-6 bg-[#0A0E1A]">
             <div className="max-w-3xl mx-auto bg-[#0F1628] border border-[#1B4FD8]/30 rounded-xl p-8 text-center">
               <h3 className="text-xl font-bold text-white mb-2">{t.ctaTitle}</h3>
