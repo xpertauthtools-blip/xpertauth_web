@@ -349,8 +349,8 @@ export default function AgentChat({
     const texto = input.trim();
     if (!texto || cargando) return;
 
-    // Comprobar límite de mensajes por sesión (visitantes)
-    if (!esAutenticado && mensajesSesion >= LIMITE_MENSAJES_SESION) {
+    // Comprobar límite de mensajes por sesión (solo visitantes anónimos sin email)
+    if (!esAutenticado && !email && mensajesSesion >= LIMITE_MENSAJES_SESION) {
       setMensajes((prev) => [
         ...prev,
         {
@@ -415,7 +415,7 @@ export default function AgentChat({
         }
       }
 
-      if (!esAutenticado) {
+      if (!esAutenticado && !email) {
         setMensajesSesion((n) => n + 1);
       }
     } catch (err) {
