@@ -37,6 +37,7 @@ const texts: Record<string, {
   sctOpen: string;
   visorTitle: string; visorDesc: string;
   mctTitle: string; mctDesc: string;
+  restricTitle: string; restricDesc: string;
   lexLabel: string;
   lexTitle: string;
   lexDesc1: string;
@@ -73,6 +74,8 @@ const texts: Record<string, {
     visorDesc: "Consulta y planifica itinerarios de transporte especial en Catalunya. Verifica rutas, restricciones de paso y condiciones específicas por tramo.",
     mctTitle: "Mapa Continu de Trànsit",
     mctDesc: "Estado del tráfico en tiempo real en la red viaria de Catalunya. Incidencias, obras, restricciones activas y cámaras de tráfico.",
+    restricTitle: "Consulta de Restriccions SCT",
+    restricDesc: "Restricciones vigentes para el transporte especial en Catalunya: fechas, tramos, dimensiones máximas y condiciones específicas de circulación.",
     lexLabel: "Agente IA",
     lexTitle: "LEX — Tu experto normativo 24/7",
     lexDesc1: "LEX tiene acceso a más de 7.400 fragmentos de normativa de transporte especial: leyes marco, instrucciones DGT, resoluciones SCT, mercancías peligrosas y jornadas de conducción.",
@@ -113,6 +116,8 @@ const texts: Record<string, {
     visorDesc: "Consulta i planifica itineraris de transport especial a Catalunya. Verifica rutes, restriccions de pas i condicions específiques per tram.",
     mctTitle: "Mapa Continu de Trànsit",
     mctDesc: "Estat del trànsit en temps real a la xarxa viària de Catalunya. Incidències, obres, restriccions actives i càmeres de trànsit.",
+    restricTitle: "Consulta de Restriccions SCT",
+    restricDesc: "Restriccions vigents per al transport especial a Catalunya: dates, trams, dimensions màximes i condicions específiques de circulació.",
     lexLabel: "Agent IA",
     lexTitle: "LEX — El teu expert normatiu 24/7",
     lexDesc1: "LEX té accés a més de 7.400 fragments de normativa de transport especial: lleis marc, instruccions DGT, resolucions SCT, mercaderies perilloses i jornades de conducció.",
@@ -153,6 +158,8 @@ const texts: Record<string, {
     visorDesc: "Check and plan special transport itineraries in Catalunya. Verify routes, passage restrictions and specific conditions by section.",
     mctTitle: "Continuous Traffic Map",
     mctDesc: "Real-time traffic conditions on Catalunya's road network. Incidents, roadworks, active restrictions and traffic cameras.",
+    restricTitle: "SCT Traffic Restrictions",
+    restricDesc: "Current restrictions for special transport in Catalunya: dates, road sections, maximum dimensions and specific circulation conditions.",
     lexLabel: "AI Agent",
     lexTitle: "LEX — Your regulatory expert 24/7",
     lexDesc1: "LEX has access to over 7,400 fragments of special transport regulations: framework laws, DGT instructions, SCT resolutions, dangerous goods and driving hours.",
@@ -193,6 +200,8 @@ const texts: Record<string, {
     visorDesc: "Consultez et planifiez des itinéraires de transport spécial en Catalogne. Vérifiez les routes, les restrictions de passage et les conditions spécifiques par tronçon.",
     mctTitle: "Carte Continue de Trafic",
     mctDesc: "État du trafic en temps réel sur le réseau routier de Catalogne. Incidents, travaux, restrictions actives et caméras de trafic.",
+    restricTitle: "Consultation des Restrictions SCT",
+    restricDesc: "Restrictions en vigueur pour le transport spécial en Catalogne : dates, tronçons, dimensions maximales et conditions spécifiques de circulation.",
     lexLabel: "Agent IA",
     lexTitle: "LEX — Votre expert réglementaire 24h/24",
     lexDesc1: "LEX a accès à plus de 7 400 fragments de réglementation sur le transport spécial : lois cadres, instructions DGT, résolutions SCT, matières dangereuses et temps de conduite.",
@@ -396,7 +405,7 @@ export default function TransporteEspecial() {
             </h2>
             <p className="mt-4 text-white/60 max-w-xl mx-auto">{t.sctSubtitle}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ perspective: "1200px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1200px" }}>
             <TiltCard
               title={t.visorTitle}
               description={t.visorDesc}
@@ -411,6 +420,14 @@ export default function TransporteEspecial() {
               url="https://mct.gencat.cat/"
               accentColor="#4D9FEC"
               icon={<ExternalLink className="w-6 h-6 text-arctic" />}
+              openLabel={t.sctOpen}
+            />
+            <TiltCard
+              title={t.restricTitle}
+              description={t.restricDesc}
+              url="https://transit.gencat.cat/ca/informacio-viaria/professionals-transport/mesures-especials/consulta-restriccions/"
+              accentColor="#E8620A"
+              icon={<ShieldCheck className="w-6 h-6 text-[#E8620A]" />}
               openLabel={t.sctOpen}
             />
           </div>
