@@ -269,7 +269,7 @@ const fr = {
     cookies: "Cookies",
     aiDisclosure: "Contenu créé et développé avec l'aide de l'Intelligence Artificielle.",
     rights: "Tous droits réservés.",
-    spain: "Figueres, Girona, Catalogne",
+    spain: "L'Escala, Girona, Catalogne",
     scheduleTitle: "Horaires d'ouverture",
     scheduleMonday: "Lundi",
     scheduleTueWedFri: "Mardi et mercredi",
