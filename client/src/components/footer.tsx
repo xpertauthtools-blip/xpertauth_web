@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
-import { SiLinkedin } from "react-icons/si";
+import { SiLinkedin, SiInstagram } from "react-icons/si";
 import { useTranslations } from "@/i18n/context";
 import { useLocation } from "wouter";
 
@@ -68,6 +68,16 @@ export default function Footer() {
                 aria-label="LinkedIn"
               >
                 <SiLinkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="https://www.instagram.com/xpertauth_association/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-md bg-white/[0.05] flex items-center justify-center text-white/40 hover:text-[#E1306C] transition-colors"
+                data-testid="link-instagram"
+                aria-label="Instagram"
+              >
+                <SiInstagram className="w-4 h-4" />
               </a>
             </div>
           </div>
