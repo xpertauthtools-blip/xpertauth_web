@@ -91,7 +91,7 @@ async function getRagContext(query: string): Promise<{ context: string; hasResul
 
     const { data, error } = await supabase.rpc("match_lex_documentos", {
       query_embedding: embedding,
-      match_threshold: 0.65,  // CAMBIO: bajado de 0.75 a 0.65 para recuperar más fragmentos relevantes
+      match_threshold: 0.55,  // CAMBIO: bajado de 0.75 a 0.65 para recuperar más fragmentos relevantes
       match_count: 8,         // CAMBIO: subido de 6 a 8 fragmentos
     });
 
