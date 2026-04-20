@@ -132,12 +132,10 @@ export default function Socios() {
             <div className="text-3xl flex-shrink-0">🚧</div>
             <div>
               <p className="text-white font-bold text-base mb-1">
-                XpertAuth está en proceso de constitución
+                {t("socios.bannerTitle")}
               </p>
               <p className="text-white/60 text-sm leading-relaxed">
-                Todavía no podemos admitir socios formalmente, pero puedes registrar tu interés ahora.
-                Cuando la asociación esté constituida, serás el primero en saberlo — y el primero en poder hacerte socio.
-                Además, al registrarte hoy accedes a más consultas gratuitas con nuestros agentes.
+                {t("socios.bannerDesc")}
               </p>
             </div>
           </div>
@@ -203,7 +201,7 @@ export default function Socios() {
                     : "bg-white/10 text-pure hover:bg-white/20 border border-white/10"
                 }`}
               >
-                Apuntarme a la lista de espera
+                {t("socios.cta")}
               </button>
             </motion.div>
           ))}
