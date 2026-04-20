@@ -201,7 +201,7 @@ export default function Socios() {
                     : "bg-white/10 text-pure hover:bg-white/20 border border-white/10"
                 }`}
               >
-                {t("cta")}
+                {plan.cta}
               </button>
             </motion.div>
           ))}
