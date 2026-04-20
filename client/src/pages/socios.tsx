@@ -132,10 +132,10 @@ export default function Socios() {
             <div className="text-3xl flex-shrink-0">🚧</div>
             <div>
               <p className="text-white font-bold text-base mb-1">
-                {t("socios.bannerTitle")}
+                {t("bannerTitle")}
               </p>
               <p className="text-white/60 text-sm leading-relaxed">
-                {t("socios.bannerDesc")}
+                {t("bannerDesc")}
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function Socios() {
                     : "bg-white/10 text-pure hover:bg-white/20 border border-white/10"
                 }`}
               >
-                {t("socios.cta")}
+                {t("cta")}
               </button>
             </motion.div>
           ))}
